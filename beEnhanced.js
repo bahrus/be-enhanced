@@ -1,12 +1,30 @@
 export class BeEnhanced extends EventTarget {
-    by(enh) {
+    self;
+    constructor(self) {
+        super();
+        this.self = self;
+    }
+    #proxy;
+    get by() {
+        if (this.#proxy === undefined) {
+            const self = this;
+            this.#proxy = new Proxy(self, {
+                get(obj, prop) {
+                    if (obj[prop] === undefined) {
+                        obj[prop] = {};
+                    }
+                    return obj[prop];
+                }
+            });
+        }
+        return this.#proxy;
     }
 }
 const wm = new WeakMap();
 Object.defineProperty(Element.prototype, 'beEnhanced', {
     get() {
         if (!wm.has(this)) {
-            wm.set(this, new BeEnhanced());
+            wm.set(this, new BeEnhanced(this));
         }
         return wm.get(this);
     },

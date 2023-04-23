@@ -10,7 +10,8 @@
     "safari": "npx playwright wk http://localhost:3030"
   },
   "dependencies": {
-    "trans-render": "0.0.671"
+    "trans-render": "0.0.671",
+    "xtal-element": "0.0.555"
   },
   "devDependencies": {
     "@playwright/test": "1.32.1",

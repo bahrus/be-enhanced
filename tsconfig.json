@@ -9,7 +9,8 @@
 		"watch": true
 	},
 	"files": [
-		"beEnhanced.ts"
+		"beEnhanced.ts",
+		"BE.ts"
 	],
 	"exclude":[
 		"node_modules"

@@ -19,6 +19,24 @@ export class BeEnhanced extends EventTarget {
         }
         return this.#proxy;
     }
+    async attachProp(enhancement) {
+        const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
+        const enh = camelToLisp(enhancement);
+        return await this.attach(enhancement, enh);
+    }
+    async attachAttr(enh) {
+        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
+        const enhancement = lispToCamel(enh);
+        return await this.attach(enhancement, enh);
+    }
+    async attach(enhancement, enh) {
+        const def = await customElements.whenDefined(enh);
+        const ce = new def();
+        const { self } = this;
+        await ce.attach(self, enhancement);
+        self[enhancement] = ce;
+        return ce;
+    }
 }
 const wm = new WeakMap();
 Object.defineProperty(Element.prototype, 'beEnhanced', {
@@ -31,13 +49,3 @@ Object.defineProperty(Element.prototype, 'beEnhanced', {
     enumerable: true,
     configurable: true,
 });
-export async function toImport(enhancement) {
-}
-export async function beEnhanced(el, enhancement) {
-    const aEl = el;
-    const enh = aEl[enhancement];
-    switch (typeof enh) {
-        case 'function':
-            return enh;
-    }
-}

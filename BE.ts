@@ -3,30 +3,18 @@ import {XEArgs, PropInfoExt} from 'xtal-element/types';
 
 export class BE<TProps = any, TActions = TProps> extends HTMLElement implements IEnhancement{
     _ee: Element | undefined;
+    get enhancedElement(){
+        return this._ee;
+    }
     async attach(enhancedElement: Element, enhancement: string){
         this._ee = enhancedElement;
-        this.connectedCallback();
+        await this.connectedCallback();
         Object.assign(this, (<any>enhancedElement)[enhancement]);
     }
 }
 
 export interface BE extends IBE{}
 
-export const defaultArgs = {
-    config: {
-        propDefaults: {
-            resolved: false,
-            rejected: false,
-        },
-        propInfo: {
-            resolved: {
-                notify: {
-                    dispatch: true
-                }
-            }
-        }
-    }
-} as XEArgs<IEnhancement>
 
 export const propDefaults: Partial<{[key in keyof IEnhancement]: IEnhancement[key]}> = {
     resolved: false,

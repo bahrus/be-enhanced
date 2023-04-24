@@ -37,8 +37,12 @@ export class BeEnhanced extends EventTarget{
         const ce = new def() as IEnhancement;
         const {self} = this;
         await ce.attach(self, enhancement);
-        (<any>self)[enhancement] = ce;
+        (<any>self)['beEnhanced'][enhancement] = ce;
         return ce;
+    }
+
+    async whenDefined(enh: Enh){
+        return await this.attachAttr(enh);
     }
 }
 
@@ -54,3 +58,5 @@ Object.defineProperty(Element.prototype, 'beEnhanced', {
     enumerable: true,
     configurable: true,
 });
+
+customElements.define('be-enhanced', class extends HTMLElement{});

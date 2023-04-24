@@ -34,8 +34,11 @@ export class BeEnhanced extends EventTarget {
         const ce = new def();
         const { self } = this;
         await ce.attach(self, enhancement);
-        self[enhancement] = ce;
+        self['beEnhanced'][enhancement] = ce;
         return ce;
+    }
+    async whenDefined(enh) {
+        return await this.attachAttr(enh);
     }
 }
 const wm = new WeakMap();
@@ -48,4 +51,6 @@ Object.defineProperty(Element.prototype, 'beEnhanced', {
     },
     enumerable: true,
     configurable: true,
+});
+customElements.define('be-enhanced', class extends HTMLElement {
 });

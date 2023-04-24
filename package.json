@@ -26,13 +26,12 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.671",
-    "xtal-element": "0.0.555"
+    "trans-render": "0.0.672",
+    "xtal-element": "0.0.556"
   },
   "devDependencies": {
-    "@playwright/test": "1.32.1",
-    "may-it-serve": "0.0.5",
-    "xtal-shell": "0.0.27"
+    "@playwright/test": "1.32.3",
+    "may-it-serve": "0.0.5"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",

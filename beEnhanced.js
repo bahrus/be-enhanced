@@ -25,7 +25,6 @@ export class BeEnhanced extends EventTarget {
         return await this.attach(enhancement, enh);
     }
     async attachAttr(enh) {
-        console.log('attachAttr');
         const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
         const enhancement = lispToCamel(enh);
         return await this.attach(enhancement, enh);
@@ -33,12 +32,12 @@ export class BeEnhanced extends EventTarget {
     async attach(enhancement, enh) {
         const { self } = this;
         const def = await customElements.whenDefined(enh);
-        if (self['beEnhanced'][enhancement] instanceof def)
-            return;
+        const previouslySet = self['beEnhanced'][enhancement];
+        if (previouslySet instanceof def)
+            return previouslySet;
         const ce = new def();
         self['beEnhanced'][enhancement] = ce;
         await ce.attach(self, enhancement);
-        console.log('setce');
         return ce;
     }
     async whenDefined(enh) {

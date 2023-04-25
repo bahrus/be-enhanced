@@ -7,7 +7,7 @@
 
 be-enhanced provides a base class that enables "casting spells", or enhancing server-rendered DOM elements based on cross-cutting custom attributes.  These base classes can also be used during template instantiation for a more optimal repeated web component scenario. 
 
-be-enhanced is a user-land implementation of [this proposal](https://github.com/WICG/webcomponents/issues/1000), garnering an incredible amount of support, attention and helpful feedback.
+be-enhanced, which focuses on adding custom properties to an element, and [be-hive](https://github.com/bahrus/be-hive), which focuses on adding custom attributes, together form a user-land implementation of [this proposal](https://github.com/WICG/webcomponents/issues/1000), which has garned an incredible amount of love, support, attention and helpful feedback.
 
 be-enhanced provides a much more "conservative" alternative approach to enhancing existing DOM elements, in place of the controversial "is"-based customized built-in element [standard-ish](https://bkardell.com/blog/TheWalrus.html).  There are, however, a small number of use cases where the is-based built-in approach [may be](https://github.com/WebKit/standards-positions/issues/97) the preferred one.
 
@@ -61,3 +61,28 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 |---------------------|-------------------------------------------------------------------------------------------------|--------------------------|
 | be-a-beacon         | [Announce](https://github.com/bahrus/be-a-beacon) revival of (last) element in HTML Stream      | [code](https://github.com/bahrus/be-a-beacon/blob/baseline/be-a-beacon.ts)                        |
 
+## The be-enhancement api
+
+be-enhancement commits the cardinal sin of attaching a custom property gateway, "beEnhanced" on all Elements.  Being that the platform has shown little to no interest in providing support for progressive enhancement over many decades when such solutions have proven useful, we should feel no guilt whatsoever.
+
+To set a value on a namespaced property (e.g. via framework), do the following:
+
+```JavaScript
+case base = myElement.beEnhanced.by.aButterBeerCounter;
+Object.assign(base, {count: 7});
+```
+
+The intention here is even if the element hasn't been upgraded yet, property settings made this way should be absorbed into the enhancement once it becomes attached.  
+
+## Event Notifications
+
+Be-enhancement element decorators/behaviors typically don't, by default emit events that get bubbled up the DOM tree.
+
+To subscribe to an event:
+
+```JavaScript
+const myEnhancement = await myElement.beEnhanced.whenDefined('my-enhancement');
+myEnhancement.addEventListener('resolved', e => {
+
+})
+```

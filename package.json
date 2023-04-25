@@ -20,6 +20,11 @@
     "package-check": "package-check",
     "safari": "npx playwright wk http://localhost:3030"
   },
+  "exports": {
+    ".": "./BE.js",
+    "./BE.js": "./BE.js",
+    "./beEnhanced.js": "./beEnhanced.js"
+  },
   "files": [
     "*.js",
     "types.d.ts"

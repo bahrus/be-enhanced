@@ -2,6 +2,7 @@
 
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-enhanced?style=for-the-badge)](https://bundlephobia.com/result?p=be-enhanced)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-enhanced?compression=gzip">
+[![NPM version](https://badge.fury.io/js/be-enhanced.png)](http://badge.fury.io/js/be-enhanced)
 
 
 be-enhanced provides a base class that enables "casting spells", or enhancing server-rendered DOM elements based on cross-cutting custom attributes.  These base classes can also be used during template instantiation for a more optimal repeated web component scenario. 

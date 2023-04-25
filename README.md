@@ -34,7 +34,7 @@ which seems [more readable](https://opensource.com/article/19/12/zen-python-flat
 </is-on-the-next-level>
 ```
 
-Not to mention [concerns about performance](https://sitebulb.com/hints/performance/avoid-excessive-dom-depth/).  And then there's [this](https://github.com/WICG/webcomponents/issues/809).collisions
+Not to mention [concerns about performance](https://sitebulb.com/hints/performance/avoid-excessive-dom-depth/).  And then there's [this](https://github.com/WICG/webcomponents/issues/809).
 
 ## Priors
 

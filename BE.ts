@@ -1,12 +1,12 @@
 import {IEnhancement, IBE} from './types';
 import {XEArgs, PropInfoExt} from 'xtal-element/types';
 
-export class BE<TProps = any, TActions = TProps> extends HTMLElement implements IEnhancement{
-    _ee: Element | undefined;
+export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTMLElement implements IEnhancement<TElement>{
+    _ee!: TElement;
     get enhancedElement(){
         return this._ee;
     }
-    async attach(enhancedElement: Element, enhancement: string){
+    async attach(enhancedElement: TElement, enhancement: string){
         this._ee = enhancedElement;
         await this.connectedCallback();
         Object.assign(this, (<any>enhancedElement)[enhancement]);
@@ -21,7 +21,7 @@ export class BE<TProps = any, TActions = TProps> extends HTMLElement implements 
     }
 }
 
-export interface BE extends IBE{}
+export interface BE<TProps = any, TActions = TProps, TElement = Element> extends IBE<TElement>{}
 
 
 export const propDefaults: Partial<{[key in keyof IEnhancement]: IEnhancement[key]}> = {

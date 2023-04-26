@@ -8,6 +8,15 @@ export class BE extends HTMLElement {
         await this.connectedCallback();
         Object.assign(this, enhancedElement[enhancement]);
     }
+    async whenResolved() {
+        if (this.rejected)
+            return false;
+        if (this.resolved)
+            return true;
+        this.addEventListener('resolved-changed', e => {
+            return true;
+        }, { once: true });
+    }
 }
 export const propDefaults = {
     resolved: false,

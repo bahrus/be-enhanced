@@ -11,6 +11,14 @@ export class BE<TProps = any, TActions = TProps> extends HTMLElement implements 
         await this.connectedCallback();
         Object.assign(this, (<any>enhancedElement)[enhancement]);
     }
+
+    async whenResolved(){
+        if(this.rejected) return false;
+        if(this.resolved) return true;
+        this.addEventListener('resolved-changed', e => {
+            return true;
+        }, {once: true});
+    }
 }
 
 export interface BE extends IBE{}

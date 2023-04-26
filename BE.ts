@@ -16,7 +16,7 @@ export class BE<TProps = any, TActions = TProps> extends HTMLElement implements 
         if(this.rejected) return false;
         if(this.resolved) return true;
         this.addEventListener('resolved-changed', e => {
-            return true;
+            return this.resolved;
         }, {once: true});
     }
 }

@@ -14,7 +14,7 @@ export class BE extends HTMLElement {
         if (this.resolved)
             return true;
         this.addEventListener('resolved-changed', e => {
-            return true;
+            return this.resolved;
         }, { once: true });
     }
 }

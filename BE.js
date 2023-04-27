@@ -10,15 +10,16 @@ export class BE extends HTMLElement {
     static get beConfig() {
         return {};
     }
-    async parse() {
+    async parse(config) {
         const { parse } = await import('./parse.js');
-        return await parse(this);
+        return await parse(this, config);
     }
     async attach(enhancedElement, enhancementInfo) {
         this.#ee = enhancedElement;
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
-        const objToAssign = this.constructor.beConfig.parse ? await this.parse() : {};
+        const config = this.constructor.beConfig;
+        const objToAssign = config.parse ? await this.parse(config) : {};
         Object.assign(objToAssign, enhancedElement[enhancementInfo.enhancement]);
         Object.assign(this, objToAssign);
     }

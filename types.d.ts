@@ -24,4 +24,5 @@ export interface IBE<TElement = Element> extends IEnhancement<TElement>{
 export interface BEConfig{
     parse?: boolean;
     primaryProp?: string;
+    primaryPropReq?: boolean;
 }

@@ -15,15 +15,16 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
     static get beConfig(): BEConfig{
         return {};
     }
-    async parse(): Promise<JSONValue>{
+    async parse(config: BEConfig): Promise<JSONValue>{
         const {parse} = await import('./parse.js');
-        return await parse(this as BE);
+        return await parse(this as BE, config);
     }
     async attach(enhancedElement: TElement, enhancementInfo: EnhancementInfo){
         this.#ee = enhancedElement;
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
-        const objToAssign = ((this.constructor as any).beConfig as BEConfig).parse ? await this.parse() : {};
+        const config = (this.constructor as any).beConfig as BEConfig;
+        const objToAssign = config.parse ? await this.parse(config) : {};
         Object.assign(objToAssign as any, (<any>enhancedElement)[enhancementInfo.enhancement]);
         Object.assign(this, objToAssign);
     }

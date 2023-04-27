@@ -40,7 +40,7 @@ export class BeEnhanced extends EventTarget{
         console.log('beEnhanced: attach')
         const ce = new def() as IEnhancement;
         (<any>self)['beEnhanced'][enhancement] = ce;
-        await ce.attach(self, enhancement);
+        await ce.attach(self, {enhancement, enh});
         return ce;
     }
 

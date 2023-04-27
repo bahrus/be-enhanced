@@ -3,15 +3,24 @@ export class BE extends HTMLElement {
     get enhancedElement() {
         return this.#ee;
     }
-    #enhancement;
-    get enhancement() {
-        return this.#enhancement;
+    #enhancementInfo;
+    get enhancementInfo() {
+        return this.#enhancementInfo;
     }
-    async attach(enhancedElement, enhancement) {
+    static get beConfig() {
+        return {};
+    }
+    async parse() {
+        const { parse } = await import('./parse.js');
+        return await parse(this);
+    }
+    async attach(enhancedElement, enhancementInfo) {
         this.#ee = enhancedElement;
-        this.#enhancement = enhancement;
+        this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
-        Object.assign(this, enhancedElement[enhancement]);
+        const objToAssign = this.constructor.beConfig.parse ? await this.parse() : {};
+        Object.assign(objToAssign, enhancedElement[enhancementInfo.enhancement]);
+        Object.assign(this, objToAssign);
     }
     async whenResolved() {
         if (this.rejected)

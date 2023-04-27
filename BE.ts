@@ -1,20 +1,31 @@
-import {IEnhancement, IBE, AllProps} from './types';
+import {IEnhancement, IBE, AllProps, EnhancementInfo, BEConfig} from './types';
 import {XEArgs, PropInfoExt} from 'xtal-element/types';
+import {JSONValue} from 'trans-render/lib/types';
+
 
 export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTMLElement implements IEnhancement<TElement>{
     #ee!: TElement;
     get enhancedElement(){
         return this.#ee;
     }
-    #enhancement!: string;
-    get enhancement(){
-        return this.#enhancement;
+    #enhancementInfo!: EnhancementInfo;
+    get enhancementInfo(){
+        return this.#enhancementInfo;
     }
-    async attach(enhancedElement: TElement, enhancement: string){
+    static get beConfig(): BEConfig{
+        return {};
+    }
+    async parse(): Promise<JSONValue>{
+        const {parse} = await import('./parse.js');
+        return await parse(this as BE);
+    }
+    async attach(enhancedElement: TElement, enhancementInfo: EnhancementInfo){
         this.#ee = enhancedElement;
-        this.#enhancement = enhancement;
+        this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
-        Object.assign(this, (<any>enhancedElement)[enhancement]);
+        const objToAssign = ((this.constructor as any).beConfig as BEConfig).parse ? await this.parse() : {};
+        Object.assign(objToAssign as any, (<any>enhancedElement)[enhancementInfo.enhancement]);
+        Object.assign(this, objToAssign);
     }
 
     async whenResolved(){

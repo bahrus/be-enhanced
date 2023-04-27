@@ -5,8 +5,13 @@ export interface AllProps {
     resolved: boolean;
     rejected: boolean;
 }
+
+export interface EnhancementInfo {
+    enhancement: Enhancement,
+    enh: Enh,
+}
 export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
-    attach(el: TElement, enhancement: Enhancement): Promise<void>;
+    attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;
     resolved: boolean;
     rejected: boolean;
     readonly enhancedElement: TElement
@@ -14,4 +19,9 @@ export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
 
 export interface IBE<TElement = Element> extends IEnhancement<TElement>{
     connectedCallback(): void;
+}
+
+export interface BEConfig{
+    parse?: boolean;
+    primaryProp?: string;
 }

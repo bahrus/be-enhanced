@@ -1,13 +1,13 @@
-import {IEnhancement, IBE} from './types';
+import {IEnhancement, IBE, AllProps} from './types';
 import {XEArgs, PropInfoExt} from 'xtal-element/types';
 
 export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTMLElement implements IEnhancement<TElement>{
-    _ee!: TElement;
+    #ee!: TElement;
     get enhancedElement(){
-        return this._ee;
+        return this.#ee;
     }
     async attach(enhancedElement: TElement, enhancement: string){
-        this._ee = enhancedElement;
+        this.#ee = enhancedElement;
         await this.connectedCallback();
         Object.assign(this, (<any>enhancedElement)[enhancement]);
     }
@@ -24,12 +24,12 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
 export interface BE<TProps = any, TActions = TProps, TElement = Element> extends IBE<TElement>{}
 
 
-export const propDefaults: Partial<{[key in keyof IEnhancement]: IEnhancement[key]}> = {
+export const propDefaults: Partial<{[key in keyof AllProps]: IEnhancement[key]}> = {
     resolved: false,
     rejected: false,
 }
 
-export const propInfo: Partial<{[key in keyof IEnhancement]: PropInfoExt<IEnhancement>}> = {
+export const propInfo: Partial<{[key in keyof AllProps]: PropInfoExt<IEnhancement>}> = {
     resolved: {
         notify: {
             dispatch: true

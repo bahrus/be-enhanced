@@ -1,10 +1,10 @@
 export class BE extends HTMLElement {
-    _ee;
+    #ee;
     get enhancedElement() {
-        return this._ee;
+        return this.#ee;
     }
     async attach(enhancedElement, enhancement) {
-        this._ee = enhancedElement;
+        this.#ee = enhancedElement;
         await this.connectedCallback();
         Object.assign(this, enhancedElement[enhancement]);
     }

@@ -6,8 +6,13 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
     get enhancedElement(){
         return this.#ee;
     }
+    #enhancement!: string;
+    get enhancement(){
+        return this.#enhancement;
+    }
     async attach(enhancedElement: TElement, enhancement: string){
         this.#ee = enhancedElement;
+        this.#enhancement = enhancement;
         await this.connectedCallback();
         Object.assign(this, (<any>enhancedElement)[enhancement]);
     }
@@ -19,6 +24,7 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
             return this.resolved;
         }, {once: true});
     }
+
 }
 
 export interface BE<TProps = any, TActions = TProps, TElement = Element> extends IBE<TElement>{}

@@ -23,14 +23,23 @@ export class BE extends HTMLElement {
         Object.assign(objToAssign, enhancedElement[enhancementInfo.enhancement]);
         Object.assign(this, objToAssign);
     }
-    async whenResolved() {
-        if (this.rejected)
-            return false;
-        if (this.resolved)
-            return true;
-        this.addEventListener('resolved-changed', e => {
-            return this.resolved;
-        }, { once: true });
+    whenResolved() {
+        return new Promise((resolve, reject) => {
+            if (this.rejected) {
+                resolve(false);
+                return;
+                //reject(false);
+            }
+            if (this.resolved) {
+                resolve(true);
+                return;
+            }
+            this.addEventListener('resolved-changed', e => {
+                if (this.resolved) {
+                    resolve(true);
+                }
+            });
+        });
     }
 }
 export const propDefaults = {

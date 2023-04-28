@@ -29,12 +29,23 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
         Object.assign(this, objToAssign);
     }
 
-    async whenResolved(){
-        if(this.rejected) return false;
-        if(this.resolved) return true;
-        this.addEventListener('resolved-changed', e => {
-            return this.resolved;
-        }, {once: true});
+    whenResolved(): Promise<boolean>{
+        return new Promise((resolve, reject) => {
+            if(this.rejected) {
+                resolve(false);
+                return;
+                //reject(false);
+            }
+            if(this.resolved){
+                resolve(true);
+                return;
+            }
+            this.addEventListener('resolved-changed', e => {
+                if(this.resolved){
+                    resolve(true);
+                }
+            });
+        })
     }
 
 }

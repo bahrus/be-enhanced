@@ -46,6 +46,11 @@ export class BeEnhanced extends EventTarget{
     async whenDefined(enh: Enh){
         return await this.attachAttr(enh);
     }
+
+    async whenResolved(enh: Enh){
+        const enhancement = await this.whenDefined(enh) as IEnhancement;
+        await enhancement.whenResolved();
+    }
 }
 
 const wm = new WeakMap<Element, BeEnhanced>();

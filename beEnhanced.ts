@@ -50,6 +50,7 @@ export class BeEnhanced extends EventTarget{
     async whenResolved(enh: Enh){
         const enhancement = await this.whenDefined(enh) as IEnhancement;
         await enhancement.whenResolved();
+        return enhancement;
     }
 }
 

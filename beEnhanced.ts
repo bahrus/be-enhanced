@@ -37,7 +37,6 @@ export class BeEnhanced extends EventTarget{
         const def = await customElements.whenDefined(enh);
         const previouslySet = (<any>self)['beEnhanced'][enhancement]
         if(previouslySet instanceof def ) return previouslySet;
-        console.log('beEnhanced: attach')
         const ce = new def() as IEnhancement;
         (<any>self)['beEnhanced'][enhancement] = ce;
         await ce.attach(self, {enhancement, enh});

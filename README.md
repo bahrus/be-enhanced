@@ -100,6 +100,10 @@ import('be-counted/be-counted.js');
 myElement.beEnhanced.enhanceWith('beCounted);
 ```
 
+In the example above, we are importing the dependency asynchronously using the dynamic import.  This means that depending on the timing the hydration of the enhancement may be done during template instantiation (for example), or after the element being enhanced has been added to the live DOM tree.
+
+Using dynamic import as shown above has the benefit that the dependency will not cause the template instantiation to be render blocked.
+
 ## Event Notifications
 
 Be-enhancement element decorators/behaviors typically don't, by default emit events that get bubbled up the DOM tree.

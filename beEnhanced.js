@@ -39,6 +39,9 @@ export class BeEnhanced extends EventTarget {
         const ce = new def();
         self['beEnhanced'][enhancement] = ce;
         await ce.attach(self, { enhancement, enh });
+        if (previouslySet !== undefined) {
+            Object.assign(ce, previouslySet);
+        }
         return ce;
     }
     async whenDefined(enh) {

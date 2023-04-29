@@ -72,7 +72,7 @@ To set a value on a namespaced property (e.g. via framework), do the following:
 
 ```JavaScript
 await customElements.whenDefined('be-enhanced');
-case base = myElement.beEnhanced.by.aButterBeerCounter;
+const base = myElement.beEnhanced.by.aButterBeerCounter;
 Object.assign(base, {count: 7});
 ```
 
@@ -95,7 +95,7 @@ The way to do this most effectively programmatically is:
 ```JavaScript
 import('be-counted/be-counted.js');
 await customElements.whenDefined('be-enhanced');
-case base = myElement.beEnhanced.by.beCounted;
+const base = myElement.beEnhanced.by.beCounted;
 Object.assign(base, {value: 7});
 ```
 

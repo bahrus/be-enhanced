@@ -105,7 +105,7 @@ Using dynamic import as shown above has the benefit that the dependency will not
 
 ## Event Notifications
 
-Be-enhancement element decorators/behaviors typically don't, by default emit events that get bubbled up the DOM tree.
+Be-enhancement element decorators/behaviors typically don't, by default, emit events that get bubbled up the DOM tree.
 
 To subscribe to an event:
 

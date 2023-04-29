@@ -93,11 +93,10 @@ However, activating enhancements via attributes is not ideal when using client s
 The way to do this most effectively programmatically is:
 
 ```JavaScript
+import('be-counted/be-counted.js');
 await customElements.whenDefined('be-enhanced');
 case base = myElement.beEnhanced.by.beCounted;
 Object.assign(base, {value: 7});
-import('be-counted/be-counted.js');
-myElement.beEnhanced.enhanceWith('beCounted);
 ```
 
 In the example above, we are importing the dependency asynchronously using the dynamic import.  This means that depending on the timing the hydration of the enhancement may be done during template instantiation (for example), or after the element being enhanced has been added to the live DOM tree.

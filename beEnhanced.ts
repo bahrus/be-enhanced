@@ -11,6 +11,7 @@ export class BeEnhanced extends EventTarget{
             this.#proxy = new Proxy(self, {
                 get(obj: any, prop: string){
                     if(obj[prop] === undefined){
+                        self.with(prop);
                         obj[prop] = {};
                     }
                     return obj[prop];
@@ -20,7 +21,7 @@ export class BeEnhanced extends EventTarget{
         return this.#proxy;
     }
 
-    async enhanceWith(enhancement: Enhancement){
+    async with(enhancement: Enhancement){
         const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
         return await this.attach(enhancement, enh);

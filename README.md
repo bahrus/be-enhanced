@@ -60,6 +60,7 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | Enhancement         | Purpose                                                                                         | Code                     |
 |---------------------|-------------------------------------------------------------------------------------------------|--------------------------|
 | be-a-beacon         | [Announce](https://github.com/bahrus/be-a-beacon) revival of (last) element in HTML Stream      | [code](https://github.com/bahrus/be-a-beacon/blob/baseline/be-a-beacon.ts)                        |
+| be-scoped           | Create an EventTarget associated with the adorned element that can hold [scoped](https://github.com/bahrus/be-scoped) state. | [code](https://github.com/bahrus/be-scoped/blob/baseline/be-scoped.ts)
 
 ## The be-enhancement api
 

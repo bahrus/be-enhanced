@@ -19,7 +19,7 @@ export class BeEnhanced extends EventTarget {
         }
         return this.#proxy;
     }
-    async attachProp(enhancement) {
+    async enhanceWith(enhancement) {
         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
         return await this.attach(enhancement, enh);

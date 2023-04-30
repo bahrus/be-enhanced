@@ -8,7 +8,7 @@ export async function parse(enhancement, config) {
     if (typeof Sanitizer !== 'undefined') {
         const sanitizer = new Sanitizer();
         if (sanitizer.sanitizeFor !== undefined) {
-            attr = sanitizer.sanitizeFor('template', json).innerHTML;
+            attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
     try {

@@ -12,8 +12,7 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
     if(typeof Sanitizer !== 'undefined'){
         const sanitizer = new Sanitizer();
         if(sanitizer.sanitizeFor !== undefined){
-            
-            attr = sanitizer.sanitizeFor('template', json).innerHTML as string;
+            attr = sanitizer.sanitizeFor('template', attr).innerHTML as string;
         }
         
     }

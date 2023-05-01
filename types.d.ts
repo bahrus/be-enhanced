@@ -22,8 +22,25 @@ export interface IBE<TElement = Element> extends IEnhancement<TElement>{
     connectedCallback(): void;
 }
 
-export interface BEConfig{
+export interface BEConfig<TPrimaryProp = any>{
     parse?: boolean;
     primaryProp?: string;
     primaryPropReq?: boolean;
+    parseAndCamelize?: boolean;
+    camelizeOptions?: CamelizeOptions<TPrimaryProp>;
 }
+
+export interface CamelizeOptions<TPrimaryProp = any>{
+    simpleSets?: (keyof TPrimaryProp & string)[];
+    booleans?: (keyof TPrimaryProp & string)[];
+    doSets?: boolean;
+}
+
+export type Declarations = {[key: string]: any}
+
+export interface RegExpExt<TStatementGroup = any>{
+    regExp: RegExp,
+    defaultVals: TStatementGroup,
+}
+
+export type RegExpOrRegExpExt<TStatementGroup = any> = RegExp | RegExpExt<TStatementGroup>;

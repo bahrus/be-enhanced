@@ -20,15 +20,21 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         const firstChar = attr[0];
         const {primaryProp} = config;
         if (firstChar === '{' || firstChar === '[') {
-            //todo:  parse and camelize
-            const obj = JSON.parse(attr);
-            const {primaryPropReq} = config;
-            if(primaryProp && primaryPropReq && obj[primaryProp] === undefined){
-                return {
-                    [primaryProp]: obj
-                };
+            const {parseAndCamelize} = config;
+            if(parseAndCamelize){
+                const {parseAndCamelize} = await import('./parseAndCamelize.js');
+                return parseAndCamelize(attr)
+            }else{
+                const obj = JSON.parse(attr);
+                const {primaryPropReq} = config;
+                if(primaryProp && primaryPropReq && obj[primaryProp] === undefined){
+                    return {
+                        [primaryProp]: obj
+                    };
+                }
+                return obj;
             }
-            return obj;
+
         }else if(primaryProp !== undefined){
             return {
                 [primaryProp]: attr

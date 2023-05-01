@@ -10,7 +10,10 @@
 	},
 	"files": [
 		"beEnhanced.ts",
-		"BE.ts"
+		"BE.ts",
+		"camelize.ts",
+		"camelPlus.ts",
+		"cpu.ts"
 	],
 	"exclude":[
 		"node_modules"

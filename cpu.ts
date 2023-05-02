@@ -85,10 +85,7 @@ export function parseSet(Set: `${lhs}To${rhs}`[] | undefined, camelConfig: any )
     }
 }
 
-export interface BeSplitOutput {
-    eventName: string,
-    path: string,
-}
+
 
 export async function beSplit(s: string): Promise<BeSplitOutput | undefined>{
     const split = s.split('.');

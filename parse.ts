@@ -16,14 +16,16 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         }
         
     }
+    let parsedObj: any;
     try{
         const firstChar = attr[0];
         const {primaryProp} = config;
+        const {parseAndCamelize} = config;
         if (firstChar === '{' || firstChar === '[') {
-            const {parseAndCamelize} = config;
+            
             if(parseAndCamelize){
                 const {parseAndCamelize} = await import('./parseAndCamelize.js');
-                return parseAndCamelize(attr)
+                return parseAndCamelize(attr);
             }else{
                 const obj = JSON.parse(attr);
                 const {primaryPropReq} = config;
@@ -36,12 +38,19 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
             }
 
         }else if(primaryProp !== undefined){
-            return {
-                [primaryProp]: attr
+            if(parseAndCamelize){
+                const {camelize} = await import('./camelize.js');
+                return camelize(attr);
+            }else{
+                return {
+                    [primaryProp]: attr
+                }
             }
+
         }else{
             throw 400;
         } 
+
         
     } catch (e) {
         console.error(e);

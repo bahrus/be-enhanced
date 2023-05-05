@@ -11,11 +11,12 @@ export async function parse(enhancement, config) {
             attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
+    let parsedObj;
     try {
         const firstChar = attr[0];
         const { primaryProp } = config;
+        const { parseAndCamelize } = config;
         if (firstChar === '{' || firstChar === '[') {
-            const { parseAndCamelize } = config;
             if (parseAndCamelize) {
                 const { parseAndCamelize } = await import('./parseAndCamelize.js');
                 return parseAndCamelize(attr);
@@ -32,9 +33,15 @@ export async function parse(enhancement, config) {
             }
         }
         else if (primaryProp !== undefined) {
-            return {
-                [primaryProp]: attr
-            };
+            if (parseAndCamelize) {
+                const { camelize } = await import('./camelize.js');
+                return camelize(attr);
+            }
+            else {
+                return {
+                    [primaryProp]: attr
+                };
+            }
         }
         else {
             throw 400;

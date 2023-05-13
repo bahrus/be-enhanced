@@ -13,7 +13,8 @@
 		"BE.ts",
 		"camelize.ts",
 		"camelPlus.ts",
-		"cpu.ts"
+		"cpu.ts",
+		"findAdjacentElement.ts"
 	],
 	"exclude":[
 		"node_modules"

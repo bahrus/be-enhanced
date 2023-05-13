@@ -11,7 +11,7 @@ export async function parse(enhancement, config) {
             attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
-    let parsedObj;
+    //let parsedObj: any;
     try {
         const firstChar = attr[0];
         const { primaryProp } = config;
@@ -19,7 +19,13 @@ export async function parse(enhancement, config) {
         if (firstChar === '{' || firstChar === '[') {
             if (parseAndCamelize) {
                 const { parseAndCamelize } = await import('./parseAndCamelize.js');
-                return parseAndCamelize(attr);
+                const pAndC = parseAndCamelize(attr);
+                if (primaryProp !== undefined) {
+                    return { [primaryProp]: pAndC };
+                }
+                else {
+                    return pAndC;
+                }
             }
             else {
                 const obj = JSON.parse(attr);
@@ -34,8 +40,21 @@ export async function parse(enhancement, config) {
         }
         else if (primaryProp !== undefined) {
             if (parseAndCamelize) {
-                const { camelize } = await import('./camelize.js');
-                return camelize(attr);
+                const { camelizeOptions } = config;
+                if (camelizeOptions !== undefined) {
+                    const { camelPlus } = await import('./camelPlus.js');
+                    const objToAssign = {};
+                    await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
+                    return {
+                        [primaryProp]: objToAssign
+                    };
+                }
+                else {
+                    const { camelize } = await import('./camelize.js');
+                    return {
+                        [primaryProp]: camelize(attr)
+                    };
+                }
             }
             else {
                 return {
@@ -44,7 +63,7 @@ export async function parse(enhancement, config) {
             }
         }
         else {
-            throw 400;
+            return {};
         }
     }
     catch (e) {

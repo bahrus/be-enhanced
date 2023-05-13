@@ -16,7 +16,7 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         }
         
     }
-    let parsedObj: any;
+    //let parsedObj: any;
     try{
         const firstChar = attr[0];
         const {primaryProp} = config;
@@ -25,7 +25,13 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
             
             if(parseAndCamelize){
                 const {parseAndCamelize} = await import('./parseAndCamelize.js');
-                return parseAndCamelize(attr);
+                
+                const pAndC =  parseAndCamelize(attr);
+                if(primaryProp !== undefined) {
+                    return {[primaryProp]: pAndC};
+                }else{
+                    return pAndC;
+                }
             }else{
                 const obj = JSON.parse(attr);
                 const {primaryPropReq} = config;
@@ -39,8 +45,21 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
 
         }else if(primaryProp !== undefined){
             if(parseAndCamelize){
-                const {camelize} = await import('./camelize.js');
-                return camelize(attr);
+                const {camelizeOptions} = config;
+                if(camelizeOptions !== undefined){
+                    const {camelPlus} = await import('./camelPlus.js');
+                    const objToAssign = {};
+                    await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
+                    return {
+                        [primaryProp]: objToAssign;
+                    }
+                }else{
+                    const {camelize} = await import('./camelize.js');
+                    return {
+                        [primaryProp]: camelize(attr)
+                    }
+                }
+
             }else{
                 return {
                     [primaryProp]: attr
@@ -48,7 +67,7 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
             }
 
         }else{
-            throw 400;
+            return {};
         } 
 
         

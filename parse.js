@@ -46,7 +46,7 @@ export async function parse(enhancement, config) {
                     const objToAssign = {};
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
                     return {
-                        [primaryProp]: objToAssign
+                        [primaryProp]: objToAssign,
                     };
                 }
                 else {

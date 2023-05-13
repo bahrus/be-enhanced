@@ -4,7 +4,7 @@ export async function camelPlus(objToAssign, options, primaryProp, config) {
     if (doSets) {
         const { Set } = camelConfig;
         if (Set !== undefined) {
-            const { parseSet } = await import('be-decorated/cpu.js');
+            const { parseSet } = await import('./cpu.js');
             parseSet(Set, camelConfig);
         }
     }

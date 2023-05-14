@@ -40,7 +40,7 @@ Not to mention [concerns about performance](https://sitebulb.com/hints/performan
 
 be-enhanced's goals are [quite](https://github.com/lume/element-behaviors) [similar](https://knockoutjs.com/documentation/custom-bindings.html) [to](https://medium.com/@_edhuang/add-a-custom-attribute-to-an-ember-component-81f485f8d997) [what](https://twitter.com/biondifabio/status/1530474444266823682) [is](https://docs.astro.build/en/reference/directives-reference/#:~:text=Template%20directives%20are%20a%20special%20kind%20of%20HTML,life%20easier%20%28like%20using%20class%3Alist%20instead%20of%20class%29.) [achieved](https://alpinejs.dev/) via [things](https://htmx.org/docs/) [that](https://vuejs.org/v2/guide/custom-directive.html) [go](https://docs.angularjs.org/guide/directive) [by](https://dojotoolkit.org/reference-guide/1.10/quickstart/writingWidgets.html) [many](https://aurelia.io/docs/templating/custom-attributes#simple-custom-attribute) [names](https://svelte.dev/docs#template-syntax-element-directives).
 
-We prefer ["decorator"](https://en.wikipedia.org/wiki/Decorator_pattern) as the term, but "[cross-cutting] [custom attribute](https://github.com/matthewp/custom-attributes)", "directive", ["behavior"](https://github.com/lume/element-behaviors) and especially "progressive enhancements" are also acceptable terms.
+We prefer (progressive) "enhancement" as the term, but ["decorator"](https://en.wikipedia.org/wiki/Decorator_pattern),  "[cross-cutting] [custom attribute](https://github.com/matthewp/custom-attributes)", "directive", ["behavior"](https://github.com/lume/element-behaviors)  are also acceptable terms.
 
 Differences to these solutions (perhaps):
 
@@ -63,6 +63,8 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-committed        | [Trigger](https://github.com/bahrus/be-committed) a button click on keyboard "enter"            | [code](https://github.com/bahrus/be-committed/blob/baseline/be-committed.ts)                       |
 | be-counted          | [Track and share](https://github.com/bahrus/be-counted) how many times button has been clicked. | [code](https://github.com/bahrus/be-counted/blob/baseline/be-counted.ts)                         |
 | be-scoped           | Create an EventTarget associated with the adorned element that can hold [scoped](https://github.com/bahrus/be-scoped) state. | [code](https://github.com/bahrus/be-scoped/blob/baseline/be-scoped.ts)    |
+| be-valued           | Reflect the [value](https://github.com/bahrus/be-valued) of the input to the value attribute on input event.                           | [code](https://github.com/bahrus/be-valued/blob/baseline/be-valued.ts)
+| be-written          | [Stream](https://github.com/bahrus/be-written) a url to a target DOM element.                   | [code](https://github.com/bahrus/be-written/blob/baseline/be-written.ts)
 
 ## The be-enhancement api
 

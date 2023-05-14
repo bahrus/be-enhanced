@@ -46,15 +46,16 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         }else if(primaryProp !== undefined){
             if(parseAndCamelize){
                 const {camelizeOptions} = config;
+                const {camelize} = await import('./camelize.js');
                 if(camelizeOptions !== undefined){
                     const {camelPlus} = await import('./camelPlus.js');
-                    const objToAssign = {};
+                    const objToAssign = {
+                        [primaryProp]: camelize(attr)
+                    };
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
-                    return {
-                        [primaryProp]: objToAssign,
-                    }
+                    return objToAssign;
                 }else{
-                    const {camelize} = await import('./camelize.js');
+                    //const {camelize} = await import('./camelize.js');
                     return {
                         [primaryProp]: camelize(attr)
                     }

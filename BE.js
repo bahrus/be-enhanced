@@ -23,6 +23,7 @@ export class BE extends HTMLElement {
         Object.assign(objToAssign, enhancedElement[enhancementInfo.enhancement]);
         Object.assign(this, objToAssign);
     }
+    detach(detachedElement) { }
     whenResolved() {
         return new Promise((resolve, reject) => {
             if (this.rejected) {

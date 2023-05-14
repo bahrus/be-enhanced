@@ -12,6 +12,7 @@ export interface EnhancementInfo {
 }
 export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
     attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;
+    detach(el: TElement): void;
     resolved: boolean;
     rejected: boolean;
     readonly enhancedElement: TElement;

@@ -29,6 +29,8 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
         Object.assign(this, objToAssign);
     }
 
+    detach(detachedElement: TElement){}
+
     whenResolved(): Promise<boolean>{
         return new Promise((resolve, reject) => {
             if(this.rejected) {

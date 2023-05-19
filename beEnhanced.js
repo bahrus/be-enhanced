@@ -64,5 +64,7 @@ Object.defineProperty(Element.prototype, 'beEnhanced', {
     enumerable: true,
     configurable: true,
 });
-customElements.define('be-enhanced', class extends HTMLElement {
-});
+if (customElements.get('be-enhanced') === undefined) {
+    customElements.define('be-enhanced', class extends HTMLElement {
+    });
+}

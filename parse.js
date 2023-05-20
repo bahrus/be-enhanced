@@ -11,7 +11,9 @@ export async function parse(enhancement, config) {
             attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
-    //let parsedObj: any;
+    const { cache } = config;
+    if (cache?.has(attr))
+        return cache.get(attr);
     try {
         const firstChar = attr[0];
         const { primaryProp } = config;
@@ -21,19 +23,19 @@ export async function parse(enhancement, config) {
                 const { parseAndCamelize } = await import('./parseAndCamelize.js');
                 const pAndC = parseAndCamelize(attr);
                 if (primaryProp !== undefined) {
-                    return { [primaryProp]: pAndC };
+                    return saveAndReturn({ [primaryProp]: pAndC }, attr, cache);
                 }
                 else {
-                    return pAndC;
+                    return saveAndReturn(pAndC, attr, cache);
                 }
             }
             else {
                 const obj = JSON.parse(attr);
                 const { primaryPropReq } = config;
                 if (primaryProp && primaryPropReq && obj[primaryProp] === undefined) {
-                    return {
+                    return saveAndReturn({
                         [primaryProp]: obj
-                    };
+                    }, attr, cache);
                 }
                 return obj;
             }
@@ -48,19 +50,19 @@ export async function parse(enhancement, config) {
                         [primaryProp]: camelize(attr)
                     };
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
-                    return objToAssign;
+                    return saveAndReturn(objToAssign, attr, cache);
                 }
                 else {
                     //const {camelize} = await import('./camelize.js');
-                    return {
+                    return saveAndReturn({
                         [primaryProp]: camelize(attr)
-                    };
+                    }, attr, cache);
                 }
             }
             else {
-                return {
+                return saveAndReturn({
                     [primaryProp]: attr
-                };
+                }, attr, cache);
             }
         }
         else {
@@ -71,4 +73,9 @@ export async function parse(enhancement, config) {
         console.error(e);
         return {};
     }
+}
+function saveAndReturn(obj, attr, cache) {
+    if (cache !== undefined)
+        cache.set(attr, obj);
+    return obj;
 }

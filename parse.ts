@@ -8,7 +8,9 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
     const {enh} = enhancementInfo;
     let attr = enhancedElement.getAttribute(enh);
     if( attr === null) return {};
+    
     attr = attr.trim();
+    
     if(typeof Sanitizer !== 'undefined'){
         const sanitizer = new Sanitizer();
         if(sanitizer.sanitizeFor !== undefined){
@@ -16,7 +18,8 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         }
         
     }
-    //let parsedObj: any;
+    const {cache} = config;
+    if(cache?.has(attr)) return cache!.get(attr)!;
     try{
         const firstChar = attr[0];
         const {primaryProp} = config;
@@ -28,17 +31,17 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
                 
                 const pAndC =  parseAndCamelize(attr);
                 if(primaryProp !== undefined) {
-                    return {[primaryProp]: pAndC};
+                    return saveAndReturn( {[primaryProp]: pAndC}, attr, cache);
                 }else{
-                    return pAndC;
+                    return saveAndReturn( pAndC, attr, cache);
                 }
             }else{
                 const obj = JSON.parse(attr);
                 const {primaryPropReq} = config;
                 if(primaryProp && primaryPropReq && obj[primaryProp] === undefined){
-                    return {
+                    return saveAndReturn( {
                         [primaryProp]: obj
-                    };
+                    }, attr, cache);
                 }
                 return obj;
             }
@@ -53,18 +56,18 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
                         [primaryProp]: camelize(attr)
                     };
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
-                    return objToAssign;
+                    return saveAndReturn( objToAssign, attr, cache);
                 }else{
                     //const {camelize} = await import('./camelize.js');
-                    return {
+                    return saveAndReturn({
                         [primaryProp]: camelize(attr)
-                    }
+                    }, attr, cache);
                 }
 
             }else{
-                return {
+                return saveAndReturn( {
                     [primaryProp]: attr
-                }
+                }, attr, cache);
             }
 
         }else{
@@ -76,4 +79,9 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         console.error(e);
         return {};
     }
+}
+
+function saveAndReturn(obj: JSONValue, attr: string, cache?: Map<string, JSONValue>){
+    if(cache !== undefined) cache.set(attr, obj);
+    return obj;
 }

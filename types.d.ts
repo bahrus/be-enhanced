@@ -1,3 +1,5 @@
+import { JSONValue } from "../trans-render/lib/types";
+
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
 
@@ -25,6 +27,7 @@ export interface IBE<TElement = Element> extends IEnhancement<TElement>{
 
 export interface BEConfig<TPrimaryProp = any>{
     parse?: boolean;
+    cache?: Map<string, JSONValue>;
     primaryProp?: string;
     primaryPropReq?: boolean;
     parseAndCamelize?: boolean;

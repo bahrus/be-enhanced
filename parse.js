@@ -11,6 +11,7 @@ export async function parse(enhancement, config) {
             attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
+    enhancement.parsedFrom = attr;
     const { cache } = config;
     if (cache?.has(attr))
         return cache.get(attr);

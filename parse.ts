@@ -18,6 +18,7 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
         }
         
     }
+    enhancement.parsedFrom = attr;
     const {cache} = config;
     if(cache?.has(attr)) return cache!.get(attr)!;
     try{

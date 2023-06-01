@@ -10,7 +10,8 @@ export interface AllProps {
 
 export interface EnhancementInfo {
     enhancement: Enhancement,
-    enh: Enh,
+    enh?: Enh,
+    localName: string,
 }
 export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
     attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;

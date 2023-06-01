@@ -6,6 +6,7 @@ declare const Sanitizer: any;
 export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValue>{
     const {enhancementInfo, enhancedElement} = enhancement;
     const {enh} = enhancementInfo;
+    if(enh === undefined) return {};
     let attr = enhancedElement.getAttribute(enh);
     if( attr === null) return {};
     

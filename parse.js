@@ -1,6 +1,8 @@
 export async function parse(enhancement, config) {
     const { enhancementInfo, enhancedElement } = enhancement;
     const { enh } = enhancementInfo;
+    if (enh === undefined)
+        return {};
     let attr = enhancedElement.getAttribute(enh);
     if (attr === null)
         return {};

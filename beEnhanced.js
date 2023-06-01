@@ -23,29 +23,44 @@ export class BeEnhanced extends EventTarget {
     async with(enhancement) {
         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
-        return await this.attach(enhancement, enh);
+        return await this.attach(enhancement, enh, enh);
     }
-    async attachAttr(enh) {
+    async attachAttr(enh, localName) {
         const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
-        const enhancement = lispToCamel(enh);
-        return await this.attach(enhancement, enh);
+        const enhancement = lispToCamel(localName);
+        return await this.attach(enhancement, enh, localName);
     }
-    async attach(enhancement, enh) {
+    getFQName(localName) {
         const { self } = this;
-        const def = await customElements.whenDefined(enh);
+        const allowNonNamespaced = !self.localName.includes('-');
+        if (allowNonNamespaced && self.matches(`[${localName}]`))
+            return localName;
+        let testKey = `enh-by-${localName}`;
+        let test = `[${testKey}]`;
+        if (self.matches(test))
+            return testKey;
+        testKey = `data-enh-by-${localName}`;
+        test = `[${testKey}]`;
+        if (self.matches(test))
+            return testKey;
+    }
+    async attach(enhancement, enh, localName) {
+        const { self } = this;
+        const def = await customElements.whenDefined(localName);
         const previouslySet = self['beEnhanced'][enhancement];
         if (previouslySet instanceof def)
             return previouslySet;
         const ce = new def();
         self['beEnhanced'][enhancement] = ce;
-        await ce.attach(self, { enhancement, enh });
+        await ce.attach(self, { enhancement, enh, localName });
         if (previouslySet !== undefined) {
             Object.assign(ce, previouslySet);
         }
         return ce;
     }
-    async whenDefined(enh) {
-        return await this.attachAttr(enh);
+    async whenDefined(localName) {
+        const enh = this.getFQName(localName);
+        return await this.attachAttr(enh, localName);
     }
     async whenResolved(enh) {
         const enhancement = await this.whenDefined(enh);

@@ -20,6 +20,7 @@ export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
     readonly enhancedElement: TElement;
     whenResolved(): Promise<boolean>;
     parsedFrom: string;
+    autoImport?: boolean | string;
 }
 
 export interface IBE<TElement = Element> extends IEnhancement<TElement>{

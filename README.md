@@ -132,4 +132,4 @@ myEnhancement.addEventListener('resolved', e => {
 
 ## Alternate attribute names
 
-To be HTML5 compliant, use data-[name-of-enhancement].
+To be HTML5 compliant, use data-[enh-by-name-of-enhancement].  If enhancing a custom element, chances are significant that the custom element may support an attribute that matches your (short name).  To make the chances of this approach nil, the companion to be-enhanced mentioned above, be-hive, only recognizes attributes that start with enh-by- or data-enh-by when attached to a custom element.

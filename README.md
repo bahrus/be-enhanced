@@ -129,3 +129,7 @@ myEnhancement.addEventListener('resolved', e => {
 
 })
 ```
+
+## Alternate attribute names
+
+To be HTML5 compliant, use data-[name-of-enhancement].

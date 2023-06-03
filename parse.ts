@@ -31,7 +31,7 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
             if(parseAndCamelize){
                 const {parseAndCamelize} = await import('./parseAndCamelize.js');
                 
-                const pAndC =  parseAndCamelize(attr);
+                const pAndC =  parseAndCamelize(attr, config);
                 if(primaryProp !== undefined) {
                     return saveAndReturn( {[primaryProp]: pAndC}, attr, cache);
                 }else{
@@ -55,14 +55,14 @@ export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValu
                 if(camelizeOptions !== undefined){
                     const {camelPlus} = await import('./camelPlus.js');
                     const objToAssign = {
-                        [primaryProp]: camelize(attr)
+                        [primaryProp]: camelize(attr, config)
                     };
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
                     return saveAndReturn( objToAssign, attr, cache);
                 }else{
                     //const {camelize} = await import('./camelize.js');
                     return saveAndReturn({
-                        [primaryProp]: camelize(attr)
+                        [primaryProp]: camelize(attr, config)
                     }, attr, cache);
                 }
 

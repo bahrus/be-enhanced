@@ -1,4 +1,6 @@
-export function camelize(strToCamelize: string){
+import { BEConfig } from "./types";
+
+export function camelize(strToCamelize: string, config: BEConfig){
     const statements = strToCamelize.split('.');
     const objToMerge: {[key: string]: string[]} = {};
     let prevSplitStatement: string[] | undefined;

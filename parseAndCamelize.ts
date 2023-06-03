@@ -1,9 +1,10 @@
 import {JSONObject} from 'trans-render/lib/types';
-export function parseAndCamelize(json: string): JSONObject | JSONObject[]{
+import { BEConfig } from './types';
+export function parseAndCamelize(json: string, config: BEConfig): JSONObject | JSONObject[]{
     if(json.startsWith('```')){
         const split = json.split('```').filter(s => s.trim() !== '');
         //No nested ```'s
-        return split.map(s => parseAndCamelize(s) as JSONObject)
+        return split.map(s => parseAndCamelize(s, config) as JSONObject)
     }
     const lastChar = json!.lastIndexOf('}');
     const strToCamelize = json!.substring(lastChar + 1);

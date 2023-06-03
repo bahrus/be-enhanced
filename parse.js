@@ -24,7 +24,7 @@ export async function parse(enhancement, config) {
         if (firstChar === '{' || firstChar === '[') {
             if (parseAndCamelize) {
                 const { parseAndCamelize } = await import('./parseAndCamelize.js');
-                const pAndC = parseAndCamelize(attr);
+                const pAndC = parseAndCamelize(attr, config);
                 if (primaryProp !== undefined) {
                     return saveAndReturn({ [primaryProp]: pAndC }, attr, cache);
                 }
@@ -50,7 +50,7 @@ export async function parse(enhancement, config) {
                 if (camelizeOptions !== undefined) {
                     const { camelPlus } = await import('./camelPlus.js');
                     const objToAssign = {
-                        [primaryProp]: camelize(attr)
+                        [primaryProp]: camelize(attr, config)
                     };
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
                     return saveAndReturn(objToAssign, attr, cache);
@@ -58,7 +58,7 @@ export async function parse(enhancement, config) {
                 else {
                     //const {camelize} = await import('./camelize.js');
                     return saveAndReturn({
-                        [primaryProp]: camelize(attr)
+                        [primaryProp]: camelize(attr, config)
                     }, attr, cache);
                 }
             }

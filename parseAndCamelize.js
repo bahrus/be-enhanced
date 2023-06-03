@@ -1,8 +1,8 @@
-export function parseAndCamelize(json) {
+export function parseAndCamelize(json, config) {
     if (json.startsWith('```')) {
         const split = json.split('```').filter(s => s.trim() !== '');
         //No nested ```'s
-        return split.map(s => parseAndCamelize(s));
+        return split.map(s => parseAndCamelize(s, config));
     }
     const lastChar = json.lastIndexOf('}');
     const strToCamelize = json.substring(lastChar + 1);

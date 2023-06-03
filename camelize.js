@@ -1,4 +1,4 @@
-export function camelize(strToCamelize) {
+export function camelize(strToCamelize, config) {
     const statements = strToCamelize.split('.');
     const objToMerge = {};
     let prevSplitStatement;

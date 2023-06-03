@@ -35,6 +35,7 @@ export interface BEConfig<TPrimaryProp = any>{
     primaryPropReq?: boolean;
     parseAndCamelize?: boolean;
     camelizeOptions?: CamelizeOptions<TPrimaryProp>;
+    defaultBucket?: string; //TODO
 }
 
 export interface CamelizeOptions<TPrimaryProp = any>{

@@ -13,7 +13,8 @@ export function parseAndCamelize(json: string, config: BEConfig): JSONObject | J
     //TODO:  conditionally load code below only if string after JSON is non trivial
     const statements = strToCamelize.split('.');
     const objToMerge: {[key: string]: string[]} = {};
-    let prevSplitStatement: string[] | undefined
+    let prevSplitStatement: string[] | undefined;
+    const {defaultBucket} = config;
     for(const statement of statements){
         const trimmedStatement = statement.trim();
         if(trimmedStatement.startsWith('//')) continue;
@@ -27,6 +28,8 @@ export function parseAndCamelize(json: string, config: BEConfig): JSONObject | J
                 }
                 idx++;
             }
+        }else if(defaultBucket !== undefined && splitStatement[0] === '^'){
+            splitStatement[0] = defaultBucket;
         }
         prevSplitStatement = splitStatement;
         const head = splitStatement[0];

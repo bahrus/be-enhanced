@@ -4,6 +4,7 @@ export function camelize(strToCamelize: string, config: BEConfig){
     const statements = strToCamelize.split('.');
     const objToMerge: {[key: string]: string[]} = {};
     let prevSplitStatement: string[] | undefined;
+    const {defaultBucket} = config;
     for(const statement of statements){
         const trimmedStatement = statement.trim();
         if(trimmedStatement.length === 0) continue;
@@ -18,6 +19,8 @@ export function camelize(strToCamelize: string, config: BEConfig){
                 }
                 idx++;
             }
+        }else if(defaultBucket !== undefined && splitStatement[0] === '^'){
+            splitStatement[0] = defaultBucket;
         }
         prevSplitStatement = splitStatement;
         const head = splitStatement[0];

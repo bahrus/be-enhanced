@@ -59,6 +59,7 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 
 | Enhancement         | Purpose                                                                                         | Code                     |
 |---------------------|-------------------------------------------------------------------------------------------------|--------------------------|
+| be-adoptive         | [Adopt](https://github.com/bahrus/be-aoptive) styles from parent shadow realm                   | [code](https://github.com/bahrus/be-adoptive/blob/baseline/be-adoptive.ts)                        |
 | be-a-beacon         | [Announce](https://github.com/bahrus/be-a-beacon) arrival of (last) element in HTML Stream      | [code](https://github.com/bahrus/be-a-beacon/blob/baseline/be-a-beacon.ts)                        |
 | be-based            | Adjust URLs from a [base](https://github.com/bahrus/be-based) URL                               | [code](https://github.com/bahrus/be-based/blob/baseline/be-based.ts)  |
 | be-bound            | Provide two-way [binding](https://github.com/bahrus/be-bound)                                   | [code](https://github.com/bahrus/be-bound/blob/baseline/be-bound.ts)  |
@@ -72,6 +73,8 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-exportable       | Allow script tag to [export](https://github.com/bahrus/be-exportable) itself as a module        | [code](https://github.com/bahrus/be-exportable/blob/baseline/be-exportable.ts)  |
 | be-formidable       | Enhance the form's [validation](https://github.com/bahrus/be-formidable) abilities.             | [code](https://github.com/bahrus/be-formidable/blob/baseline/be-formidable.ts)  |
 | be-functional       | [Connect](https://github.com/bahrus/be-functional) script to DOM elements.                      | [code](https://github.com/bahrus/be-functional/blob/baseline/be-functional.ts)  |
+| be-intl             | [Format](https://github.com/bahrus/be-intl) numbers using intl.NumberFormat.                    | [code](https://github.com/bahrus/be-intl/blob/baseline/be-intl.ts)  |
+| be-it               | [Forward](https://github.com/bahrus/be-it) props to adjacent element.                           | [code](https://github.com/bahrus/be-it/blob/baseline/be-it.ts)  |
 | be-scoped           | Create an EventTarget associated with the adorned element that can hold [scoped](https://github.com/bahrus/be-scoped) state. | [code](https://github.com/bahrus/be-scoped/blob/baseline/be-scoped.ts)    |
 | be-valued           | Reflect the [value](https://github.com/bahrus/be-valued) of the input to the value attribute on input event.                           | [code](https://github.com/bahrus/be-valued/blob/baseline/be-valued.ts)
 | be-written          | [Stream](https://github.com/bahrus/be-written) a url to a target DOM element.                   | [code](https://github.com/bahrus/be-written/blob/baseline/be-written.ts)

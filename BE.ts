@@ -15,9 +15,9 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
     static get beConfig(): BEConfig{
         return {};
     }
-    async parse(config: BEConfig): Promise<JSONValue>{
+    async parse(config: BEConfig, attr: string | null): Promise<JSONValue>{
         const {parse} = await import('./parse.js');
-        return await parse(this as BE, config);
+        return await parse(this as BE, config, attr);
     }
     async attach(enhancedElement: TElement, enhancementInfo: EnhancementInfo){
         this.#ee = enhancedElement;
@@ -25,8 +25,11 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
         await this.connectedCallback();
         const config = (this.constructor as any).beConfig as BEConfig;
         const gatewayVal = (<any>enhancedElement)[enhancementInfo.enhancement];
-        const objToAssign = config.parse ? await this.parse(config, gatewayVal) : {};
-        Object.assign(objToAssign as any, gatewayVal);
+        const attr = typeof gatewayVal === 'string' ? gatewayVal : null;
+        const objToAssign = config.parse ? await this.parse(config, attr) : {};
+        if(gatewayVal instanceof Object){
+            Object.assign(objToAssign as any, gatewayVal);
+        }
         Object.assign(this, objToAssign);
     }
 

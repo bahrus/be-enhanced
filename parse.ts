@@ -3,11 +3,12 @@ import {BEConfig} from './types';
 import {JSONValue} from 'trans-render/lib/types';
 declare const Sanitizer: any;
 
-export async function parse(enhancement: BE, config: BEConfig): Promise<JSONValue>{
+export async function parse(enhancement: BE, config: BEConfig, gatewayVal: string | null): Promise<JSONValue>{
     const {enhancementInfo, enhancedElement} = enhancement;
     const {enh} = enhancementInfo;
     if(enh === undefined) return {};
-    let attr = enhancedElement.getAttribute(enh);
+    let attr = enhancedElement.getAttribute(enh) || gatewayVal;
+
     if( attr === null) return {};
     
     attr = attr.trim();

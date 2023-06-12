@@ -1,9 +1,9 @@
-export async function parse(enhancement, config) {
+export async function parse(enhancement, config, gatewayVal) {
     const { enhancementInfo, enhancedElement } = enhancement;
     const { enh } = enhancementInfo;
     if (enh === undefined)
         return {};
-    let attr = enhancedElement.getAttribute(enh);
+    let attr = enhancedElement.getAttribute(enh) || gatewayVal;
     if (attr === null)
         return {};
     attr = attr.trim();

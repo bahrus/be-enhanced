@@ -43,6 +43,7 @@ export class BeEnhanced extends EventTarget{
         testKey = `data-enh-by-${localName}`;
         test = `[${testKey}]`;
         if(self.matches(test)) return testKey;
+        //return localName;
     }
 
     async attach(enhancement: Enhancement, enh: Enh | undefined, localName: string){
@@ -52,7 +53,7 @@ export class BeEnhanced extends EventTarget{
         if(previouslySet instanceof def ) return previouslySet;
         const ce = new def() as IEnhancement;
         (<any>self)['beEnhanced'][enhancement] = ce;
-        await ce.attach(self, {enhancement, enh, localName});
+        await ce.attach(self, {enhancement, enh, localName, previouslySet});
         if(previouslySet !== undefined){
             Object.assign(ce, previouslySet);
         }
@@ -61,7 +62,7 @@ export class BeEnhanced extends EventTarget{
 
     async whenDefined(localName: string){
         const enh = this.getFQName(localName); 
-        return await this.attachAttr(enh, localName);
+        return await this.attachAttr(enh || localName, localName);
     }
 
     async whenResolved(enh: Enh){

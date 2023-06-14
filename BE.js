@@ -19,7 +19,8 @@ export class BE extends HTMLElement {
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
         const config = this.constructor.beConfig;
-        const gatewayVal = enhancedElement[enhancementInfo.enhancement];
+        const { previouslySet } = enhancementInfo;
+        const gatewayVal = previouslySet || enhancedElement.beEnhanced[enhancementInfo.enhancement];
         const attr = typeof gatewayVal === 'string' ? gatewayVal : null;
         const objToAssign = config.parse ? await this.parse(config, attr) : {};
         if (gatewayVal instanceof Object) {

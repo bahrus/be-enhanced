@@ -23,11 +23,25 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
         this.#ee = enhancedElement;
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
-        const config = (this.constructor as any).beConfig as BEConfig;
+        const config = ((this.constructor as any).beConfig || {}) as BEConfig;
+        const {primaryProp, primaryPropReq, parse} = config;
         const {previouslySet} = enhancementInfo;
-        const gatewayVal = previouslySet ||  (<any>enhancedElement).beEnhanced[enhancementInfo.enhancement];
-        const attr = typeof gatewayVal === 'string' ? gatewayVal : null;
-        const objToAssign = config.parse ? await this.parse(config, attr) : {};
+        let gatewayVal = previouslySet;
+        if(gatewayVal === undefined){
+            const t = (<any>enhancedElement).beEnhanced[enhancementInfo.enhancement];
+            if(!(t instanceof Element)){
+                gatewayVal = t;
+            }
+        }
+        const attr = (gatewayVal && typeof gatewayVal === 'string') ? gatewayVal : null;
+        const objToAssign = parse ? await this.parse(config, attr) : {};
+        if(primaryPropReq && gatewayVal){
+            if(!gatewayVal[primaryProp!]){
+                gatewayVal = {
+                    [primaryProp!]: gatewayVal
+                };
+            }
+        }
         if(gatewayVal instanceof Object){
             Object.assign(objToAssign as any, gatewayVal);
         }

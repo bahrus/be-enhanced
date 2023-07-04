@@ -35,11 +35,11 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.693",
-    "xtal-element": "0.0.571"
+    "trans-render": "0.0.694",
+    "xtal-element": "0.0.572"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.0",
+    "@playwright/test": "1.35.1",
     "may-it-serve": "0.0.5"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

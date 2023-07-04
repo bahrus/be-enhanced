@@ -43,7 +43,6 @@ export class BeEnhanced extends EventTarget {
         test = `[${testKey}]`;
         if (self.matches(test))
             return testKey;
-        //return localName;
     }
     async attach(enhancement, enh, localName) {
         const { self } = this;

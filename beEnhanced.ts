@@ -43,7 +43,6 @@ export class BeEnhanced extends EventTarget{
         testKey = `data-enh-by-${localName}`;
         test = `[${testKey}]`;
         if(self.matches(test)) return testKey;
-        //return localName;
     }
 
     async attach(enhancement: Enhancement, enh: Enh | undefined, localName: string){

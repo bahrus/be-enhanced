@@ -1,22 +1,28 @@
 export async function parse(enhancement, config, gatewayVal) {
+    //console.log('begin parse', performance.now());
     const { enhancementInfo, enhancedElement } = enhancement;
     const { enh } = enhancementInfo;
     if (enh === undefined)
         return {};
     let attr = enhancedElement.getAttribute(enh) || gatewayVal;
-    if (attr === null)
+    if (attr === null) {
+        //console.log('empty attr', performance.now(), enhancement.localName);
         return {};
+    }
     attr = attr.trim();
+    enhancement.parsedFrom = attr;
+    const { cache } = config;
+    if (cache?.has(attr)) {
+        //console.log('return from cache', performance.now(), enhancement.localName);
+        return cache.get(attr);
+    }
+    //console.log({attr});
     if (typeof Sanitizer !== 'undefined') {
         const sanitizer = new Sanitizer();
         if (sanitizer.sanitizeFor !== undefined) {
             attr = sanitizer.sanitizeFor('template', attr).innerHTML;
         }
     }
-    enhancement.parsedFrom = attr;
-    const { cache } = config;
-    if (cache?.has(attr))
-        return cache.get(attr);
     try {
         const firstChar = attr[0];
         const { primaryProp } = config;
@@ -40,7 +46,7 @@ export async function parse(enhancement, config, gatewayVal) {
                         [primaryProp]: obj
                     }, attr, cache);
                 }
-                return obj;
+                return saveAndReturn(obj, attr, cache);
             }
         }
         else if (primaryProp !== undefined) {
@@ -69,6 +75,7 @@ export async function parse(enhancement, config, gatewayVal) {
             }
         }
         else {
+            //console.log('return empty', performance.now());
             return {};
         }
     }
@@ -78,7 +85,10 @@ export async function parse(enhancement, config, gatewayVal) {
     }
 }
 function saveAndReturn(obj, attr, cache) {
-    if (cache !== undefined)
+    if (cache !== undefined) {
+        //console.log('cache ' + attr);
         cache.set(attr, obj);
+    }
+    //console.log('saveAndReturn', performance.now());
     return obj;
 }

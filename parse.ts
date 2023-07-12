@@ -4,15 +4,25 @@ import {JSONValue} from 'trans-render/lib/types';
 declare const Sanitizer: any;
 
 export async function parse(enhancement: BE, config: BEConfig, gatewayVal: string | null): Promise<JSONValue>{
+    //console.log('begin parse', performance.now());
     const {enhancementInfo, enhancedElement} = enhancement;
     const {enh} = enhancementInfo;
     if(enh === undefined) return {};
     let attr = enhancedElement.getAttribute(enh) || gatewayVal;
 
-    if( attr === null) return {};
+    if( attr === null) {
+        //console.log('empty attr', performance.now(), enhancement.localName);
+        return {};
+    }
     
     attr = attr.trim();
-    
+    enhancement.parsedFrom = attr;
+    const {cache} = config;
+    if(cache?.has(attr)){
+        //console.log('return from cache', performance.now(), enhancement.localName);
+        return cache!.get(attr)!;
+    } 
+    //console.log({attr});
     if(typeof Sanitizer !== 'undefined'){
         const sanitizer = new Sanitizer();
         if(sanitizer.sanitizeFor !== undefined){
@@ -20,9 +30,6 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
         }
         
     }
-    enhancement.parsedFrom = attr;
-    const {cache} = config;
-    if(cache?.has(attr)) return cache!.get(attr)!;
     try{
         const firstChar = attr[0];
         const {primaryProp} = config;
@@ -46,7 +53,7 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
                         [primaryProp]: obj
                     }, attr, cache);
                 }
-                return obj;
+                return saveAndReturn(obj, attr, cache);
             }
 
         }else if(primaryProp !== undefined){
@@ -74,6 +81,7 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
             }
 
         }else{
+            //console.log('return empty', performance.now());
             return {};
         } 
 
@@ -85,6 +93,10 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
 }
 
 function saveAndReturn(obj: JSONValue, attr: string, cache?: Map<string, JSONValue>){
-    if(cache !== undefined) cache.set(attr, obj);
+    if(cache !== undefined) {
+        //console.log('cache ' + attr);
+        cache.set(attr, obj);
+    }
+    //console.log('saveAndReturn', performance.now());
     return obj;
 }

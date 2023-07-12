@@ -18,7 +18,8 @@
     "serve": "node node_modules/may-it-serve/serve.js",
     "test": "playwright test",
     "package-check": "package-check",
-    "safari": "npx playwright wk http://localhost:3030"
+    "safari": "npx playwright wk http://localhost:3030",
+    "update": "ncu -u && npm install"
   },
   "exports": {
     ".": "./BE.js",
@@ -35,11 +36,11 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.694",
-    "xtal-element": "0.0.572"
+    "trans-render": "0.0.695",
+    "xtal-element": "0.0.573"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.1",
+    "@playwright/test": "1.36.0",
     "may-it-serve": "0.0.5"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

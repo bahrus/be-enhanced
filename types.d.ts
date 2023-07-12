@@ -1,4 +1,4 @@
-import { JSONValue } from "../trans-render/lib/types";
+import { JSONValue } from "trans-render/lib/types";
 
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;

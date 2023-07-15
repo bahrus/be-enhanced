@@ -1,3 +1,4 @@
+import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
 export class BeEnhanced extends EventTarget {
     self;
     constructor(self) {
@@ -26,7 +27,7 @@ export class BeEnhanced extends EventTarget {
         return await this.attach(enhancement, enh, enh);
     }
     async attachAttr(enh, localName) {
-        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
+        //const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
         const enhancement = lispToCamel(localName);
         return await this.attach(enhancement, enh, localName);
     }
@@ -46,7 +47,9 @@ export class BeEnhanced extends EventTarget {
     }
     async attach(enhancement, enh, localName) {
         const { self } = this;
-        const def = await customElements.whenDefined(localName);
+        let def = customElements.get(localName);
+        if (def === undefined)
+            def = await customElements.whenDefined(localName);
         const previouslySet = self['beEnhanced'][enhancement];
         if (previouslySet instanceof def)
             return previouslySet;
@@ -59,13 +62,25 @@ export class BeEnhanced extends EventTarget {
         return ce;
     }
     async whenDefined(localName) {
-        const enh = this.getFQName(localName);
-        return await this.attachAttr(enh || localName, localName);
+        const fqn = this.getFQName(localName);
+        //const enh = this.getFQName(localName); 
+        return await this.attachAttr(fqn || localName, localName);
     }
     async whenResolved(enh) {
-        const enhancement = await this.whenDefined(enh);
-        await enhancement.whenResolved();
-        return enhancement;
+        //const test = (<any>enh.beEnhanced
+        //console.log(enh);
+        const enhancementS = lispToCamel(enh);
+        const test = (this.self?.enhancements || {})[enhancementS];
+        if (test !== undefined) {
+            if (test.resolved)
+                return test;
+            await test.whenResolved();
+        }
+        else {
+            const enhancement = await this.whenDefined(enh);
+            await enhancement.whenResolved();
+            return enhancement;
+        }
     }
 }
 const wm = new WeakMap();

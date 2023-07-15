@@ -1,4 +1,5 @@
 import {Enhancement, IEnhancement, Enh} from './types';
+import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 export class BeEnhanced extends EventTarget{
     constructor(public self: Element){
@@ -28,7 +29,7 @@ export class BeEnhanced extends EventTarget{
     }
 
     async attachAttr(enh: Enh | undefined, localName: string){
-        const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
+        //const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
         const enhancement = lispToCamel(localName);
         return await this.attach(enhancement, enh, localName);
     }
@@ -47,7 +48,8 @@ export class BeEnhanced extends EventTarget{
 
     async attach(enhancement: Enhancement, enh: Enh | undefined, localName: string){
         const {self} = this;
-        const def = await customElements.whenDefined(localName);
+        let def = customElements.get(localName);
+        if(def === undefined) def = await customElements.whenDefined(localName);
         const previouslySet = (<any>self)['beEnhanced'][enhancement]
         if(previouslySet instanceof def ) return previouslySet;
         const ce = new def() as IEnhancement;
@@ -60,14 +62,25 @@ export class BeEnhanced extends EventTarget{
     }
 
     async whenDefined(localName: string){
-        const enh = this.getFQName(localName); 
-        return await this.attachAttr(enh || localName, localName);
+        const fqn = this.getFQName(localName);
+        //const enh = this.getFQName(localName); 
+        return await this.attachAttr(fqn || localName, localName);
     }
 
     async whenResolved(enh: Enh){
-        const enhancement = await this.whenDefined(enh) as IEnhancement;
-        await enhancement.whenResolved();
-        return enhancement;
+        //const test = (<any>enh.beEnhanced
+        //console.log(enh);
+        const enhancementS = lispToCamel(enh);
+        const test = ((<any>this.self)?.enhancements || {}) [enhancementS];
+        if(test !== undefined){
+            if(test.resolved) return test;
+            await test.whenResolved();
+        }else{
+            const enhancement = await this.whenDefined(enh) as IEnhancement;
+            await enhancement.whenResolved();
+            return enhancement;
+        }
+        
     }
 }
 

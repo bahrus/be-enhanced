@@ -63,6 +63,7 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-a-beacon         | [Announce](https://github.com/bahrus/be-a-beacon) arrival of (last) element in HTML Stream      | [code](https://github.com/bahrus/be-a-beacon/blob/baseline/be-a-beacon.ts)                        |
 | be-based            | Adjust URLs from a [base](https://github.com/bahrus/be-based) URL                               | [code](https://github.com/bahrus/be-based/blob/baseline/be-based.ts)  |
 | be-bound            | Provide two-way [binding](https://github.com/bahrus/be-bound)                                   | [code](https://github.com/bahrus/be-bound/blob/baseline/be-bound.ts)  |
+| be-buttoned-up      | Make a button link to [button menu in popover](https://github.com/bahrus/be-buttoned-up)        | [code](https://github.com/bahrus/be-buttoned-up/blob/baseline/be-buttoned-up.ts)  |
 | be-channeling       | [Channel](https://github.com/bahrus/be-channeling) events to the host element.                  | [code](https://github.com/bahrus/be-channeling/blob/baseline/be-channeling.ts)  |
 | be-clonable         | Make DOM element be [clonable](https://github.com/bahrus/be-clonable)                           | [code](https://github.com/bahrus/be-clonable/blob/baseline/be-clonable.ts)  |
 | be-committed        | [Trigger](https://github.com/bahrus/be-committed) a button click on keyboard "enter"            | [code](https://github.com/bahrus/be-committed/blob/baseline/be-committed.ts)                       |

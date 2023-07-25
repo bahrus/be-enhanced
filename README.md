@@ -85,9 +85,9 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 
 be-enhancement commits the cardinal sin of attaching a custom property gateway, "beEnhanced" on all Elements.  Being that the platform has shown little to no interest in providing support for progressive enhancement over many decades when such solutions have proven useful, we should feel no guilt whatsoever.
 
-Having this property gateway is a life-safe as far as performance and providing an easy of integrating enhancements into frameworks
+Having this property gateway is a life-saver as far as performance and providing an easy way of integrating enhancements into (some) frameworks.
 
-To set a value on a namespaced property (e.g. via framework), do the following:
+To set a value on a namespaced property (e.g. via a framework), do the following:
 
 ```JavaScript
 await customElements.whenDefined('be-enhanced');
@@ -96,8 +96,6 @@ Object.assign(base, {count: 7});
 ```
 
 This should work just fine even if the enhancement a-butter-beer-counter hasn't loaded yet.  The enhancement will absorb the settings the moment it becomes attached to the element it is enhancing.
-
-The intention here is even if the element hasn't been upgraded yet, property settings made this way should be absorbed into the enhancement once it becomes attached. 
 
 ## Server-rendered HTML vs Template Instantiated HTML
 
@@ -109,7 +107,7 @@ If the HTML we are working with is rendered by the server, the most effective wa
 
 However, activating enhancements via attributes is not ideal when using client side api's to build the API, such as during template instantiation.
 
-The way to do this most effectively programmatically is:
+As we stated so very long ago, the way to do this most effectively programmatically is:
 
 ```JavaScript
 import('be-counted/be-counted.js');

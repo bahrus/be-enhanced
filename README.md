@@ -74,6 +74,7 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-exportable       | Allow script tag to [export](https://github.com/bahrus/be-exportable) itself as a module        | [code](https://github.com/bahrus/be-exportable/blob/baseline/be-exportable.ts)  |
 | be-formidable       | Enhance the form's [validation](https://github.com/bahrus/be-formidable) abilities.             | [code](https://github.com/bahrus/be-formidable/blob/baseline/be-formidable.ts)  |
 | be-functional       | [Connect](https://github.com/bahrus/be-functional) script to DOM elements.                      | [code](https://github.com/bahrus/be-functional/blob/baseline/be-functional.ts)  |
+| be-importing        | [Import](https://github.com/bahrus/be-importing) Static, Declarative HTML Web Components with Streaming HTML | [code](https://github.com/bahrus/be-importing/blob/baseline/be-importing.ts)       |
 | be-intl             | [Format](https://github.com/bahrus/be-intl) numbers using intl.NumberFormat.                    | [code](https://github.com/bahrus/be-intl/blob/baseline/be-intl.ts)  |
 | be-it               | [Forward](https://github.com/bahrus/be-it) props to adjacent element.                           | [code](https://github.com/bahrus/be-it/blob/baseline/be-it.ts)  |
 | be-promising        | Run enhancements in a [predictable order](https://github.com/bahrus/be-promising)               | [code](https://github.com/bahrus/be-promising/blob/baseline/be-promising.ts)    |

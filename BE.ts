@@ -3,7 +3,7 @@ import {XEArgs, PropInfoExt} from 'xtal-element/types';
 import {JSONValue} from 'trans-render/lib/types';
 
 
-export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTMLElement implements IEnhancement<TElement>{
+export class BE<TProps = any, TActions = TProps, TElement extends Element = Element> extends HTMLElement implements IEnhancement<TElement>{
     #ee!: TElement;
     get enhancedElement(){
         return this.#ee;
@@ -67,6 +67,12 @@ export class BE<TProps = any, TActions = TProps, TElement = Element> extends HTM
                 }
             });
         })
+    }
+
+    dispatchEventFromEnhancedElement(type: string, init?: CustomEventInit){
+        const prefixedType = 'enh-' + this.enhancementInfo.enh + '-' + type;
+        const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
+        this.#ee.dispatchEvent(evt);
     }
 
 }

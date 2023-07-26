@@ -76,6 +76,7 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-functional       | [Connect](https://github.com/bahrus/be-functional) script to DOM elements.                      | [code](https://github.com/bahrus/be-functional/blob/baseline/be-functional.ts)  |
 | be-intl             | [Format](https://github.com/bahrus/be-intl) numbers using intl.NumberFormat.                    | [code](https://github.com/bahrus/be-intl/blob/baseline/be-intl.ts)  |
 | be-it               | [Forward](https://github.com/bahrus/be-it) props to adjacent element.                           | [code](https://github.com/bahrus/be-it/blob/baseline/be-it.ts)  |
+| be-promising        | Run enhancements in a [predictable order](https://github.com/bahrus/be-promising)               | [code](https://github.com/bahrus/be-promising/blob/baseline/be-promising.ts)    |
 | be-scoped           | Create an EventTarget associated with the adorned element that can hold [scoped](https://github.com/bahrus/be-scoped) state. | [code](https://github.com/bahrus/be-scoped/blob/baseline/be-scoped.ts)    |
 | be-typed            | Allow the user to customize [input](https://github.com/bahrus/be-typed) element during run time.  | [code](https://github.com/bahrus/be-typed/blob/baseline/be-typed.ts) |
 | be-valued           | Reflect the [value](https://github.com/bahrus/be-valued) of the input to the value attribute on input event.                           | [code](https://github.com/bahrus/be-valued/blob/baseline/be-valued.ts)

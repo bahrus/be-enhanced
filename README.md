@@ -72,6 +72,8 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-delible          | Make DOM elemenet be [deletable](https://github.com/bahrus/be-delible)                          | [code](https://github.com/bahrus/be-delible/blob/baseline/be-delible.ts)  |
 | be-derived          | [Derive](https://github.com/bahrus/be-derived) state from server-rendered HTML                  | [code](https://github.com/bahrus/be-derived/blob/baseline/be-derived.ts)  |
 | be-exportable       | Allow script tag to [export](https://github.com/bahrus/be-exportable) itself as a module        | [code](https://github.com/bahrus/be-exportable/blob/baseline/be-exportable.ts)  |
+| be-fetching         | [Fetch](https://github.com/bahrus/be-fetching) resource based on url property                   |
+[code](https://github.com/bahrus/be-fetching/blob/baseline/be-fetching.ts)      |
 | be-formidable       | Enhance the form's [validation](https://github.com/bahrus/be-formidable) abilities.             | [code](https://github.com/bahrus/be-formidable/blob/baseline/be-formidable.ts)  |
 | be-functional       | [Connect](https://github.com/bahrus/be-functional) script to DOM elements.                      | [code](https://github.com/bahrus/be-functional/blob/baseline/be-functional.ts)  |
 | be-importing        | [Import](https://github.com/bahrus/be-importing) Static, Declarative HTML Web Components with Streaming HTML | [code](https://github.com/bahrus/be-importing/blob/baseline/be-importing.ts)       |

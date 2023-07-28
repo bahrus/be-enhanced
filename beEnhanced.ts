@@ -29,7 +29,6 @@ export class BeEnhanced extends EventTarget{
     }
 
     async attachAttr(enh: Enh | undefined, localName: string){
-        //const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
         const enhancement = lispToCamel(localName);
         return await this.attach(enhancement, enh, localName);
     }

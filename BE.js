@@ -61,6 +61,11 @@ export class BE extends HTMLElement {
             });
         });
     }
+    dispatchEventFromEnhancedElement(type, init) {
+        const prefixedType = 'enh-' + this.enhancementInfo.enh + '.' + type;
+        const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
+        this.#ee.dispatchEvent(evt);
+    }
 }
 export const propDefaults = {
     resolved: false,

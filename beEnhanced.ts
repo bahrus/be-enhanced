@@ -60,7 +60,7 @@ export class BeEnhanced extends EventTarget{
         return ce;
     }
 
-    async whenDefined(localName: string){
+    async whenAttached(localName: string){
         const fqn = this.getFQName(localName);
         //const enh = this.getFQName(localName); 
         return await this.attachAttr(fqn || localName, localName);
@@ -75,7 +75,7 @@ export class BeEnhanced extends EventTarget{
             if(test.resolved) return test;
             await test.whenResolved();
         }else{
-            const enhancement = await this.whenDefined(enh) as IEnhancement;
+            const enhancement = await this.whenAttached(enh) as IEnhancement;
             await enhancement.whenResolved();
             return enhancement;
         }

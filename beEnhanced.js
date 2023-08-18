@@ -64,12 +64,12 @@ export class BeEnhanced extends EventTarget {
         let def = customElements.get(localName);
         if (def === undefined)
             def = await customElements.whenDefined(localName);
-        const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
-        const enhancement = camelToLisp(localName);
+        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
+        const enhancement = lispToCamel(localName);
         const { self } = this;
         const previouslySet = self['beEnhanced'][enhancement];
         if (previouslySet instanceof def) {
-            await def.detach(this, { enhancement, enh: localName, localName });
+            await previouslySet.detach(this, { enhancement, enh: localName, localName });
             delete self['beEnhanced'][enhancement];
             self.removeAttribute(localName);
             self.removeAttribute('enh-by-' + localName);

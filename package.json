@@ -39,7 +39,7 @@
     "xtal-element": "0.0.577"
   },
   "devDependencies": {
-    "@playwright/test": "1.37.0",
+    "@playwright/test": "1.37.1",
     "may-it-serve": "0.0.5"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

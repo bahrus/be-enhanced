@@ -2,13 +2,15 @@ import {Enhancement, IEnhancement, Enh, EnhancementInfo} from './types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 class InProgressAttachments extends EventTarget{
-
+    inProgress = new WeakMap<Element, Set<string>>();
 }
 
-const inProgressAttachments = new InProgressAttachments{
-    
+interface AttachedEvent{
+    element: Element,
+    //enhancement: Enhancement,
 }
 
+const inProgressAttachments = new InProgressAttachments();
 export class BeEnhanced extends EventTarget{
     constructor(public self: Element){
         super();
@@ -33,7 +35,7 @@ export class BeEnhanced extends EventTarget{
     async with(enhancement: Enhancement){
         const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
-        return await this.attach(enhancement, enh, enh);
+        return await this.#attach(enhancement, enh, enh);
     }
 
     // async attachAttr(enh: Enh | undefined, localName: string){
@@ -54,23 +56,40 @@ export class BeEnhanced extends EventTarget{
         throw 'Invalid name';
     }
 
-    async #attach(localName: string){
-        const enhancementInfo = this.#getEnhanceInfo(localName);
-        const {enhancement, enh} = enhancementInfo;
-        const {self} = this;
-        let def = customElements.get(localName);
-        if(def === undefined) def = await customElements.whenDefined(localName);
-        const previouslySet = (<any>self)['beEnhanced'][enhancement];
-        enhancementInfo.initialPropValues = previouslySet;
-        //if(previouslySet instanceof def ) return previouslySet;
-        const ce = new def() as IEnhancement;
-        (<any>self)['beEnhanced'][enhancement] = ce;
-        await ce.attach(self, enhancementInfo);
-        //TODO:  leave this up to the individual enhancement
-        if(previouslySet !== undefined){
-            Object.assign(ce, previouslySet);
-        }
-        return ce;
+    #attach(localName: string): Promise<IEnhancement<Element>>{
+        return new Promise(async (resolve, rejected) => {
+            const enhancementInfo = this.#getEnhanceInfo(localName);
+            const {enhancement, enh} = enhancementInfo;
+            const {self} = this;
+            const inProgressForElement = inProgressAttachments.inProgress.get(self);
+            if(inProgressForElement !== undefined){
+                if(inProgressForElement.has(enhancement)){
+                    const controller = new AbortController();
+                    inProgressAttachments.addEventListener(enhancement, e => {
+                        const attachmentEvent = (<CustomEvent>e).detail as AttachedEvent;
+                        const {element} = attachmentEvent;
+                        if(element === self){
+
+                        }
+                    }, {signal: controller.signal});
+                }
+            }
+            
+            let def = customElements.get(localName);
+            if(def === undefined) def = await customElements.whenDefined(localName);
+            const previouslySet = (<any>self)['beEnhanced'][enhancement];
+            enhancementInfo.initialPropValues = previouslySet;
+            //if(previouslySet instanceof def ) return previouslySet;
+            const ce = new def() as IEnhancement;
+            (<any>self)['beEnhanced'][enhancement] = ce;
+            await ce.attach(self, enhancementInfo);
+            //TODO:  leave this up to the individual enhancement
+            if(previouslySet !== undefined){
+                Object.assign(ce, previouslySet);
+            }
+            return ce;
+        });
+
     }
 
     async whenDetached(localName: string){

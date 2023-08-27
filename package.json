@@ -1,6 +1,6 @@
 {
   "name": "be-enhanced",
-  "version": "0.0.39",
+  "version": "0.0.42",
   "keywords": [
     "web-components",
     "web-component",
@@ -17,7 +17,6 @@
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
     "test": "playwright test",
-    "package-check": "package-check",
     "safari": "npx playwright wk http://localhost:3030",
     "update": "ncu -u && npm install"
   },
@@ -40,7 +39,7 @@
     "xtal-element": "0.0.577"
   },
   "devDependencies": {
-    "@playwright/test": "1.37.0",
+    "@playwright/test": "1.37.1",
     "may-it-serve": "0.0.5"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

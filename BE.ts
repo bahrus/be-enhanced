@@ -64,7 +64,14 @@ export class BE<TProps = any, TActions = TProps, TElement extends Element = Elem
                 resolve(true);
                 return;
             }
+            //TODO deprecate
             this.addEventListener('resolved-changed', e => {
+                console.warn({msg: 'Need to configure isEnh: true', enhancementInfo: this.enhancementInfo});
+                if(this.resolved){
+                    resolve(true);
+                }
+            });
+            this.addEventListener('resolved', e => {
                 if(this.resolved){
                     resolve(true);
                 }

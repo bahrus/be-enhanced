@@ -56,6 +56,32 @@ export class BeEnhanced extends EventTarget{
         throw 'Invalid name';
     }
 
+    async #attach2(enhancementInfo: EnhancementInfo){
+        const {self} = this;
+        const {localName, enhancement} = enhancementInfo;
+        let def = customElements.get(localName);
+        if(def === undefined) def = await customElements.whenDefined(localName);
+        const previouslySet = (<any>self)['beEnhanced'][enhancement];
+        enhancementInfo.initialPropValues = previouslySet;
+        //if(previouslySet instanceof def ) return previouslySet;
+        const ce = new def() as IEnhancement;
+        (<any>self)['beEnhanced'][enhancement] = ce;
+        await ce.attach(self, enhancementInfo);
+        //TODO:  leave this up to the individual enhancement
+        if(previouslySet !== undefined){
+            Object.assign(ce, previouslySet);
+        }
+        const {inProgress} = inProgressAttachments;
+        const inProgressForElement = inProgress.get(self);
+        if(inProgressForElement !== undefined){
+            inProgressForElement.delete(enhancement);
+            if(inProgressForElement.size === 0){
+                inProgress.delete(self);
+            }
+        }
+        return ce;
+    }
+
     #attach(localName: string): Promise<IEnhancement<Element>>{
         return new Promise(async (resolve, rejected) => {
             const enhancementInfo = this.#getEnhanceInfo(localName);
@@ -65,29 +91,25 @@ export class BeEnhanced extends EventTarget{
             if(inProgressForElement !== undefined){
                 if(inProgressForElement.has(enhancement)){
                     const controller = new AbortController();
-                    inProgressAttachments.addEventListener(enhancement, e => {
+                    inProgressAttachments.addEventListener(enhancement, async e => {
                         const attachmentEvent = (<CustomEvent>e).detail as AttachedEvent;
                         const {element} = attachmentEvent;
                         if(element === self){
-
+                            resolve(await this.#attach2(enhancementInfo));
+                            controller.abort();
                         }
                     }, {signal: controller.signal});
+                    return;
+                }else{
+                    inProgressForElement.add(enhancement);
                 }
+            }else{
+                const enhancements = new Set<string>();
+                enhancements.add(enhancement);
+                inProgressAttachments.inProgress.set(self, enhancements);
             }
+            resolve(await this.#attach2(enhancementInfo));
             
-            let def = customElements.get(localName);
-            if(def === undefined) def = await customElements.whenDefined(localName);
-            const previouslySet = (<any>self)['beEnhanced'][enhancement];
-            enhancementInfo.initialPropValues = previouslySet;
-            //if(previouslySet instanceof def ) return previouslySet;
-            const ce = new def() as IEnhancement;
-            (<any>self)['beEnhanced'][enhancement] = ce;
-            await ce.attach(self, enhancementInfo);
-            //TODO:  leave this up to the individual enhancement
-            if(previouslySet !== undefined){
-                Object.assign(ce, previouslySet);
-            }
-            return ce;
         });
 
     }

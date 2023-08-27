@@ -47,7 +47,6 @@ export class BeEnhanced extends EventTarget {
         test = `[${testKey}]`;
         if (self.matches(test))
             return testKey;
-        throw 'Invalid name';
     }
     async #attach2(enhancementInfo) {
         const { self } = this;
@@ -56,8 +55,9 @@ export class BeEnhanced extends EventTarget {
         if (def === undefined)
             def = await customElements.whenDefined(localName);
         const previouslySet = self['beEnhanced'][enhancement];
+        if (previouslySet instanceof def)
+            return previouslySet;
         enhancementInfo.initialPropValues = previouslySet;
-        //if(previouslySet instanceof def ) return previouslySet;
         const ce = new def();
         self['beEnhanced'][enhancement] = ce;
         await ce.attach(self, enhancementInfo);
@@ -125,7 +125,7 @@ export class BeEnhanced extends EventTarget {
     }
     #getEnhanceInfo(localName) {
         const enhancement = lispToCamel(localName);
-        const enh = this.getFQName(localName);
+        const enh = localName; // this.getFQName(localName);
         const enhancementInfo = {
             enhancement,
             localName,
@@ -134,27 +134,26 @@ export class BeEnhanced extends EventTarget {
         return enhancementInfo;
     }
     async whenAttached(localName) {
-        const { self } = this;
-        if (self.constructor !== undefined) {
-            return self;
-        }
         return await this.#attach(localName);
     }
-    async whenResolved(enh) {
+    async whenResolved(localName) {
         //const test = (<any>enh.beEnhanced
         //console.log(enh);
-        const enhancementS = lispToCamel(enh);
-        const test = (this.self?.enhancements || {})[enhancementS];
-        if (test !== undefined) {
-            if (test.resolved)
-                return test;
-            await test.whenResolved();
-        }
-        else {
-            const enhancement = await this.whenAttached(enh);
-            await enhancement.whenResolved();
+        // const enhancementS = lispToCamel(enh);
+        // const test = ((<any>this.self)?.enhancements || {}) [enhancementS];
+        // if(test !== undefined){
+        //     if(test.resolved) return test;
+        //     await test.whenResolved();
+        // }else{
+        //     const enhancement = await this.whenAttached(enh) as IEnhancement;
+        //     await enhancement.whenResolved();
+        //     return enhancement;
+        // }
+        const enhancement = await this.whenAttached(localName);
+        if (enhancement.resolved)
             return enhancement;
-        }
+        await enhancement.whenResolved();
+        return enhancement;
     }
 }
 const wm = new WeakMap();

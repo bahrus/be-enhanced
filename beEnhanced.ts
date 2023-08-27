@@ -53,7 +53,6 @@ export class BeEnhanced extends EventTarget{
         testKey = `data-enh-by-${localName}`;
         test = `[${testKey}]`;
         if(self.matches(test)) return testKey;
-        throw 'Invalid name';
     }
 
     async #attach2(enhancementInfo: EnhancementInfo){
@@ -62,8 +61,9 @@ export class BeEnhanced extends EventTarget{
         let def = customElements.get(localName);
         if(def === undefined) def = await customElements.whenDefined(localName);
         const previouslySet = (<any>self)['beEnhanced'][enhancement];
+        if(previouslySet instanceof def ) return previouslySet;
         enhancementInfo.initialPropValues = previouslySet;
-        //if(previouslySet instanceof def ) return previouslySet;
+        
         const ce = new def() as IEnhancement;
         (<any>self)['beEnhanced'][enhancement] = ce;
         await ce.attach(self, enhancementInfo);
@@ -133,7 +133,7 @@ export class BeEnhanced extends EventTarget{
 
     #getEnhanceInfo(localName: string){
         const enhancement = lispToCamel(localName);
-        const enh = this.getFQName(localName);
+        const enh = localName;// this.getFQName(localName);
         const enhancementInfo: EnhancementInfo = {
             enhancement,
             localName,
@@ -142,28 +142,27 @@ export class BeEnhanced extends EventTarget{
         return enhancementInfo;
     }
 
-    async whenAttached(localName: string){
-        const {self} = this;
-        if(self.constructor !== undefined){
-            return self;
-        }
+    async whenAttached(localName: Enh){
         return await this.#attach(localName);
     }
 
-    async whenResolved(enh: Enh){
+    async whenResolved(localName: Enh){
         //const test = (<any>enh.beEnhanced
         //console.log(enh);
-        const enhancementS = lispToCamel(enh);
-        const test = ((<any>this.self)?.enhancements || {}) [enhancementS];
-        if(test !== undefined){
-            if(test.resolved) return test;
-            await test.whenResolved();
-        }else{
-            const enhancement = await this.whenAttached(enh) as IEnhancement;
-            await enhancement.whenResolved();
-            return enhancement;
-        }
-        
+        // const enhancementS = lispToCamel(enh);
+        // const test = ((<any>this.self)?.enhancements || {}) [enhancementS];
+        // if(test !== undefined){
+        //     if(test.resolved) return test;
+        //     await test.whenResolved();
+        // }else{
+        //     const enhancement = await this.whenAttached(enh) as IEnhancement;
+        //     await enhancement.whenResolved();
+        //     return enhancement;
+        // }
+        const enhancement = await this.whenAttached(localName) as IEnhancement;
+        if(enhancement.resolved) return enhancement;
+        await enhancement.whenResolved();
+        return enhancement;
     }
 }
 

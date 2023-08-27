@@ -19,7 +19,7 @@ export class BE extends HTMLElement {
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
         const config = (this.constructor.beConfig || {});
-        const { primaryProp, primaryPropReq, parse } = config;
+        const { primaryProp, primaryPropReq, parse, isParsedProp } = config;
         const { previouslySet } = enhancementInfo;
         let gatewayVal = previouslySet;
         if (gatewayVal === undefined) {
@@ -41,6 +41,9 @@ export class BE extends HTMLElement {
             Object.assign(objToAssign, gatewayVal);
         }
         Object.assign(this, objToAssign);
+        if (isParsedProp !== undefined) {
+            Object.assign(this, { [isParsedProp]: true });
+        }
     }
     detach(detachedElement) { }
     whenResolved() {

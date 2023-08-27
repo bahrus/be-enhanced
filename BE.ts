@@ -24,7 +24,7 @@ export class BE<TProps = any, TActions = TProps, TElement extends Element = Elem
         this.#enhancementInfo = enhancementInfo;
         await this.connectedCallback();
         const config = ((this.constructor as any).beConfig || {}) as BEConfig;
-        const {primaryProp, primaryPropReq, parse} = config;
+        const {primaryProp, primaryPropReq, parse, isParsedProp} = config;
         const {previouslySet} = enhancementInfo;
         let gatewayVal = previouslySet;
         if(gatewayVal === undefined){
@@ -46,6 +46,9 @@ export class BE<TProps = any, TActions = TProps, TElement extends Element = Elem
             Object.assign(objToAssign as any, gatewayVal);
         }
         Object.assign(this, objToAssign);
+        if(isParsedProp !== undefined){
+            Object.assign(this, {[isParsedProp]: true});
+        }
     }
 
     detach(detachedElement: TElement){}

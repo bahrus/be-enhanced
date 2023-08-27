@@ -1,4 +1,4 @@
-import {Enhancement, IEnhancement, Enh} from './types';
+import {Enhancement, IEnhancement, Enh, EnhancementInfo} from './types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 export class BeEnhanced extends EventTarget{
@@ -78,6 +78,15 @@ export class BeEnhanced extends EventTarget{
     }
 
     async whenAttached(localName: string){
+        const {self} = this;
+        if(self.constructor !== undefined){
+            return self;
+        }
+        const enhancement = lispToCamel(localName);
+        const enhancementInfo: EnhancementInfo = {
+            enhancement,
+        };
+        
         const fqn = this.getFQName(localName);
         //const enh = this.getFQName(localName); 
         return await this.attachAttr(fqn || localName, localName);

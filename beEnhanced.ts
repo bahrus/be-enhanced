@@ -28,10 +28,10 @@ export class BeEnhanced extends EventTarget{
         return await this.attach(enhancement, enh, enh);
     }
 
-    async attachAttr(enh: Enh | undefined, localName: string){
-        const enhancement = lispToCamel(localName);
-        return await this.attach(enhancement, enh, localName);
-    }
+    // async attachAttr(enh: Enh | undefined, localName: string){
+    //     const enhancement = lispToCamel(localName);
+    //     return await this.attach(enhancement, enh, localName);
+    // }
 
     getFQName(localName: string){
         const {self} = this;
@@ -45,7 +45,8 @@ export class BeEnhanced extends EventTarget{
         if(self.matches(test)) return testKey;
     }
 
-    async attach(enhancement: Enhancement, enh: Enh | undefined, localName: string){
+    async attach(localName: string){
+        const enhancementInfo = this.#getEnhanceInfo(localName);
         const {self} = this;
         let def = customElements.get(localName);
         if(def === undefined) def = await customElements.whenDefined(localName);
@@ -77,19 +78,23 @@ export class BeEnhanced extends EventTarget{
         return previouslySet;
     }
 
+    #getEnhanceInfo(localName: string){
+        const enhancement = lispToCamel(localName);
+        const enh = this.getFQName(localName);
+        const enhancementInfo: EnhancementInfo = {
+            enhancement,
+            localName,
+            enh
+        };
+        return enhancementInfo;
+    }
+
     async whenAttached(localName: string){
         const {self} = this;
         if(self.constructor !== undefined){
             return self;
         }
-        const enhancement = lispToCamel(localName);
-        const enhancementInfo: EnhancementInfo = {
-            enhancement,
-        };
-        
-        const fqn = this.getFQName(localName);
-        //const enh = this.getFQName(localName); 
-        return await this.attachAttr(fqn || localName, localName);
+        return await this.attach(localName);
     }
 
     async whenResolved(enh: Enh){

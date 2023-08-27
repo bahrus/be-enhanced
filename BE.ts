@@ -25,7 +25,7 @@ export class BE<TProps = any, TActions = TProps, TElement extends Element = Elem
         await this.connectedCallback();
         const config = ((this.constructor as any).beConfig || {}) as BEConfig;
         const {primaryProp, primaryPropReq, parse, isParsedProp} = config;
-        const {previouslySet} = enhancementInfo;
+        const {initialPropValues: previouslySet} = enhancementInfo;
         let gatewayVal = previouslySet;
         if(gatewayVal === undefined){
             const t = (<any>enhancedElement).beEnhanced[enhancementInfo.enhancement];

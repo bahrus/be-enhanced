@@ -35,7 +35,7 @@ export class BeEnhanced extends EventTarget{
     async with(enhancement: Enhancement){
         const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
-        return await this.#attach(enhancement, enh, enh);
+        return await this.#attach(enh);
     }
 
     // async attachAttr(enh: Enh | undefined, localName: string){

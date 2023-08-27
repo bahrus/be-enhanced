@@ -20,7 +20,7 @@ export class BE extends HTMLElement {
         await this.connectedCallback();
         const config = (this.constructor.beConfig || {});
         const { primaryProp, primaryPropReq, parse, isParsedProp } = config;
-        const { previouslySet } = enhancementInfo;
+        const { initialPropValues: previouslySet } = enhancementInfo;
         let gatewayVal = previouslySet;
         if (gatewayVal === undefined) {
             const t = enhancedElement.beEnhanced[enhancementInfo.enhancement];

@@ -1,4 +1,4 @@
-import {Enhancement, IEnhancement, Enh, EnhancementInfo} from './types';
+import {Enhancement, IEnhancement, Enh, EnhancementInfo, FQN} from './types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 class InProgressAttachments extends EventTarget{
@@ -82,9 +82,9 @@ export class BeEnhanced extends EventTarget{
         return ce;
     }
 
-    #attach(localName: string): Promise<IEnhancement<Element>>{
+    #attach(fqn: FQN): Promise<IEnhancement<Element>>{
         return new Promise(async (resolve, rejected) => {
-            const enhancementInfo = this.#getEnhanceInfo(localName);
+            const enhancementInfo = this.#getEnhanceInfo(fqn);
             const {enhancement, enh} = enhancementInfo;
             const {self} = this;
             const inProgressForElement = inProgressAttachments.inProgress.get(self);
@@ -131,19 +131,21 @@ export class BeEnhanced extends EventTarget{
         return previouslySet;
     }
 
-    #getEnhanceInfo(localName: string){
-        const enhancement = lispToCamel(localName);
-        const enh = localName;// this.getFQName(localName);
+    #getEnhanceInfo(fqn: string){
+        const enh = fqn.replace('data-enh-by-', '').replace('enh-by-', '')
+        const enhancement = lispToCamel(enh);
+        //const enh = fqn;// this.getFQName(localName);
         const enhancementInfo: EnhancementInfo = {
             enhancement,
-            localName,
-            enh
+            localName: enh,
+            enh,
+            fqn
         };
         return enhancementInfo;
     }
 
-    async whenAttached(localName: Enh){
-        return await this.#attach(localName);
+    async whenAttached(fqn: Enh){
+        return await this.#attach(fqn);
     }
 
     async whenResolved(localName: Enh){

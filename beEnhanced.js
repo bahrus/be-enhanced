@@ -75,9 +75,9 @@ export class BeEnhanced extends EventTarget {
         }
         return ce;
     }
-    #attach(localName) {
+    #attach(fqn) {
         return new Promise(async (resolve, rejected) => {
-            const enhancementInfo = this.#getEnhanceInfo(localName);
+            const enhancementInfo = this.#getEnhanceInfo(fqn);
             const { enhancement, enh } = enhancementInfo;
             const { self } = this;
             const inProgressForElement = inProgressAttachments.inProgress.get(self);
@@ -123,18 +123,20 @@ export class BeEnhanced extends EventTarget {
         }
         return previouslySet;
     }
-    #getEnhanceInfo(localName) {
-        const enhancement = lispToCamel(localName);
-        const enh = localName; // this.getFQName(localName);
+    #getEnhanceInfo(fqn) {
+        const enh = fqn.replace('data-enh-by-', '').replace('enh-by-', '');
+        const enhancement = lispToCamel(enh);
+        //const enh = fqn;// this.getFQName(localName);
         const enhancementInfo = {
             enhancement,
-            localName,
-            enh
+            localName: enh,
+            enh,
+            fqn
         };
         return enhancementInfo;
     }
-    async whenAttached(localName) {
-        return await this.#attach(localName);
+    async whenAttached(fqn) {
+        return await this.#attach(fqn);
     }
     async whenResolved(localName) {
         //const test = (<any>enh.beEnhanced

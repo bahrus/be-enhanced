@@ -2,6 +2,7 @@ import { JSONValue } from "trans-render/lib/types";
 
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
+export type FQN = string;
 
 export interface AllProps {
     resolved: boolean;
@@ -11,6 +12,7 @@ export interface AllProps {
 export interface EnhancementInfo {
     enhancement: Enhancement,
     enh: Enh,
+    fqn: FQN,
     localName: string,
     initialPropValues?: any,
 }

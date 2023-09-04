@@ -4,14 +4,12 @@ import {JSONValue} from 'trans-render/lib/types';
 declare const Sanitizer: any;
 
 export async function parse(enhancement: BE, config: BEConfig, gatewayVal: string | null): Promise<JSONValue>{
-    //console.log('begin parse', performance.now());
     const {enhancementInfo, enhancedElement} = enhancement;
-    const {enh} = enhancementInfo;
-    if(enh === undefined) return {};
-    let attr = enhancedElement.getAttribute(enh) || gatewayVal;
+    const {fqn} = enhancementInfo;
+    if(fqn === undefined) return {};
+    let attr = enhancedElement.getAttribute(fqn) || gatewayVal;
 
     if( attr === null) {
-        //console.log('empty attr', performance.now(), enhancement.localName);
         return {};
     }
     
@@ -19,10 +17,8 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
     enhancement.parsedFrom = attr;
     const {cache} = config;
     if(cache?.has(attr)){
-        //console.log('return from cache', performance.now(), enhancement.localName);
         return cache!.get(attr)!;
     } 
-    //console.log({attr});
     if(typeof Sanitizer !== 'undefined'){
         const sanitizer = new Sanitizer();
         if(sanitizer.sanitizeFor !== undefined){
@@ -68,7 +64,6 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
                     await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
                     return saveAndReturn( objToAssign, attr, cache);
                 }else{
-                    //const {camelize} = await import('./camelize.js');
                     return saveAndReturn({
                         [primaryProp]: camelize(attr, config)
                     }, attr, cache);

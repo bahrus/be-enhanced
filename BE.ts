@@ -35,13 +35,14 @@ export class BE<TProps = any, TActions = TProps, TElement extends Element = Elem
         }
         const attr = (gatewayVal && typeof gatewayVal === 'string') ? gatewayVal : null;
         const objToAssign = parse ? await this.parse(config, attr) : {};
-        if(primaryPropReq && gatewayVal){
-            if(!gatewayVal[primaryProp!]){
-                gatewayVal = {
-                    [primaryProp!]: gatewayVal
-                };
-            }
-        }
+        // code commented out below to make be-definitive demo IIa work.
+        // if(primaryPropReq && gatewayVal){
+        //     if(!gatewayVal[primaryProp!]){
+        //         gatewayVal = {
+        //             [primaryProp!]: gatewayVal
+        //         };
+        //     }
+        // }
         if(gatewayVal instanceof Object){
             Object.assign(objToAssign as any, gatewayVal);
         }

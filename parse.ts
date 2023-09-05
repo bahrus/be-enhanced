@@ -28,8 +28,7 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
     }
     try{
         const firstChar = attr[0];
-        const {primaryProp} = config;
-        const {parseAndCamelize} = config;
+        const {primaryProp, parseAndCamelize} = config;
         if (firstChar === '{' || firstChar === '[') {
             
             if(parseAndCamelize){

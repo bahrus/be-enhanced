@@ -21,8 +21,7 @@ export async function parse(enhancement, config, gatewayVal) {
     }
     try {
         const firstChar = attr[0];
-        const { primaryProp } = config;
-        const { parseAndCamelize } = config;
+        const { primaryProp, parseAndCamelize } = config;
         if (firstChar === '{' || firstChar === '[') {
             if (parseAndCamelize) {
                 const { parseAndCamelize } = await import('./parseAndCamelize.js');

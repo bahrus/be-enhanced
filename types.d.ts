@@ -40,7 +40,7 @@ export interface BEConfig<TPrimaryProp = any>{
     camelizeOptions?: CamelizeOptions<TPrimaryProp>;
     defaultBucket?: string; //TODO
     isParsedProp?: string;
-    attachWhenConnected?: boolean;
+    attachWhenConnected?: boolean; //TODO
 }
 
 export interface CamelizeOptions<TPrimaryProp = any>{

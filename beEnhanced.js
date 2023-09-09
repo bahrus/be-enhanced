@@ -138,24 +138,12 @@ export class BeEnhanced extends EventTarget {
     async whenAttached(fqn) {
         return await this.#attach(fqn);
     }
-    async whenResolved(localName) {
-        //const test = (<any>enh.beEnhanced
-        //console.log(enh);
-        // const enhancementS = lispToCamel(enh);
-        // const test = ((<any>this.self)?.enhancements || {}) [enhancementS];
-        // if(test !== undefined){
-        //     if(test.resolved) return test;
-        //     await test.whenResolved();
-        // }else{
-        //     const enhancement = await this.whenAttached(enh) as IEnhancement;
-        //     await enhancement.whenResolved();
-        //     return enhancement;
-        // }
-        const enhancementInfo = this.#getEnhanceInfo(localName);
+    async whenResolved(fqn) {
+        const enhancementInfo = this.#getEnhanceInfo(fqn);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
         if (typeof test?.constructor === 'function' && test.resolved)
             return test;
-        const enhancement = await this.whenAttached(localName);
+        const enhancement = await this.whenAttached(fqn);
         if (enhancement.resolved)
             return enhancement;
         await enhancement.whenResolved();

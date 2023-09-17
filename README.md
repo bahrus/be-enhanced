@@ -1,4 +1,4 @@
-# be-enhanced
+# be-enhanced [WIP]
 
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-enhanced?style=for-the-badge)](https://bundlephobia.com/result?p=be-enhanced)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-enhanced?compression=gzip">

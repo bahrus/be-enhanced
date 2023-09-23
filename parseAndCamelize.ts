@@ -7,9 +7,14 @@ export function parseAndCamelize(json: string, config: BEConfig): JSONObject | J
         return split.map(s => parseAndCamelize(s, config) as JSONObject)
     }
     const lastChar = json!.lastIndexOf('}');
-    const strToCamelize = json!.substring(lastChar + 1);
-    json = json?.substring(0, lastChar + 1);
-    const parsedObj = JSON.parse(json!);
+    let parsedObj = {};
+    let strToCamelize = json;
+    if(lastChar > -1){
+        strToCamelize = json!.substring(lastChar + 1);
+        json = json?.substring(0, lastChar + 1);
+        parsedObj = JSON.parse(json!);
+    }
+    
     //TODO:  conditionally load code below only if string after JSON is non trivial
     const statements = strToCamelize.split('.');
     const objToMerge: {[key: string]: string[]} = {};

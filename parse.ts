@@ -29,50 +29,32 @@ export async function parse(enhancement: BE, config: BEConfig, gatewayVal: strin
     try{
         const firstChar = attr[0];
         const {primaryProp, parseAndCamelize} = config;
+        if(parseAndCamelize){
+            const {parseAndCamelize} = await import('./parseAndCamelize.js');
+            const pAndC =  parseAndCamelize(attr, config);
+            if(primaryProp !== undefined) {
+                return saveAndReturn( {[primaryProp]: pAndC}, attr, cache);
+            }else{
+                return saveAndReturn( pAndC, attr, cache);
+            }
+        }
         if (firstChar === '{' || firstChar === '[') {
             
-            if(parseAndCamelize){
-                const {parseAndCamelize} = await import('./parseAndCamelize.js');
-                
-                const pAndC =  parseAndCamelize(attr, config);
-                if(primaryProp !== undefined) {
-                    return saveAndReturn( {[primaryProp]: pAndC}, attr, cache);
-                }else{
-                    return saveAndReturn( pAndC, attr, cache);
-                }
-            }else{
-                const obj = JSON.parse(attr);
-                const {primaryPropReq} = config;
-                if(primaryProp && primaryPropReq && obj[primaryProp] === undefined){
-                    return saveAndReturn( {
-                        [primaryProp]: obj
-                    }, attr, cache);
-                }
-                return saveAndReturn(obj, attr, cache);
-            }
-
-        }else if(primaryProp !== undefined){
-            if(parseAndCamelize){
-                const {camelizeOptions} = config;
-                const {camelize} = await import('./camelize.js');
-                if(camelizeOptions !== undefined){
-                    const {camelPlus} = await import('./camelPlus.js');
-                    const objToAssign = {
-                        [primaryProp]: camelize(attr, config)
-                    };
-                    await camelPlus(objToAssign, camelizeOptions, primaryProp, config);
-                    return saveAndReturn( objToAssign, attr, cache);
-                }else{
-                    return saveAndReturn({
-                        [primaryProp]: camelize(attr, config)
-                    }, attr, cache);
-                }
-
-            }else{
+           
+            const obj = JSON.parse(attr);
+            const {primaryPropReq} = config;
+            if(primaryProp && primaryPropReq && obj[primaryProp] === undefined){
                 return saveAndReturn( {
-                    [primaryProp]: attr
+                    [primaryProp]: obj
                 }, attr, cache);
             }
+            return saveAndReturn(obj, attr, cache);
+
+        }else if(primaryProp !== undefined){
+
+            return saveAndReturn( {
+                [primaryProp]: attr
+            }, attr, cache);
 
         }else{
             //console.log('return empty', performance.now());

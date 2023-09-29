@@ -66,8 +66,15 @@ export class BeEnhanced extends EventTarget {
             Object.assign(ce, previouslySet);
         }
         const { inProgress } = inProgressAttachments;
+        //console.log(enhancementInfo);
+        inProgressAttachments.dispatchEvent(new CustomEvent(enhancement, {
+            detail: {
+                element: self
+            }
+        }));
         const inProgressForElement = inProgress.get(self);
         if (inProgressForElement !== undefined) {
+            console.log('iah');
             inProgressForElement.delete(enhancement);
             if (inProgressForElement.size === 0) {
                 inProgress.delete(self);
@@ -84,7 +91,9 @@ export class BeEnhanced extends EventTarget {
             if (inProgressForElement !== undefined) {
                 if (inProgressForElement.has(enhancement)) {
                     const controller = new AbortController();
+                    console.log('addEventListener', enhancement);
                     inProgressAttachments.addEventListener(enhancement, async (e) => {
+                        console.log('iah');
                         const attachmentEvent = e.detail;
                         const { element } = attachmentEvent;
                         if (element === self) {

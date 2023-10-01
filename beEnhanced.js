@@ -147,7 +147,7 @@ export class BeEnhanced extends EventTarget {
     async whenAttached(fqn) {
         const enhancementInfo = this.#getEnhanceInfo(fqn);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
-        if (typeof test?.constructor === 'function')
+        if (test instanceof Element)
             return test;
         return await this.#attach(fqn);
     }

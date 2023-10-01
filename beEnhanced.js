@@ -147,18 +147,20 @@ export class BeEnhanced extends EventTarget {
     async whenAttached(fqn) {
         const enhancementInfo = this.#getEnhanceInfo(fqn);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
-        if (typeof test?.constructor === 'function' && test.resolved)
+        if (typeof test?.constructor === 'function')
             return test;
         return await this.#attach(fqn);
     }
     async whenResolved(fqn) {
         const enhancementInfo = this.#getEnhanceInfo(fqn);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
-        if (typeof test?.constructor === 'function' && test.resolved)
+        if (typeof test?.constructor === 'function' && test.resolved) {
             return test;
+        }
         const enhancement = await this.whenAttached(fqn);
-        if (enhancement.resolved)
+        if (enhancement.resolved) {
             return enhancement;
+        }
         await enhancement.whenResolved();
         return enhancement;
     }

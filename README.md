@@ -97,8 +97,9 @@ Prior to that, there was the heretical [htc behaviors](https://en.wikipedia.org/
 | be-sharing          | [Share](https://github.com/bahrus/be-sharing) values from the adorned element to peer elements.        | [code](https://github.com/bahrus/be-sharing/blob/baseline/be-sharing.ts)                                    |
 | be-switched         | [Lazy loads](https://github.com/bahrus/be-switched) content when conditions are met.                   | [code](https://github.com/bahrus/be-switched/blob/baseline/be-switched.ts)                                  |
 | be-typed            | Allow the user to customize [input](https://github.com/bahrus/be-typed) element during run time.       | [code](https://github.com/bahrus/be-typed/blob/baseline/be-typed.ts)                                        |
+| be-value-added      | Add a [value](https://github.com/bahrus/be-value-added) property used for formatting.                  | [code](https://github.com/bahrus/be-value-added)                                                            |
 | be-valued           | Reflect [value](https://github.com/bahrus/be-valued) of input to the value attribute on input event.   | [code](https://github.com/bahrus/be-valued/blob/baseline/be-valued.ts)                                      |
-| be-written          | [Stream](https://github.com/bahrus/be-written) a url to a target DOM element.                   | [code](https://github.com/bahrus/be-written/blob/baseline/be-written.ts)                                           |
+| be-written          | [Stream](https://github.com/bahrus/be-written) a url to a target DOM element.                          | [code](https://github.com/bahrus/be-written/blob/baseline/be-written.ts)                                    |
 
 ## The be-enhancement api
 

@@ -105,7 +105,7 @@ export class BeEnhanced extends EventTarget{
                         const attachmentEvent = (<CustomEvent>e).detail as AttachedEvent;
                         const {element} = attachmentEvent;
                         if(element === self){
-                            resolve(await this.#attach2(enhancementInfo));
+                            resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
                             controller.abort();
                         }
                     }, {signal: controller.signal});
@@ -118,7 +118,7 @@ export class BeEnhanced extends EventTarget{
                 enhancements.add(enhancement);
                 inProgressAttachments.inProgress.set(self, enhancements);
             }
-            resolve(await this.#attach2(enhancementInfo));
+            resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
             
         });
 

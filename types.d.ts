@@ -34,7 +34,11 @@ export interface IBE<TElement = Element> extends IEnhancement<TElement>{
 export interface BEConfig<TPrimaryProp = any>{
     parse?: boolean;
     cache?: Map<string, JSONValue>;
-    primaryProp?: string;
+    /**
+     * For JSON configured enhancements, this is the property that a primitive
+     * string attribute gets assigned to.
+     */
+    primaryProp?: keyof TPrimaryProp & string;
     primaryPropReq?: boolean;
     parseAndCamelize?: boolean;
     camelizeOptions?: CamelizeOptions<TPrimaryProp>;

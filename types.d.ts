@@ -39,8 +39,12 @@ export interface BEConfig<TPrimaryProp = any>{
     parseAndCamelize?: boolean;
     camelizeOptions?: CamelizeOptions<TPrimaryProp>;
     defaultBucket?: string; //TODO
-    isParsedProp?: string;
+    isParsedProp?: keyof TPrimaryProp & string;
     attachWhenConnected?: boolean; //TODO
+    /**
+     * Used to signify the "main" property that holds state for enhancement.
+     */
+    stateProp?: keyof TPrimaryProp & string;
 }
 
 export interface CamelizeOptions<TPrimaryProp = any>{

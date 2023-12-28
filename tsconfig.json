@@ -13,7 +13,8 @@
 		"camelize.ts",
 		"camelPlus.ts",
 		"cpu.ts",
-		"findAdjacentElement.ts"
+		"findAdjacentElement.ts",
+		"TREnhancementEngagement.ts"
 	],
 	"exclude":[
 		"node_modules"

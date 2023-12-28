@@ -1,4 +1,5 @@
 import { JSONValue } from "trans-render/lib/types";
+import {EngagementCtx} from 'trans-render/types';
 
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
@@ -70,3 +71,10 @@ export interface BeSplitOutput {
     eventName: string,
     path: string,
 }
+
+export interface TREnhancementEngagementProps {}
+export interface TREnhancementEngagementMethods{
+    attachEnhancement(model: any, el: Element, ctx: EngagementCtx<any>): Promise<IBE>
+}
+export interface TREnhancementEngagement extends HTMLElement, TREnhancementEngagementProps, TREnhancementEngagementMethods{}
+export type TREnhancementEngagementType = {new(): TREnhancementEngagement}

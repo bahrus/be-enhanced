@@ -27,7 +27,8 @@
     "./camelize.js": "./camelize.js",
     "./camelPlus.js": "./camelPlus.js",
     "./cpu.js": "./cpu.js",
-    "./parseAndCamelize.js": "./parseAndCamelize.js"
+    "./parseAndCamelize.js": "./parseAndCamelize.js",
+    "./TREnhancementEngagement.js": "./TREnhancementEngagement"
   },
   "files": [
     "*.js",

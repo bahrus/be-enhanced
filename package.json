@@ -27,8 +27,7 @@
     "./camelize.js": "./camelize.js",
     "./camelPlus.js": "./camelPlus.js",
     "./cpu.js": "./cpu.js",
-    "./parseAndCamelize.js": "./parseAndCamelize.js",
-    "./TREnhancementEngagement.js": "./TREnhancementEngagement"
+    "./parseAndCamelize.js": "./parseAndCamelize.js"
   },
   "files": [
     "*.js",
@@ -36,8 +35,8 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.717",
-    "xtal-element": "0.0.580"
+    "trans-render": "0.0.724",
+    "xtal-element": "0.0.581"
   },
   "devDependencies": {
     "@playwright/test": "1.40.1",

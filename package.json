@@ -35,8 +35,8 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.724",
-    "xtal-element": "0.0.581"
+    "trans-render": "0.0.726",
+    "xtal-element": "0.0.583"
   },
   "devDependencies": {
     "@playwright/test": "1.40.1",

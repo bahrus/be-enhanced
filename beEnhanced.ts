@@ -47,10 +47,10 @@ export class BeEnhanced extends EventTarget{
         const {self} = this;
         const allowNonNamespaced = !self.localName.includes('-');
         if(allowNonNamespaced && self.matches(`[${localName}]`)) return localName;
-        let testKey = `enh-by-${localName}`;
+        let testKey = `enh-${localName}`;
         let test = `[${testKey}]`;
         if(self.matches(test)) return testKey;
-        testKey = `data-enh-by-${localName}`;
+        testKey = `data-enh-${localName}`;
         test = `[${testKey}]`;
         if(self.matches(test)) return testKey;
     }
@@ -142,7 +142,7 @@ export class BeEnhanced extends EventTarget{
     }
 
     #getEnhanceInfo(fqn: string){
-        const enh = fqn.replace('data-enh-by-', '').replace('enh-by-', '')
+        const enh = fqn.replace('data-enh-', '').replace('enh-', '')
         const enhancement = lispToCamel(enh);
         //const enh = fqn;// this.getFQName(localName);
         const enhancementInfo: EnhancementInfo = {

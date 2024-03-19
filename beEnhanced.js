@@ -26,9 +26,17 @@ export class BeEnhanced extends EventTarget {
         return this.#proxy;
     }
     async with(enhancement) {
+        debugger;
         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
-        return await this.#attach(enh);
+        const enhancementInfo = {
+            enh,
+            enhancement,
+            fqn: enh,
+            ifWantsToBe: enh.replace('be-', ''),
+            localName: enh
+        };
+        return await this.#attach(enhancementInfo);
     }
     // async attachAttr(enh: Enh | undefined, localName: string){
     //     const enhancement = lispToCamel(localName);
@@ -83,9 +91,8 @@ export class BeEnhanced extends EventTarget {
         }
         return ce;
     }
-    #attach(fqn) {
+    #attach(enhancementInfo) {
         return new Promise(async (resolve, rejected) => {
-            const enhancementInfo = this.#getEnhanceInfo(fqn);
             const { enhancement, enh } = enhancementInfo;
             const { self } = this;
             const inProgressForElement = inProgressAttachments.inProgress.get(self);
@@ -133,32 +140,45 @@ export class BeEnhanced extends EventTarget {
         }
         return previouslySet;
     }
-    #getEnhanceInfo(fqn) {
+    #getEnhanceInfo(fqn, ifWantsToBe, localName) {
         const enh = fqn.replace('data-enh-', '').replace('enh-', '');
-        const enhancement = lispToCamel(enh);
+        if (localName === undefined)
+            localName = enh;
+        if (ifWantsToBe === undefined)
+            ifWantsToBe = enh.replace('be-', '');
+        const enhancement = lispToCamel(localName);
         //const enh = fqn;// this.getFQName(localName);
         const enhancementInfo = {
             enhancement,
-            localName: enh,
+            localName,
             enh,
-            fqn
+            fqn,
+            ifWantsToBe
         };
         return enhancementInfo;
     }
-    async whenAttached(fqn) {
-        const enhancementInfo = this.#getEnhanceInfo(fqn);
+    async whenAttached(localName, ifWantsToBe, fqn) {
+        if (ifWantsToBe === undefined)
+            ifWantsToBe = localName.replace('be-', '');
+        if (fqn === undefined)
+            fqn = localName;
+        const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
         if (test instanceof Element)
             return test;
-        return await this.#attach(fqn);
+        return await this.#attach(enhancementInfo);
     }
-    async whenResolved(fqn) {
-        const enhancementInfo = this.#getEnhanceInfo(fqn);
+    async whenResolved(localName, ifWantsToBe, fqn) {
+        if (ifWantsToBe === undefined)
+            ifWantsToBe = localName.replace('be-', '');
+        if (fqn === undefined)
+            fqn = localName;
+        const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
         const test = this.self?.beEnhanced[enhancementInfo.enhancement];
         if (typeof test?.constructor === 'function' && test.resolved) {
             return test;
         }
-        const enhancement = await this.whenAttached(fqn);
+        const enhancement = await this.whenAttached(localName, ifWantsToBe, fqn);
         if (enhancement.resolved) {
             return enhancement;
         }

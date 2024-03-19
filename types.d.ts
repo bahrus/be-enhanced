@@ -16,6 +16,7 @@ export interface EnhancementInfo {
     fqn: FQN,
     localName: string,
     initialPropValues?: any,
+    ifWantsToBe: string
 }
 export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
     attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;

@@ -34,16 +34,17 @@ export class BeEnhanced extends EventTarget {
     //     const enhancement = lispToCamel(localName);
     //     return await this.attach(enhancement, enh, localName);
     // }
-    getFQName(localName) {
+    getFQName(localName, ifWantsToBe) {
         const { self } = this;
         const allowNonNamespaced = !self.localName.includes('-');
-        if (allowNonNamespaced && self.matches(`[${localName}]`))
-            return localName;
-        let testKey = `enh-${localName}`;
+        const nonPrefixedName = `be-${ifWantsToBe}`;
+        if (allowNonNamespaced && self.matches(`[${nonPrefixedName}]`))
+            return nonPrefixedName;
+        let testKey = `enh-${nonPrefixedName}`;
         let test = `[${testKey}]`;
         if (self.matches(test))
             return testKey;
-        testKey = `data-enh-${localName}`;
+        testKey = `data-enh-${nonPrefixedName}`;
         test = `[${testKey}]`;
         if (self.matches(test))
             return testKey;

@@ -33,7 +33,6 @@ export class BeEnhanced extends EventTarget{
     }
 
     async with(enhancement: Enhancement){
-        debugger;
         const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
         const enh = camelToLisp(enhancement);
         const enhancementInfo: EnhancementInfo = {

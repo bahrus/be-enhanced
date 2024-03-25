@@ -63,7 +63,7 @@ export type Declarations = {[key: string]: any}
 
 export interface RegExpExt<TStatementGroup = any>{
     regExp: RegExp,
-    defaultVals: TStatementGroup,
+    defaultVals: Partial<TStatementGroup>,
 }
 
 export type RegExpOrRegExpExt<TStatementGroup = any> = RegExp | RegExpExt<TStatementGroup>;

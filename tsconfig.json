@@ -9,11 +9,8 @@
 	},
 	"files": [
 		"beEnhanced.ts",
-		"legacy/BE.ts",
-		"legacy/camelize.ts",
-		"legacy/camelPlus.ts",
-		"legacy/cpu.ts",
-		"findAdjacentElement.ts"
+		"BE.ts",
+		"config.ts"
 	],
 	"exclude":[
 		"node_modules"

@@ -16,7 +16,26 @@ export class BE extends HTMLElement {
     async attach(el, enhancementInfo) {
         this.#ee = el;
         this.#ei = enhancementInfo;
+        this.covertAssignment({ enhancedElement: el });
+        const props = this.constructor.props;
+        this.#propUp(props, enhancementInfo);
         await this.#instantiateRoundaboutIfApplicable();
+    }
+    /**
+     * Needed for asynchronous loading
+     * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+     * @param defaultValues:   If property value not set, set it from the defaultValues lookup
+     * @private
+     */
+    #propUp(props, enhancementInfo) {
+        const { initialPropValues } = enhancementInfo;
+        for (const key in props) {
+            const propInfo = props[key];
+            const value = initialPropValues?.[key] || propInfo.def;
+            if (value !== undefined) {
+                this[publicPrivateStore][key] = value;
+            }
+        }
     }
     async detach(el) {
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));

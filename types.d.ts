@@ -5,7 +5,7 @@ export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
 export type FQN = string;
 
-export interface AllProps {
+export interface BEAllProps {
     resolved: boolean;
     rejected: boolean;
 }
@@ -18,12 +18,12 @@ export interface EnhancementInfo {
     initialPropValues?: any,
     ifWantsToBe: string
 }
-export interface IEnhancement<TElement = Element> extends AllProps, HTMLElement{
+export interface IEnhancement<TElement = Element> extends BEAllProps, HTMLElement{
     attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;
     detach(el: TElement): Promise<void>;
     resolved: boolean;
     rejected: boolean;
-    //readonly enhancedElement: TElement;
+    readonly enhancedElement: TElement;
     whenResolved(): Promise<boolean>;
     de(src: EventTarget, name: string) : Event
     //parsedFrom: string;

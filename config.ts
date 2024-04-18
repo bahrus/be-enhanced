@@ -2,6 +2,9 @@ import { BEConfig, IEnhancement } from "./types";
 
 export const config: BEConfig<IEnhancement> = {
     propInfo: {
+        enhancedElement:{
+            ro: true,
+        },
         resolved: {
             ro: true,
         },

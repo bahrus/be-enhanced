@@ -1,7 +1,7 @@
 import {RoundaboutReady} from 'trans-render/froop/types';
 import {assignGingerly} from 'trans-render/lib/assignGingerly.js';
 import { RoundAbout } from 'trans-render/froop/roundabout.js';
-import { EnhancementInfo, IEnhancement, BEConfig, PropInfo, PropLookup, AllProps } from './types';
+import { EnhancementInfo, IEnhancement, BEConfig, PropInfo, PropLookup, BEAllProps } from './types';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
 export {BEConfig} from './types';
 const publicPrivateStore = Symbol();
@@ -26,7 +26,29 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     async attach(el: TElement, enhancementInfo: EnhancementInfo){
         this.#ee = el;
         this.#ei = enhancementInfo;
+        this.covertAssignment({enhancedElement: el} as TProps);
+        const props = (<any>this.constructor).props as PropLookup;
+        this.#propUp(props, enhancementInfo);
         await this.#instantiateRoundaboutIfApplicable();
+    }
+
+    /**
+     * Needed for asynchronous loading
+     * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+     * @param defaultValues:   If property value not set, set it from the defaultValues lookup
+     * @private
+     */
+    #propUp<T>(props: PropLookup, enhancementInfo: EnhancementInfo){
+        const {initialPropValues} = enhancementInfo;
+        for(const key in props){
+            const propInfo = props[key];
+            const value = initialPropValues?.[key] || propInfo.def;
+            if(value !== undefined){
+                (<any>this[publicPrivateStore])[key] = value;
+            }
+
+
+        }
     }
 
     async detach(el: TElement){
@@ -152,13 +174,13 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     static props: PropLookup = {};
 }
 
-export interface BE extends AllProps{}
+export interface BE<TProps = any, TActions=TProps, TElement extends Element = Element> extends BEAllProps, IEnhancement<TElement>{}
 
 const defaultProp: PropInfo = {
     dry: true,
 };
 
-export const propDefaults: Partial<{[key in keyof AllProps]: IEnhancement[key]}> = {
+export const propDefaults: Partial<{[key in keyof BEAllProps]: IEnhancement[key]}> = {
     resolved: false,
     rejected: false,
 }

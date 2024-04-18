@@ -1,5 +1,8 @@
 export const config = {
     propInfo: {
+        enhancedElement: {
+            ro: true,
+        },
         resolved: {
             ro: true,
         },

@@ -1,4 +1,4 @@
-import {CamelizeOptions, BEConfig} from './types';
+import {CamelizeOptions, BEConfig} from '../types.js';
 export async function camelPlus(objToAssign: any, options: CamelizeOptions, primaryProp: string, config: BEConfig){
     const {doSets, simpleSets, booleans} = options;
     const camelConfig = objToAssign[primaryProp];

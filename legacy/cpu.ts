@@ -1,4 +1,4 @@
-import {Declarations, RegExpOrRegExpExt} from './types';
+import {Declarations, RegExpOrRegExpExt} from '../types';
 //camel parse utilities
 
 export function lc(s: string){

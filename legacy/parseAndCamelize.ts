@@ -1,5 +1,5 @@
 import {JSONObject} from 'trans-render/lib/types';
-import { BEConfig } from './types';
+import { BEConfig } from '../types';
 export function parseAndCamelize(json: string, config: BEConfig): JSONObject | JSONObject[]{
     if(json.startsWith('```')){
         const split = json.split('```').filter(s => s.trim() !== '');

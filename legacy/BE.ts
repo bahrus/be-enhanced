@@ -1,4 +1,4 @@
-import {IEnhancement, IBE, AllProps, EnhancementInfo, BEConfig} from './types';
+import {IEnhancement, IBE, AllProps, EnhancementInfo, BEConfig} from '../types.js';
 import {XEArgs, PropInfoExt} from 'xtal-element/types';
 import {JSONValue} from 'trans-render/lib/types';
 
@@ -96,18 +96,18 @@ export const propDefaults: Partial<{[key in keyof AllProps]: IEnhancement[key]}>
     rejected: false,
 }
 
-export const propInfo: Partial<{[key in keyof AllProps]: PropInfoExt<IEnhancement>}> = {
-    resolved: {
-        notify: {
-            dispatch: true
-        }
-    },
-    rejected:  {
-        notify: {
-            dispatch: true
-        }
-    }
-}
+// export const propInfo: Partial<{[key in keyof AllProps]: PropInfoExt<IEnhancement>}> = {
+//     resolved: {
+//         notify: {
+//             dispatch: true
+//         }
+//     },
+//     rejected:  {
+//         notify: {
+//             dispatch: true
+//         }
+//     }
+// }
 
 
 

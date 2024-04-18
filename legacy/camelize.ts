@@ -1,4 +1,4 @@
-import { BEConfig } from "./types";
+import { BEConfig } from "../types";
 
 export function camelize(strToCamelize: string, config: BEConfig){
     const statements = strToCamelize.split('.');

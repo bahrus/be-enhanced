@@ -1,5 +1,5 @@
 import {BE} from './BE.js';
-import {BEConfig} from './types';
+import {BEConfig} from '../types.js';
 import {JSONValue} from 'trans-render/lib/types';
 declare const Sanitizer: any;
 

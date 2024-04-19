@@ -7,11 +7,11 @@
 
 be-enhanced provides a base class that enables "casting spells", or enhancing server-rendered DOM elements based on cross-cutting custom attributes.  These base classes can also be used during template instantiation for a more optimal repeated web component scenario. 
 
-be-enhanced, which focuses on adding custom properties to an element, and [be-hive](https://github.com/bahrus/be-hive), which focuses on attaching the custom property based on the matching custom attribute, together form a simplified userland implementation of [this proposal](https://github.com/WICG/webcomponents/issues/1000).  Whereas that proposal builds on this [really nice idea](https://github.com/WICG/webcomponents/issues/1029#issuecomment-1719996635) and allows for a mapping from one "behavior" or "enhancement" to any number of custom attributes (including none), be-enhanced only supports a one-to-one mapping, and doesn't support observing changes to the values of the attributes (as I prefer working through the enhancement property gateway).
+be-enhanced, which focuses on adding custom properties to an element, and [be-hive](https://github.com/bahrus/be-hive), which focuses on attaching the custom property based on a list of 1 or more attributes to observe, together form a simplified userland implementation of [this proposal](https://github.com/WICG/webcomponents/issues/1000).  Based on the [really nice idea](https://github.com/WICG/webcomponents/issues/1029#issuecomment-1719996635) of supporting multiple attributes, this componennt is migrating to something that is oblivious to any attributes, leaving the task of tying the knot between attributes and associated enhancements to *be-hive* exclusively.  
 
-be-enhanced provides a much more "conservative" alternative approach to enhancing existing DOM elements, in place of the controversial "is"-based customized built-in element [standard-ish](https://bkardell.com/blog/TheWalrus.html).  There are, however, a small number of use cases where the is-based built-in approach [may be](https://github.com/WebKit/standards-positions/issues/97) the preferred one.
+*be-enhanced*, together with *be-hive*, provide a much more "conservative" alternative approach to enhancing existing DOM elements, in place of the controversial "is"-based customized built-in element [standard-ish](https://bkardell.com/blog/TheWalrus.html).  There are, however, a small number of use cases where the is-based built-in approach [may be](https://github.com/WebKit/standards-positions/issues/97) the preferred one.
 
-In contrast to the "is" approach, we can apply multiple behaviors / decorators to the same element:
+In contrast to the "is" approach, we can apply multiple behaviors / decorators / enhancements to the same element:
 
 ```html
 #shadow-root (open)
@@ -154,7 +154,3 @@ myEnhancement.addEventListener('resolved', e => {
 
 })
 ```
-
-## Alternate attribute names
-
-To be HTML5 compliant, use data-[enh-by-name-of-enhancement].  If enhancing a custom element, chances are significant that the custom element may support an attribute that matches your (short name).  To make the chances of this approach nil, the companion to be-enhanced mentioned above, be-hive, only recognizes attributes that start with enh-by- or data-enh-by when attached to a custom element.

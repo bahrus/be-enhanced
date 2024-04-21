@@ -11,10 +11,13 @@ export class BE extends HTMLElement {
         return this.constructor.config;
     }
     de = dispatchEvent;
-    #ee;
+    #enhancedElement;
     #ei;
+    get enhancedElement() {
+        return this.#enhancedElement;
+    }
     async attach(el, enhancementInfo) {
-        this.#ee = el;
+        this.#enhancedElement = el;
         this.#ei = enhancementInfo;
         this.covertAssignment({ enhancedElement: el });
         const props = this.constructor.props;
@@ -78,7 +81,7 @@ export class BE extends HTMLElement {
     dispatchEventFromEnhancedElement(type, init) {
         const prefixedType = 'enh-' + this.#ei.enh + '.' + type;
         const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
-        this.#ee.dispatchEvent(evt);
+        this.#enhancedElement.dispatchEvent(evt);
     }
     static config;
     static async bootUp() {

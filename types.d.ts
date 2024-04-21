@@ -1,34 +1,14 @@
 import { JSONValue } from "trans-render/lib/types";
 import { Actions, Compacts, Handlers, Infractions, Onsets, Positractions } from 'trans-render/froop/types';
+import { AttrChangeInfo, MountInit } from 'mount-observer/types';
 
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
 export type FQN = string;
 
-export interface BEAllProps {
-    resolved: boolean;
-    rejected: boolean;
-}
 
-export interface EnhancementInfo {
-    enhancement: Enhancement,
-    enh: Enh,
-    fqn: FQN,
-    localName: string,
-    initialPropValues?: any,
-    ifWantsToBe: string
-}
-export interface IEnhancement<TElement = Element> extends BEAllProps, HTMLElement{
-    attach(el: TElement, enhancement: EnhancementInfo): Promise<void>;
-    detach(el: TElement): Promise<void>;
-    resolved: boolean;
-    rejected: boolean;
-    readonly enhancedElement: TElement;
-    whenResolved(): Promise<boolean>;
-    de(src: EventTarget, name: string) : Event
-    //parsedFrom: string;
-    //autoImport?: boolean | string;
-}
+
+
 
 export interface PropInfo{
     dry?: boolean;
@@ -51,6 +31,7 @@ export interface BEConfig<TProps = any, TActions = TProps, ETProps = TProps>{
     compacts?: Compacts<TProps>;
     handlers?: Handlers<ETProps, TActions>;
     positractions?: Positractions<TProps, TActions>;
+    watchedBranches?: Set<number>;
 }
 
 // export interface IBE<TElement = Element> extends IEnhancement<TElement>{

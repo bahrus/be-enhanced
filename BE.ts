@@ -3,6 +3,7 @@ import {assignGingerly} from 'trans-render/lib/assignGingerly.js';
 import { RoundAbout } from 'trans-render/froop/roundabout.js';
 import { EnhancementInfo, IEnhancement, BEConfig, PropInfo, PropLookup, BEAllProps } from './types';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
+import {AttrChangeInfo} from 'mount-observer/types';
 export {BEConfig} from './types';
 const publicPrivateStore = Symbol();
 
@@ -21,16 +22,20 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
 
     de = dispatchEvent;
 
-    #ee: TElement | undefined;
+    #enhancedElement: TElement | undefined;
     #ei: EnhancementInfo | undefined;
+    get enhancedElement(){
+        return this.#enhancedElement!;
+    }
     async attach(el: TElement, enhancementInfo: EnhancementInfo){
-        this.#ee = el;
+        this.#enhancedElement = el;
         this.#ei = enhancementInfo;
         this.covertAssignment({enhancedElement: el} as TProps);
         const props = (<any>this.constructor).props as PropLookup;
         this.#propUp(props, enhancementInfo);
         await this.#instantiateRoundaboutIfApplicable();
     }
+
 
     /**
      * Needed for asynchronous loading
@@ -99,7 +104,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     dispatchEventFromEnhancedElement(type: string, init?: CustomEventInit){
         const prefixedType = 'enh-' + this.#ei!.enh + '.' + type;
         const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
-        this.#ee!.dispatchEvent(evt);
+        this.#enhancedElement!.dispatchEvent(evt);
     }
 
     static config: BEConfig | undefined;

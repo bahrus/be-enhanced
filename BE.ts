@@ -1,7 +1,8 @@
 import {RoundaboutReady} from 'trans-render/froop/types';
 import {assignGingerly} from 'trans-render/lib/assignGingerly.js';
 import { RoundAbout } from 'trans-render/froop/roundabout.js';
-import { EnhancementInfo, IEnhancement, BEConfig, PropInfo, PropLookup, BEAllProps } from './types';
+import {EnhancementInfo, IEnhancement, BEAllProps} from 'trans-render/be/types';
+import { BEConfig, PropInfo, PropLookup} from './types';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
 import {AttrChangeInfo} from 'mount-observer/types';
 export {BEConfig} from './types';
@@ -102,9 +103,10 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     }
 
     dispatchEventFromEnhancedElement(type: string, init?: CustomEventInit){
-        const prefixedType = 'enh-' + this.#ei!.enh + '.' + type;
-        const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
-        this.#enhancedElement!.dispatchEvent(evt);
+        throw 'NI';
+        // const prefixedType = 'enh-' + this.#ei!.enh + '.' + type;
+        // const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
+        // this.#enhancedElement!.dispatchEvent(evt);
     }
 
     static config: BEConfig | undefined;

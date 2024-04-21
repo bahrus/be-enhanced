@@ -1,4 +1,3 @@
-import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
 class InProgressAttachments extends EventTarget {
     inProgress = new WeakMap();
 }
@@ -26,16 +25,17 @@ export class BeEnhanced extends EventTarget {
         return this.#proxy;
     }
     async with(enhancement) {
-        const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
-        const enh = camelToLisp(enhancement);
-        const enhancementInfo = {
-            enh,
-            enhancement,
-            fqn: enh,
-            ifWantsToBe: enh.replace('be-', ''),
-            localName: enh
-        };
-        return await this.#attach(enhancementInfo);
+        throw 'NI';
+        // const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
+        // const enh = camelToLisp(enhancement);
+        // const enhancementInfo: EnhancementInfo = {
+        //     enh,
+        //     enhancement,
+        //     fqn: enh,
+        //     ifWantsToBe: enh.replace('be-', ''),
+        //     localName: enh
+        // }
+        // return await this.#attach(enhancementInfo);
     }
     // async attachAttr(enh: Enh | undefined, localName: string){
     //     const enhancement = lispToCamel(localName);
@@ -57,70 +57,68 @@ export class BeEnhanced extends EventTarget {
             return testKey;
     }
     async #attach2(enhancementInfo) {
-        const { self } = this;
-        const { localName, enhancement } = enhancementInfo;
-        let def = customElements.get(localName);
-        if (def === undefined)
-            def = await customElements.whenDefined(localName);
-        const previouslySet = self['beEnhanced'][enhancement];
-        if (previouslySet instanceof def)
-            return previouslySet;
-        enhancementInfo.initialPropValues = previouslySet;
-        const ce = new def();
-        self['beEnhanced'][enhancement] = ce;
-        await ce.attach(self, enhancementInfo);
-        //TODO:  leave this up to the individual enhancement
-        if (previouslySet !== undefined) {
-            Object.assign(ce, previouslySet);
-        }
-        const { inProgress } = inProgressAttachments;
-        //console.log(enhancementInfo);
-        inProgressAttachments.dispatchEvent(new CustomEvent(enhancement, {
-            detail: {
-                element: self
-            }
-        }));
-        const inProgressForElement = inProgress.get(self);
-        if (inProgressForElement !== undefined) {
-            //console.log('iah');
-            inProgressForElement.delete(enhancement);
-            if (inProgressForElement.size === 0) {
-                inProgress.delete(self);
-            }
-        }
-        return ce;
+        throw 'NI';
+        // const {self} = this;
+        // const {localName, enhancement} = enhancementInfo;
+        // let def = customElements.get(localName);
+        // if(def === undefined) def = await customElements.whenDefined(localName);
+        // const previouslySet = (<any>self)['beEnhanced'][enhancement];
+        // if(previouslySet instanceof def ) return previouslySet;
+        // enhancementInfo.initialPropValues = previouslySet;
+        // const ce = new def() as IEnhancement<Element>;
+        // (<any>self)['beEnhanced'][enhancement] = ce;
+        // await ce.attach(self, enhancementInfo);
+        // //TODO:  leave this up to the individual enhancement
+        // if(previouslySet !== undefined){
+        //     Object.assign(ce, previouslySet);
+        // }
+        // const {inProgress} = inProgressAttachments;
+        // //console.log(enhancementInfo);
+        // inProgressAttachments.dispatchEvent(new CustomEvent(enhancement,  {
+        //     detail:{
+        //         element: self
+        //     }
+        // }));
+        // const inProgressForElement = inProgress.get(self);
+        // if(inProgressForElement !== undefined){
+        //     //console.log('iah');
+        //     inProgressForElement.delete(enhancement);
+        //     if(inProgressForElement.size === 0){
+        //         inProgress.delete(self);
+        //     }
+        // }
+        // return ce;
     }
     #attach(enhancementInfo) {
-        return new Promise(async (resolve, rejected) => {
-            const { enhancement, enh } = enhancementInfo;
-            const { self } = this;
-            const inProgressForElement = inProgressAttachments.inProgress.get(self);
-            if (inProgressForElement !== undefined) {
-                if (inProgressForElement.has(enhancement)) {
-                    const controller = new AbortController();
-                    //console.log('addEventListener', enhancement);
-                    inProgressAttachments.addEventListener(enhancement, async (e) => {
-                        //console.log('iah');
-                        const attachmentEvent = e.detail;
-                        const { element } = attachmentEvent;
-                        if (element === self) {
-                            resolve(await this.#attach2(enhancementInfo));
-                            controller.abort();
-                        }
-                    }, { signal: controller.signal });
-                    return;
-                }
-                else {
-                    inProgressForElement.add(enhancement);
-                }
-            }
-            else {
-                const enhancements = new Set();
-                enhancements.add(enhancement);
-                inProgressAttachments.inProgress.set(self, enhancements);
-            }
-            resolve(await this.#attach2(enhancementInfo));
-        });
+        throw 'NI';
+        // return new Promise(async (resolve, rejected) => {
+        //     const {enhancement, enh} = enhancementInfo;
+        //     const {self} = this;
+        //     const inProgressForElement = inProgressAttachments.inProgress.get(self);
+        //     if(inProgressForElement !== undefined){
+        //         if(inProgressForElement.has(enhancement)){
+        //             const controller = new AbortController();
+        //             //console.log('addEventListener', enhancement);
+        //             inProgressAttachments.addEventListener(enhancement, async e => {
+        //                 //console.log('iah');
+        //                 const attachmentEvent = (<CustomEvent>e).detail as AttachedEvent;
+        //                 const {element} = attachmentEvent;
+        //                 if(element === self){
+        //                     resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
+        //                     controller.abort();
+        //                 }
+        //             }, {signal: controller.signal});
+        //             return;
+        //         }else{
+        //             inProgressForElement.add(enhancement);
+        //         }
+        //     }else{
+        //         const enhancements = new Set<string>();
+        //         enhancements.add(enhancement);
+        //         inProgressAttachments.inProgress.set(self, enhancements);
+        //     }
+        //     resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
+        // });
     }
     async whenDetached(localName) {
         let def = customElements.get(localName);
@@ -140,49 +138,45 @@ export class BeEnhanced extends EventTarget {
         return previouslySet;
     }
     #getEnhanceInfo(fqn, ifWantsToBe, localName) {
-        const enh = fqn.replace('data-enh-', '').replace('enh-', '');
-        if (localName === undefined)
-            localName = enh;
-        if (ifWantsToBe === undefined)
-            ifWantsToBe = enh.replace('be-', '');
-        const enhancement = lispToCamel(localName);
-        //const enh = fqn;// this.getFQName(localName);
-        const enhancementInfo = {
-            enhancement,
-            localName,
-            enh,
-            fqn,
-            ifWantsToBe
-        };
-        return enhancementInfo;
+        throw 'NI';
+        // const enh = fqn.replace('data-enh-', '').replace('enh-', '');
+        // if(localName === undefined) localName = enh;
+        // if(ifWantsToBe === undefined) ifWantsToBe = enh.replace('be-', '');
+        // const enhancement = lispToCamel(localName);
+        // //const enh = fqn;// this.getFQName(localName);
+        // const enhancementInfo: EnhancementInfo = {
+        //     enhancement,
+        //     localName,
+        //     enh,
+        //     fqn,
+        //     ifWantsToBe
+        // };
+        // return enhancementInfo;
     }
     async whenAttached(localName, ifWantsToBe, fqn) {
-        if (ifWantsToBe === undefined)
-            ifWantsToBe = localName.replace('be-', '');
-        if (fqn === undefined)
-            fqn = localName;
-        const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
-        const test = this.self?.beEnhanced[enhancementInfo.enhancement];
-        if (test instanceof Element)
-            return test;
-        return await this.#attach(enhancementInfo);
+        throw 'NI';
+        // if(ifWantsToBe === undefined) ifWantsToBe = localName.replace('be-', '');
+        // if(fqn === undefined) fqn = localName;
+        // const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
+        // const test = (<any>this.self)?.beEnhanced[enhancementInfo.enhancement];
+        // if(test instanceof Element) return test;
+        // return await this.#attach(enhancementInfo);
     }
     async whenResolved(localName, ifWantsToBe, fqn) {
-        if (ifWantsToBe === undefined)
-            ifWantsToBe = localName.replace('be-', '');
-        if (fqn === undefined)
-            fqn = localName;
-        const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
-        const test = this.self?.beEnhanced[enhancementInfo.enhancement];
-        if (typeof test?.constructor === 'function' && test.resolved) {
-            return test;
-        }
-        const enhancement = await this.whenAttached(localName, ifWantsToBe, fqn);
-        if (enhancement.resolved) {
-            return enhancement;
-        }
-        await enhancement.whenResolved();
-        return enhancement;
+        throw 'NI';
+        // if(ifWantsToBe === undefined) ifWantsToBe = localName.replace('be-', '');
+        // if(fqn === undefined) fqn = localName;
+        // const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
+        // const test = (<any>this.self)?.beEnhanced[enhancementInfo.enhancement];
+        // if(typeof test?.constructor === 'function' && test.resolved) {
+        //     return test;
+        // }
+        // const enhancement = await this.whenAttached(localName, ifWantsToBe, fqn) as IEnhancement;
+        // if(enhancement.resolved) {
+        //     return enhancement;
+        // }
+        // await enhancement.whenResolved();
+        // return enhancement;
     }
 }
 const wm = new WeakMap();

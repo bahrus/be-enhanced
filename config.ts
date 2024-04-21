@@ -1,4 +1,5 @@
-import { BEConfig, IEnhancement } from "./types";
+import { BEConfig} from "./types";
+import {IEnhancement} from 'trans-render/be/types';
 
 export const config: BEConfig<IEnhancement> = {
     propInfo: {

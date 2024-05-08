@@ -37,6 +37,26 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
         await this.#instantiateRoundaboutIfApplicable();
     }
 
+    #resolved = false;
+    get resolved(){
+        return this.#resolved;
+    }
+    set resolved(nv){
+        this.propagator.dispatchEvent(new Event('resolved'));
+        switch(nv){
+            case true:
+                this.dispatchEvent(new Event('resolved'));
+                break;
+            case false:
+                this.dispatchEvent(new Event('rejected'));
+                break;
+        }
+    }
+
+    get rejected(){
+        return !!this.#resolved;
+    }
+
 
     /**
      * Needed for asynchronous loading
@@ -66,14 +86,13 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     async #instantiateRoundaboutIfApplicable(){
         
         const config = this.#config;
-        const {actions, compacts, onsets, infractions, handlers, positractions} = config;
-        if((actions || compacts || onsets || infractions || handlers || positractions) !== undefined){
+        const {actions, compacts, infractions, handlers, positractions} = config;
+        if((actions || compacts || infractions || handlers || positractions) !== undefined){
             const {roundabout} = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
                 vm: this,
                 actions,
                 compacts,
-                onsets,
                 handlers,
                 positractions
             }, infractions);

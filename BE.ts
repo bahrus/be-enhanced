@@ -153,7 +153,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
                 const prop = propInfo[key]!;
                 const mergedPropInfo = {
                     ...defaultProp,
-                    prop,
+                    ...prop,
                     propName: key
                 } as PropInfo
                 props[key] = mergedPropInfo;

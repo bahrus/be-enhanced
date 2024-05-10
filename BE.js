@@ -123,7 +123,7 @@ export class BE extends HTMLElement {
                 const prop = propInfo[key];
                 const mergedPropInfo = {
                     ...defaultProp,
-                    prop,
+                    ...prop,
                     propName: key
                 };
                 props[key] = mergedPropInfo;

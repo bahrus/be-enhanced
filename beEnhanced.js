@@ -25,17 +25,44 @@ export class BeEnhanced extends EventTarget {
         return this.#proxy;
     }
     async with(enhancement) {
-        throw 'NI';
-        // const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
-        // const enh = camelToLisp(enhancement);
-        // const enhancementInfo: EnhancementInfo = {
-        //     enh,
-        //     enhancement,
-        //     fqn: enh,
-        //     ifWantsToBe: enh.replace('be-', ''),
-        //     localName: enh
+        const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
+        const enh = camelToLisp(enhancement);
+        const def = customElements.get(enh) || await customElements.whenDefined(enh);
+        const { self } = this;
+        const beEnhanced = self['beEnhanced'];
+        const previouslySet = beEnhanced[enhancement];
+        if (previouslySet instanceof def)
+            return previouslySet;
+        const enhanceInfo = {
+            initialPropValues: previouslySet
+        };
+        const ce = new def();
+        beEnhanced[enhancement] = ce;
+        await ce.attach(self, enhanceInfo);
+        return ce;
+        // const ce = new def() as IEnhancement<Element>;
+        // (<any>self)['beEnhanced'][enhancement] = ce;
+        // await ce.attach(self, enhancementInfo);
+        // //TODO:  leave this up to the individual enhancement
+        // if(previouslySet !== undefined){
+        //     Object.assign(ce, previouslySet);
         // }
-        // return await this.#attach(enhancementInfo);
+        // const {inProgress} = inProgressAttachments;
+        // //console.log(enhancementInfo);
+        // inProgressAttachments.dispatchEvent(new CustomEvent(enhancement,  {
+        //     detail:{
+        //         element: self
+        //     }
+        // }));
+        // const inProgressForElement = inProgress.get(self);
+        // if(inProgressForElement !== undefined){
+        //     //console.log('iah');
+        //     inProgressForElement.delete(enhancement);
+        //     if(inProgressForElement.size === 0){
+        //         inProgress.delete(self);
+        //     }
+        // }
+        // return ce;
     }
     // async attachAttr(enh: Enh | undefined, localName: string){
     //     const enhancement = lispToCamel(localName);

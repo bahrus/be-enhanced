@@ -14,7 +14,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     [publicPrivateStore]: Partial<TProps> = {};
 
     covertAssignment(obj: TProps): void {
-        assignGingerly(this[publicPrivateStore], obj, (<any>this.constructor).props);
+        assignGingerly(this[publicPrivateStore], obj, {enhancedElement: {}, ...(<any>this.constructor).props}) ;
     }
 
     get #config(){

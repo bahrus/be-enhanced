@@ -5,7 +5,7 @@ export class BE extends HTMLElement {
     propagator = new EventTarget();
     [publicPrivateStore] = {};
     covertAssignment(obj) {
-        assignGingerly(this[publicPrivateStore], obj, this.constructor.props);
+        assignGingerly(this[publicPrivateStore], obj, { enhancedElement: {}, ...this.constructor.props });
     }
     get #config() {
         return this.constructor.config;

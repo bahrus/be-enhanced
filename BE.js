@@ -46,7 +46,7 @@ export class BE extends HTMLElement {
     #roundabout;
     async #instantiateRoundaboutIfApplicable(container) {
         const config = this.#config;
-        const { actions, compacts, infractions, handlers, positractions } = config;
+        const { actions, compacts, infractions, handlers, positractions, hitch } = config;
         if ((actions || compacts || infractions || handlers || positractions) !== undefined) {
             const { roundabout } = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
@@ -55,7 +55,8 @@ export class BE extends HTMLElement {
                 actions,
                 compacts,
                 handlers,
-                positractions
+                positractions,
+                hitch
             }, infractions);
             this.#roundabout = ra;
         }

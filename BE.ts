@@ -34,7 +34,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
         this.covertAssignment({enhancedElement: el} as TProps);
         const props = (<any>this.constructor).props as PropLookup;
         this.#propUp(props, enhancementInfo);
-        await this.#instantiateRoundaboutIfApplicable();
+        await this.#instantiateRoundaboutIfApplicable(el);
     }
 
 
@@ -63,7 +63,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
 
     #roundabout: RoundAbout | undefined;
 
-    async #instantiateRoundaboutIfApplicable(){
+    async #instantiateRoundaboutIfApplicable(container: TElement){
         
         const config = this.#config;
         const {actions, compacts, infractions, handlers, positractions} = config;
@@ -71,6 +71,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
             const {roundabout} = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
                 vm: this,
+                container,
                 actions,
                 compacts,
                 handlers,

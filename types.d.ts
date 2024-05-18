@@ -1,4 +1,4 @@
-import { Actions, Compacts, Handlers, Infractions, Positractions } from 'trans-render/froop/types';
+import { Actions, Compacts, Handlers, Infractions, Positractions, Hitches } from 'trans-render/froop/types';
 
 export type Enhancement = string; //camelCase;
 export type Enh = string; //lisp case;
@@ -22,6 +22,7 @@ export interface BEConfig<TProps = any, TActions = TProps, ETProps = TProps>{
      */
     infractions?: Infractions<TProps>,
     compacts?: Compacts<TProps>;
+    hitch?: Hitches<TProps, TActions>
     handlers?: Handlers<ETProps, TActions>;
     positractions?: Positractions<TProps, TActions>;
     watchedBranches?: Set<number>;

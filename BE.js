@@ -22,7 +22,7 @@ export class BE extends HTMLElement {
         this.covertAssignment({ enhancedElement: el });
         const props = this.constructor.props;
         this.#propUp(props, enhancementInfo);
-        await this.#instantiateRoundaboutIfApplicable();
+        await this.#instantiateRoundaboutIfApplicable(el);
     }
     /**
      * Needed for asynchronous loading
@@ -44,13 +44,14 @@ export class BE extends HTMLElement {
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));
     }
     #roundabout;
-    async #instantiateRoundaboutIfApplicable() {
+    async #instantiateRoundaboutIfApplicable(container) {
         const config = this.#config;
         const { actions, compacts, infractions, handlers, positractions } = config;
         if ((actions || compacts || infractions || handlers || positractions) !== undefined) {
             const { roundabout } = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
                 vm: this,
+                container,
                 actions,
                 compacts,
                 handlers,

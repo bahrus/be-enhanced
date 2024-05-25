@@ -35,10 +35,10 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.767"
+    "trans-render": "0.0.768"
   },
   "devDependencies": {
-    "@playwright/test": "1.44.0",
+    "@playwright/test": "1.44.1",
     "may-it-serve": "0.0.6"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

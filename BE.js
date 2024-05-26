@@ -32,13 +32,17 @@ export class BE extends HTMLElement {
      */
     #propUp(props, enhancementInfo) {
         const { initialPropValues } = enhancementInfo;
+        const objToMerge = { ...initialPropValues };
         for (const key in props) {
+            if (key in objToMerge)
+                continue;
             const propInfo = props[key];
-            const value = initialPropValues?.[key] || propInfo.def;
+            const value = propInfo.def;
             if (value !== undefined) {
-                this[publicPrivateStore][key] = value;
+                objToMerge[key] = value;
             }
         }
+        this.covertAssignment(objToMerge);
     }
     async detach(el) {
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));

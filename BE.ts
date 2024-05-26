@@ -46,15 +46,17 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
      */
     #propUp<T>(props: PropLookup, enhancementInfo: EnhancementInfo){
         const {initialPropValues} = enhancementInfo;
+        const objToMerge: any = {...initialPropValues};
         for(const key in props){
+            if(key in objToMerge) continue;
             const propInfo = props[key];
-            const value = initialPropValues?.[key] || propInfo.def;
+            const value = propInfo.def;
             if(value !== undefined){
-                (<any>this[publicPrivateStore])[key] = value;
+                objToMerge[key] = value;
             }
-
-
+            
         }
+        this.covertAssignment(objToMerge);
     }
 
     async detach(el: TElement){

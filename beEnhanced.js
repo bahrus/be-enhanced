@@ -189,21 +189,23 @@ export class BeEnhanced extends EventTarget {
         // if(test instanceof Element) return test;
         // return await this.#attach(enhancementInfo);
     }
-    async whenResolved(localName, ifWantsToBe, fqn) {
-        throw 'NI';
-        // if(ifWantsToBe === undefined) ifWantsToBe = localName.replace('be-', '');
-        // if(fqn === undefined) fqn = localName;
-        // const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
-        // const test = (<any>this.self)?.beEnhanced[enhancementInfo.enhancement];
-        // if(typeof test?.constructor === 'function' && test.resolved) {
-        //     return test;
-        // }
-        // const enhancement = await this.whenAttached(localName, ifWantsToBe, fqn) as IEnhancement;
-        // if(enhancement.resolved) {
-        //     return enhancement;
-        // }
-        // await enhancement.whenResolved();
-        // return enhancement;
+    async whenResolved(emc) {
+        const { importEnh, enhPropKey } = emc;
+        if (importEnh === undefined || enhPropKey === undefined)
+            throw 'NI';
+        const { self } = this;
+        const enhancementConstructor = await importEnh();
+        const initialPropValues = self[enhPropKey] || {};
+        if (initialPropValues instanceof enhancementConstructor)
+            return;
+        const enhancementInstance = new enhancementConstructor();
+        self[enhPropKey] = enhancementInstance;
+        await enhancementInstance.attach(self, {
+            initialPropValues,
+            mountCnfg: emc
+        });
+        await enhancementInstance.whenResolved();
+        return enhancementInstance;
     }
 }
 const wm = new WeakMap();

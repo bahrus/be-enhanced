@@ -1,5 +1,5 @@
 import {Enhancement, Enh, FQN} from './types';
-import {EnhancementInfo, IEnhancement} from  'trans-render/be/types';
+import {EnhancementInfo, EnhancementMountCnfg, IEnhancement} from  'trans-render/be/types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 class InProgressAttachments extends EventTarget{
@@ -209,22 +209,21 @@ export class BeEnhanced extends EventTarget{
         // return await this.#attach(enhancementInfo);
     }
 
-    async whenResolved(localName: string, ifWantsToBe: string, fqn: Enh){
-        throw 'NI';
-        // if(ifWantsToBe === undefined) ifWantsToBe = localName.replace('be-', '');
-        // if(fqn === undefined) fqn = localName;
-        // const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
-        // const test = (<any>this.self)?.beEnhanced[enhancementInfo.enhancement];
-        // if(typeof test?.constructor === 'function' && test.resolved) {
-        //     return test;
-        // }
-        // const enhancement = await this.whenAttached(localName, ifWantsToBe, fqn) as IEnhancement;
-        // if(enhancement.resolved) {
-        //     return enhancement;
-        // }
-        
-        // await enhancement.whenResolved();
-        // return enhancement;
+    async whenResolved(emc: EnhancementMountCnfg){
+        const {importEnh, enhPropKey} = emc;
+        if(importEnh === undefined || enhPropKey === undefined) throw 'NI';
+        const {self} = this;
+        const enhancementConstructor = await importEnh();
+        const initialPropValues = (<any>self)[enhPropKey!] || {};
+        if(initialPropValues instanceof enhancementConstructor) return;
+        const enhancementInstance =  new enhancementConstructor();
+        (<any>self)[enhPropKey!] = enhancementInstance;
+        await enhancementInstance.attach(self, {
+            initialPropValues,
+            mountCnfg: emc
+        });
+        await enhancementInstance.whenResolved();
+        return enhancementInstance;
     }
 }
 

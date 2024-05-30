@@ -45,7 +45,7 @@ export class BeEnhanced extends EventTarget{
         const enhanceInfo: EnhancementInfo = {
             initialPropValues: previouslySet
         };
-        const ce = new def() as IEnhancement<Element>;
+        const ce = new def() as any as IEnhancement<Element>;
         beEnhanced[enhancement] = ce;
         await ce.attach(self, enhanceInfo);
         return ce;

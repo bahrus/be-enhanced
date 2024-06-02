@@ -213,11 +213,12 @@ export class BeEnhanced extends EventTarget{
         const {importEnh, enhPropKey} = emc;
         if(importEnh === undefined || enhPropKey === undefined) throw 'NI';
         const {self} = this;
+        const beEnhanced = (<any>self).beEnhanced;
         const enhancementConstructor = await importEnh();
-        const initialPropValues = (<any>self)[enhPropKey!] || {};
+        const initialPropValues = beEnhanced[enhPropKey!] || {};
         if(initialPropValues instanceof enhancementConstructor) return;
         const enhancementInstance =  new enhancementConstructor();
-        (<any>self)[enhPropKey!] = enhancementInstance;
+        (<any>beEnhanced)[enhPropKey!] = enhancementInstance;
         await enhancementInstance.attach(self, {
             initialPropValues,
             mountCnfg: emc

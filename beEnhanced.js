@@ -194,12 +194,13 @@ export class BeEnhanced extends EventTarget {
         if (importEnh === undefined || enhPropKey === undefined)
             throw 'NI';
         const { self } = this;
+        const beEnhanced = self.beEnhanced;
         const enhancementConstructor = await importEnh();
-        const initialPropValues = self[enhPropKey] || {};
+        const initialPropValues = beEnhanced[enhPropKey] || {};
         if (initialPropValues instanceof enhancementConstructor)
             return;
         const enhancementInstance = new enhancementConstructor();
-        self[enhPropKey] = enhancementInstance;
+        beEnhanced[enhPropKey] = enhancementInstance;
         await enhancementInstance.attach(self, {
             initialPropValues,
             mountCnfg: emc

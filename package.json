@@ -35,7 +35,7 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.778"
+    "trans-render": "0.0.779"
   },
   "devDependencies": {
     "@playwright/test": "1.44.1",

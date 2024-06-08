@@ -14,12 +14,12 @@ export const config = {
         {
             do: 'de',
             ifAllOf: ['resolved'],
-            pass: ['$0', '`resolved`']
+            pass: ['$0+', '`resolved`']
         },
         {
             do: 'de',
             ifAllOf: ['rejected'],
-            pass: ['$0', '`rejected`']
+            pass: ['$0+', '`rejected`']
         }
     ]
 };

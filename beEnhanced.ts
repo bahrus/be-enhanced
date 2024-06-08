@@ -1,5 +1,5 @@
 import {Enhancement, Enh, FQN} from './types';
-import {EnhancementInfo, EnhancementMountCnfg, IEnhancement} from  'trans-render/be/types';
+import {EnhancementInfo, EMC, IEnhancement} from  'trans-render/be/types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 class InProgressAttachments extends EventTarget{
@@ -209,7 +209,7 @@ export class BeEnhanced extends EventTarget{
         // return await this.#attach(enhancementInfo);
     }
 
-    async whenResolved(emc: EnhancementMountCnfg){
+    async whenResolved(emc: EMC){
         const {importEnh, enhPropKey} = emc;
         if(importEnh === undefined || enhPropKey === undefined) throw 'NI';
         const {self} = this;

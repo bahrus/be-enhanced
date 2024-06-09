@@ -13,16 +13,30 @@ interface AttachedEvent{
 
 
 export class EnhancerRegistry extends EventTarget{
-    #enhancers: {[key: EnhKey]: EMC} = {};
+    #enhancers: Map<EnhKey, EMC> = new Map();
     get enhancers(){
         return this.#enhancers;
     }
     define(emc: EMC){
-        this.#enhancers[emc.enhPropKey] = emc;
-        this.dispatchEvent(new Event(''))
+        const {enhPropKey} = emc;
+        if(this.#enhancers.has(enhPropKey)) throw 'Only One!';
+        this.#enhancers.set(enhPropKey, emc);
+        this.dispatchEvent(new Event('register'));
     }
-    async whenDefined(key: EnhKey){
-        
+    whenDefined(key: EnhKey): Promise<EMC>{
+        return new Promise<EMC>(resolve => {
+            if(this.#enhancers.has(key)) {
+                resolve(this.#enhancers.get(key)!);
+                return;
+            }
+            const ac = new AbortController();
+            this.addEventListener('register', e => {
+                if(!this.#enhancers.has(key)){
+                    resolve(this.#enhancers.get(key)!);
+                    ac.abort();
+                }
+            }, {signal: ac.signal})
+        })
     }
 }
 

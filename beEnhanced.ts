@@ -11,6 +11,8 @@ interface AttachedEvent{
     //enhancement: Enhancement,
 }
 
+export const Enhancers: {[key: Enh]: EMC} = {};
+
 const inProgressAttachments = new InProgressAttachments();
 export class BeEnhanced extends EventTarget{
     constructor(public self: Element){

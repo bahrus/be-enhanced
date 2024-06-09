@@ -1,4 +1,4 @@
-import {Enhancement, Enh, FQN} from './types';
+import {Enhancement, EnhKey, FQN} from './types';
 import {EnhancementInfo, EMC, IEnhancement} from  'trans-render/be/types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
@@ -11,7 +11,20 @@ interface AttachedEvent{
     //enhancement: Enhancement,
 }
 
-export const Enhancers: {[key: Enh]: EMC} = {};
+
+export class EnhancerRegistry extends EventTarget{
+    #enhancers: {[key: EnhKey]: EMC} = {};
+    get enhancers(){
+        return this.#enhancers;
+    }
+    define(emc: EMC){
+        this.#enhancers[emc.enhPropKey] = emc;
+        this.dispatchEvent(new Event(''))
+    }
+    async whenDefined(key: EnhKey){
+        
+    }
+}
 
 const inProgressAttachments = new InProgressAttachments();
 export class BeEnhanced extends EventTarget{
@@ -51,31 +64,7 @@ export class BeEnhanced extends EventTarget{
         beEnhanced[enhancement] = ce;
         await ce.attach(self, enhanceInfo);
         return ce;
-        
-        // const ce = new def() as IEnhancement<Element>;
-        // (<any>self)['beEnhanced'][enhancement] = ce;
-        // await ce.attach(self, enhancementInfo);
-        // //TODO:  leave this up to the individual enhancement
-        // if(previouslySet !== undefined){
-        //     Object.assign(ce, previouslySet);
-        // }
-        // const {inProgress} = inProgressAttachments;
-        // //console.log(enhancementInfo);
-        // inProgressAttachments.dispatchEvent(new CustomEvent(enhancement,  {
-        //     detail:{
-        //         element: self
-        //     }
-        // }));
-        // const inProgressForElement = inProgress.get(self);
-        // if(inProgressForElement !== undefined){
-        //     //console.log('iah');
-            
-        //     inProgressForElement.delete(enhancement);
-        //     if(inProgressForElement.size === 0){
-        //         inProgress.delete(self);
-        //     }
-        // }
-        // return ce;
+
 
     }
 

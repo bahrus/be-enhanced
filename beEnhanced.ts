@@ -40,6 +40,8 @@ export class EnhancerRegistry extends EventTarget{
     }
 }
 
+export const Enhancers = new EnhancerRegistry();
+
 const inProgressAttachments = new InProgressAttachments();
 export class BeEnhanced extends EventTarget{
     constructor(public self: Element){
@@ -50,7 +52,7 @@ export class BeEnhanced extends EventTarget{
         if(this.#proxy === undefined){
             const self = this;
             this.#proxy = new Proxy(self, {
-                get(obj: any, prop: string){
+                get(obj: any, prop: EnhKey){
                     if(obj[prop] === undefined){
                         self.with(prop);
                         obj[prop] = {};
@@ -62,22 +64,24 @@ export class BeEnhanced extends EventTarget{
         return this.#proxy;
     }
 
-    async with(enhancement: Enhancement){
-        const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
-        const enh = camelToLisp(enhancement);
-        const def = customElements.get(enh) || await customElements.whenDefined(enh);
-        const {self} = this;
-        const beEnhanced = (<any>self)['beEnhanced'];
-        const previouslySet = beEnhanced[enhancement];
-        if(previouslySet instanceof def ) return previouslySet;
+    async with(key: EnhKey){
+        const emc = await Enhancers.whenDefined(key);
+        return await this.whenAttached(emc);
+    //     // const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
+    //     // const enh = camelToLisp(enhancement);
+    //     // const def = customElements.get(enh) || await customElements.whenDefined(enh);
+    //     // const {self} = this;
+    //     // const beEnhanced = (<any>self)['beEnhanced'];
+    //     // const previouslySet = beEnhanced[enhancement];
+    //     // if(previouslySet instanceof def ) return previouslySet;
         
-        const enhanceInfo: EnhancementInfo = {
-            initialPropValues: previouslySet
-        };
-        const ce = new def() as any as IEnhancement<Element>;
-        beEnhanced[enhancement] = ce;
-        await ce.attach(self, enhanceInfo);
-        return ce;
+    //     // const enhanceInfo: EnhancementInfo = {
+    //     //     initialPropValues: previouslySet
+    //     // };
+    //     // const ce = new def() as any as IEnhancement<Element>;
+    //     // beEnhanced[enhancement] = ce;
+    //     // await ce.attach(self, enhanceInfo);
+    //     // return ce;
 
 
     }
@@ -204,17 +208,11 @@ export class BeEnhanced extends EventTarget{
         // return enhancementInfo;
     }
 
-    async whenAttached(localName: string, ifWantsToBe?: string, fqn?: string){
-        throw 'NI';
-        // if(ifWantsToBe === undefined) ifWantsToBe = localName.replace('be-', '');
-        // if(fqn === undefined) fqn = localName;
-        // const enhancementInfo = this.#getEnhanceInfo(fqn, ifWantsToBe, localName);
-        // const test = (<any>this.self)?.beEnhanced[enhancementInfo.enhancement];
-        // if(test instanceof Element) return test;
-        // return await this.#attach(enhancementInfo);
+    async whenAttached(emc: EMC){
+        return await this.whenResolved(emc, true);
     }
 
-    async whenResolved(emc: EMC){
+    async whenResolved(emc: EMC, skipResolvedWait = false){
         const {importEnh, enhPropKey} = emc;
         if(importEnh === undefined || enhPropKey === undefined) throw 'NI';
         const {self} = this;
@@ -228,7 +226,10 @@ export class BeEnhanced extends EventTarget{
             initialPropValues,
             mountCnfg: emc
         });
-        await enhancementInstance.whenResolved();
+        if(!skipResolvedWait){
+            await enhancementInstance.whenResolved();
+        }
+        
         return enhancementInstance;
     }
 }

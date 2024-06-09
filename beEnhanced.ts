@@ -6,10 +6,9 @@ class InProgressAttachments extends EventTarget{
     inProgress = new WeakMap<Element, Set<string>>();
 }
 
-interface AttachedEvent{
-    element: Element,
-    //enhancement: Enhancement,
-}
+// interface AttachedEvent{
+//     element: Element,
+// }
 
 
 export class EnhancerRegistry extends EventTarget{
@@ -66,112 +65,7 @@ export class BeEnhanced extends EventTarget{
 
     async with(key: EnhKey){
         const emc = await Enhancers.whenDefined(key);
-        return await this.whenAttached(emc);
-    //     // const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
-    //     // const enh = camelToLisp(enhancement);
-    //     // const def = customElements.get(enh) || await customElements.whenDefined(enh);
-    //     // const {self} = this;
-    //     // const beEnhanced = (<any>self)['beEnhanced'];
-    //     // const previouslySet = beEnhanced[enhancement];
-    //     // if(previouslySet instanceof def ) return previouslySet;
-        
-    //     // const enhanceInfo: EnhancementInfo = {
-    //     //     initialPropValues: previouslySet
-    //     // };
-    //     // const ce = new def() as any as IEnhancement<Element>;
-    //     // beEnhanced[enhancement] = ce;
-    //     // await ce.attach(self, enhanceInfo);
-    //     // return ce;
-
-
-    }
-
-    // async attachAttr(enh: Enh | undefined, localName: string){
-    //     const enhancement = lispToCamel(localName);
-    //     return await this.attach(enhancement, enh, localName);
-    // }
-
-    getFQName(localName: string, ifWantsToBe: string){
-        const {self} = this;
-        const allowNonNamespaced = !self.localName.includes('-');
-        const nonPrefixedName = `be-${ifWantsToBe}`;
-        if(allowNonNamespaced && self.matches(`[${nonPrefixedName}]`)) return nonPrefixedName;
-        let testKey = `enh-${nonPrefixedName}`;
-        let test = `[${testKey}]`;
-        if(self.matches(test)) return testKey;
-        testKey = `data-enh-${nonPrefixedName}`;
-        test = `[${testKey}]`;
-        if(self.matches(test)) return testKey;
-    }
-
-    async #attach2(enhancementInfo: EnhancementInfo){
-        throw 'NI';
-        // const {self} = this;
-        // const {localName, enhancement} = enhancementInfo;
-        // let def = customElements.get(localName);
-        // if(def === undefined) def = await customElements.whenDefined(localName);
-        // const previouslySet = (<any>self)['beEnhanced'][enhancement];
-        // if(previouslySet instanceof def ) return previouslySet;
-        // enhancementInfo.initialPropValues = previouslySet;
-        
-        // const ce = new def() as IEnhancement<Element>;
-        // (<any>self)['beEnhanced'][enhancement] = ce;
-        // await ce.attach(self, enhancementInfo);
-        // //TODO:  leave this up to the individual enhancement
-        // if(previouslySet !== undefined){
-        //     Object.assign(ce, previouslySet);
-        // }
-        // const {inProgress} = inProgressAttachments;
-        // //console.log(enhancementInfo);
-        // inProgressAttachments.dispatchEvent(new CustomEvent(enhancement,  {
-        //     detail:{
-        //         element: self
-        //     }
-        // }));
-        // const inProgressForElement = inProgress.get(self);
-        // if(inProgressForElement !== undefined){
-        //     //console.log('iah');
-            
-        //     inProgressForElement.delete(enhancement);
-        //     if(inProgressForElement.size === 0){
-        //         inProgress.delete(self);
-        //     }
-        // }
-        // return ce;
-    }
-
-    #attach(enhancementInfo: EnhancementInfo): Promise<IEnhancement<Element>>{
-        throw 'NI';
-        // return new Promise(async (resolve, rejected) => {
-        //     const {enhancement, enh} = enhancementInfo;
-        //     const {self} = this;
-        //     const inProgressForElement = inProgressAttachments.inProgress.get(self);
-        //     if(inProgressForElement !== undefined){
-        //         if(inProgressForElement.has(enhancement)){
-        //             const controller = new AbortController();
-        //             //console.log('addEventListener', enhancement);
-        //             inProgressAttachments.addEventListener(enhancement, async e => {
-        //                 //console.log('iah');
-        //                 const attachmentEvent = (<CustomEvent>e).detail as AttachedEvent;
-        //                 const {element} = attachmentEvent;
-        //                 if(element === self){
-        //                     resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
-        //                     controller.abort();
-        //                 }
-        //             }, {signal: controller.signal});
-        //             return;
-        //         }else{
-        //             inProgressForElement.add(enhancement);
-        //         }
-        //     }else{
-        //         const enhancements = new Set<string>();
-        //         enhancements.add(enhancement);
-        //         inProgressAttachments.inProgress.set(self, enhancements);
-        //     }
-        //     resolve(await this.#attach2(enhancementInfo) as IEnhancement<Element>);
-            
-        // });
-
+        return await this.whenResolved(emc, true);
     }
 
     async whenDetached(localName: string){
@@ -189,23 +83,6 @@ export class BeEnhanced extends EventTarget{
             self.removeAttribute('data-enh-by-' + localName);
         }
         return previouslySet;
-    }
-
-    #getEnhanceInfo(fqn: string, ifWantsToBe: string, localName: string){
-        throw 'NI'
-        // const enh = fqn.replace('data-enh-', '').replace('enh-', '');
-        // if(localName === undefined) localName = enh;
-        // if(ifWantsToBe === undefined) ifWantsToBe = enh.replace('be-', '');
-        // const enhancement = lispToCamel(localName);
-        // //const enh = fqn;// this.getFQName(localName);
-        // const enhancementInfo: EnhancementInfo = {
-        //     enhancement,
-        //     localName,
-        //     enh,
-        //     fqn,
-        //     ifWantsToBe
-        // };
-        // return enhancementInfo;
     }
 
     async whenAttached(emc: EMC){
@@ -247,7 +124,7 @@ Object.defineProperty(Element.prototype, 'beEnhanced', {
     configurable: true,
 });
 
-if(customElements.get('be-enhanced') === undefined){
-    customElements.define('be-enhanced', class extends HTMLElement{});
-}
+// if(customElements.get('be-enhanced') === undefined){
+//     customElements.define('be-enhanced', class extends HTMLElement{});
+// }
 

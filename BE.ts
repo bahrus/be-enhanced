@@ -9,7 +9,7 @@ export {BEConfig} from './types';
 const publicPrivateStore = Symbol();
 
 export class BE<TProps = any, TActions=TProps, TElement extends Element = Element> 
-    extends HTMLElement implements RoundaboutReady, IEnhancement<TElement>{
+    extends EventTarget implements RoundaboutReady, IEnhancement<TElement>{
     propagator = new EventTarget();
     [publicPrivateStore]: Partial<TProps> = {};
 

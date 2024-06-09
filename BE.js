@@ -1,7 +1,7 @@
 import { assignGingerly } from 'trans-render/lib/assignGingerly.js';
 import { dispatchEvent } from 'trans-render/positractions/dispatchEvent.js';
 const publicPrivateStore = Symbol();
-export class BE extends HTMLElement {
+export class BE extends EventTarget {
     propagator = new EventTarget();
     [publicPrivateStore] = {};
     covertAssignment(obj) {

@@ -89,7 +89,7 @@ export class BeEnhanced extends EventTarget {
         const enhancementConstructor = await importEnh();
         const initialPropValues = beEnhanced[enhPropKey] || {};
         if (initialPropValues instanceof enhancementConstructor)
-            return;
+            return initialPropValues;
         const enhancementInstance = new enhancementConstructor();
         beEnhanced[enhPropKey] = enhancementInstance;
         await enhancementInstance.attach(self, {

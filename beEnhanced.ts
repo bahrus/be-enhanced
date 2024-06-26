@@ -89,14 +89,14 @@ export class BeEnhanced extends EventTarget{
         return await this.whenResolved(emc, true);
     }
 
-    async whenResolved(emc: EMC, skipResolvedWait = false): Promise<{new(): IEnhancement<any>}>{
+    async whenResolved(emc: EMC, skipResolvedWait = false): Promise<{new(): IEnhancement<Element>}>{
         const {importEnh, enhPropKey} = emc;
         if(importEnh === undefined || enhPropKey === undefined) throw 'NI';
         const {self} = this;
         const beEnhanced = (<any>self).beEnhanced;
         const enhancementConstructor = await importEnh();
         const initialPropValues = beEnhanced[enhPropKey!] || {};
-        if(initialPropValues instanceof enhancementConstructor) return initialPropValues;
+        if(initialPropValues instanceof enhancementConstructor) return initialPropValues as any as  {new(): IEnhancement<Element>};
         const enhancementInstance =  new enhancementConstructor();
         (<any>beEnhanced)[enhPropKey!] = enhancementInstance;
         await enhancementInstance.attach(self, {
@@ -107,7 +107,7 @@ export class BeEnhanced extends EventTarget{
             await enhancementInstance.whenResolved();
         }
         
-        return enhancementInstance;
+        return enhancementInstance as any as  {new(): IEnhancement<Element>};
     }
 }
 

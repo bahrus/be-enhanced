@@ -4,10 +4,11 @@ export const config = {
             ro: true,
         },
         resolved: {
-            ro: true,
+        //Need to allow external components to set resolved to true (e.g. be-exportable)
+        //ro: true,
         },
         rejected: {
-            ro: true,
+        //ro: true,
         }
     },
     positractions: [

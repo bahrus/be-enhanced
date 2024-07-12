@@ -35,11 +35,11 @@
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.792"
+    "trans-render": "0.0.794"
   },
   "devDependencies": {
     "@playwright/test": "1.45.1",
-    "may-it-serve": "0.0.7"
+    "may-it-serve": "0.0.8"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",

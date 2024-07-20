@@ -21,7 +21,7 @@ export interface BEConfig<TProps = any, TActions = TProps, ETProps = TProps>{
      * inferred actions
      */
     infractions?: Infractions<TProps>,
-    compacts?: Compacts<TProps>;
+    compacts?: Compacts<TProps, TProps & TActions>;
     hitch?: Hitches<TProps, TActions>
     handlers?: Handlers<ETProps, TActions>;
     positractions?: Positractions<TProps, TActions>;

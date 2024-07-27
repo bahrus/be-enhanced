@@ -24,10 +24,7 @@
     ".": "./BE.js",
     "./BE.js": "./BE.js",
     "./beEnhanced.js": "./beEnhanced.js",
-    "./camelize.js": "./camelize.js",
-    "./camelPlus.js": "./camelPlus.js",
-    "./cpu.js": "./cpu.js",
-    "./parseAndCamelize.js": "./parseAndCamelize.js"
+    "./config.js": "./config.js"
   },
   "files": [
     "*.js",

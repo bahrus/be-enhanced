@@ -149,7 +149,7 @@ Be-enhancement element decorators/behaviors typically don't, by default, emit ev
 To subscribe to an event:
 
 ```JavaScript
-const myEnhancement = await myElement.beEnhanced.whenDefined('my-enhancement');
+const myEnhancement = await myElement.beEnhanced.whenResolved(emc);
 myEnhancement.addEventListener('resolved', e => {
 
 })

@@ -1,4 +1,5 @@
 import { Actions, Compacts, Handlers, Infractions, Positractions, Hitches } from 'trans-render/froop/types';
+export {IEnhancement, BEAllProps} from 'trans-render/BE/types';
 
 export type Enhancement = string; //camelCase;
 export type EnhKey = string; //lisp case;

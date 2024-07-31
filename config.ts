@@ -1,5 +1,5 @@
-import { BEConfig} from "./types";
-import {IEnhancement} from 'trans-render/be/types';
+import { BEConfig} from "./ts-refs/be-enhanced/types";
+import {IEnhancement} from './ts-refs/trans-render/be/types';
 
 export const config: BEConfig<IEnhancement> = {
     propInfo: {

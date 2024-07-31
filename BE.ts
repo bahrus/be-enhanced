@@ -1,20 +1,27 @@
-import {RoundaboutReady} from 'trans-render/froop/types';
+import {RoundaboutReady} from '../ts-refs/trans-render/froop/types';
 import {assignGingerly} from 'trans-render/lib/assignGingerly.js';
 import { RoundAbout } from 'trans-render/froop/roundabout.js';
-import {EnhancementInfo, IEnhancement, BEAllProps} from 'trans-render/be/types';
-import { BEConfig, PropInfo, PropLookup} from './types';
+import {EnhancementInfo, IEnhancement, BEAllProps} from '../ts-refs/trans-render/be/types';
+import { BEConfig, PropInfo, PropLookup} from './ts-refs/be-enhanced/types';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
 import {AttrChangeInfo} from 'mount-observer/types';
-export {BEConfig} from './types';
+export {BEConfig} from './ts-refs/be-enhanced/types';
 const publicPrivateStore = Symbol();
 
 export class BE<TProps = any, TActions=TProps, TElement extends Element = Element> 
     extends EventTarget implements RoundaboutReady, IEnhancement<TElement>{
+    sleep?: number | undefined;
+    awake(): void {
+        throw new Error('Method not implemented.');
+    }
+    nudge() {
+        throw new Error('Method not implemented.');
+    }
     propagator = new EventTarget();
     [publicPrivateStore]: Partial<TProps> = {};
 
     covertAssignment(obj: TProps): void {
-        assignGingerly(this[publicPrivateStore], obj, {enhancedElement: {}, ...(<any>this.constructor).props}) ;
+        assignGingerly(this[publicPrivateStore], obj) ;
     }
 
     get #config(){

@@ -2,10 +2,17 @@ import { assignGingerly } from 'trans-render/lib/assignGingerly.js';
 import { dispatchEvent } from 'trans-render/positractions/dispatchEvent.js';
 const publicPrivateStore = Symbol();
 export class BE extends EventTarget {
+    sleep;
+    awake() {
+        throw new Error('Method not implemented.');
+    }
+    nudge() {
+        throw new Error('Method not implemented.');
+    }
     propagator = new EventTarget();
     [publicPrivateStore] = {};
     covertAssignment(obj) {
-        assignGingerly(this[publicPrivateStore], obj, { enhancedElement: {}, ...this.constructor.props });
+        assignGingerly(this[publicPrivateStore], obj);
     }
     get #config() {
         return this.constructor.config;

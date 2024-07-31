@@ -1,5 +1,5 @@
-import {Enhancement, EnhKey, FQN} from './types';
-import {EnhancementInfo, EMC, IEnhancement} from  'trans-render/be/types';
+import {Enhancement, EnhKey, FQN} from './ts-refs/be-enhanced/types';
+import {EnhancementInfo, EMC, IEnhancement} from  './ts-refs/trans-render/be/types';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 class InProgressAttachments extends EventTarget{

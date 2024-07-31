@@ -28,11 +28,12 @@
   },
   "files": [
     "*.js",
-    "types.d.ts"
+    "types.d.ts",
+    "ts-refs/*"
   ],
   "types": "types.d.ts",
   "dependencies": {
-    "trans-render": "0.0.805"
+    "trans-render": "0.0.806"
   },
   "devDependencies": {
     "@playwright/test": "1.45.3",

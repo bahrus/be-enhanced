@@ -25,7 +25,7 @@
     "./BE.js": "./BE.js",
     "./beEnhanced.js": "./beEnhanced.js",
     "./config.js": "./config.js",
-    "./cc.js": "./css.js"
+    "./cc.js": "./cc.js"
   },
   "files": [
     "*.js",

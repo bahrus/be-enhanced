@@ -28,7 +28,7 @@
     "./config.js": "./config.js",
     "./cc.js": "./cc.js",
     "./index.d.ts": {
-      "default": "./beEnhanced.js",
+      "default": "./index.d.ts",
       "types": "./index.d.ts"
     }
   },

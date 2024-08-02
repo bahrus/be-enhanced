@@ -25,7 +25,11 @@
     "./BE.js": "./BE.js",
     "./beEnhanced.js": "./beEnhanced.js",
     "./config.js": "./config.js",
-    "./cc.js": "./cc.js"
+    "./cc.js": "./cc.js",
+    "./index.d.ts": {
+      "default": "./beEnhanced.js",
+      "types": "./index.d.ts"
+    }
   },
   "files": [
     "*.js",

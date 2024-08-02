@@ -1,11 +1,11 @@
-import {RoundaboutReady} from '../ts-refs/trans-render/froop/types';
+import {RoundaboutReady} from 'trans-render/O';
 import {assignGingerly} from 'trans-render/lib/assignGingerly.js';
 import { RoundAbout } from 'trans-render/froop/roundabout.js';
-import {EnhancementInfo, IEnhancement, BEAllProps} from '../ts-refs/trans-render/be/types';
-import { BEConfig, PropInfo, PropLookup} from './ts-refs/be-enhanced/types';
+import {EnhancementInfo, IEnhancement, BEAllProps} from 'trans-render/be';
+import { BEConfig, PropInfo, PropLookup} from './index';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
 import {AttrChangeInfo} from 'mount-observer/types';
-export {BEConfig} from './ts-refs/be-enhanced/types';
+export {BEConfig} from './index';
 const publicPrivateStore = Symbol();
 
 export class BE<TProps = any, TActions=TProps, TElement extends Element = Element> 

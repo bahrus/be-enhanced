@@ -14,6 +14,7 @@
   "description": "be-enhanced provides a base class that enables casting spells, or enhancing server-rendered DOM elements based on cross-cutting custom attributes",
   "main": "BE.js",
   "module": "BE.js",
+  "type": "module",
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
     "test": "playwright test",

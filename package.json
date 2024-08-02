@@ -28,7 +28,7 @@
     "./config.js": "./config.js",
     "./cc.js": "./cc.js",
     "./index.d.ts": {
-      "default": "./index.d.ts",
+      "default": "./config.js",
       "types": "./index.d.ts"
     }
   },

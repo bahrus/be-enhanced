@@ -23,7 +23,10 @@
   },
   "exports": {
     ".": "./BE.js",
-    "./BE.js": "./BE.js",
+    "./BE.js": {
+      "default": "./BE.js",
+      "types": "./BE.ts"
+    },
     "./beEnhanced.js": "./beEnhanced.js",
     "./config.js": "./config.js",
     "./cc.js": "./cc.js",

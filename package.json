@@ -22,18 +22,20 @@
     "update": "ncu -u && npm install"
   },
   "exports": {
-    ".": "./BE.js",
+    ".": {
+      "default": "./BE.js",
+      "types": "./BE.ts"
+    },
     "./BE.js": {
       "default": "./BE.js",
       "types": "./BE.ts"
     },
-    "./beEnhanced.js": "./beEnhanced.js",
+    "./beEnhanced.js": {
+      "default": "./beEnhanced.js",
+      "types": "./beEnhanced.ts"
+    },
     "./config.js": "./config.js",
-    "./cc.js": "./cc.js",
-    "./index.d.ts": {
-      "default": "./config.js",
-      "types": "./index.d.ts"
-    }
+    "./cc.js": "./cc.js"
   },
   "files": [
     "*.js",
@@ -42,10 +44,10 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.819"
+    "trans-render": "0.0.821"
   },
   "devDependencies": {
-    "@playwright/test": "1.45.3",
+    "@playwright/test": "1.46.0",
     "may-it-serve": "0.0.8"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",

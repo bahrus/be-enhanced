@@ -6,7 +6,8 @@
     "web-component",
     "custom-element",
     "custom-elements",
-    "decorate",
+    "decorator",
+    "enhancement",
     "behavior",
     "directive",
     "custom-attribute"

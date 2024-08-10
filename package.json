@@ -40,12 +40,13 @@
   },
   "files": [
     "*.js",
+    "*.ts",
     "types.d.ts",
     "ts-refs/*"
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.821"
+    "trans-render": "0.0.822"
   },
   "devDependencies": {
     "@playwright/test": "1.46.0",

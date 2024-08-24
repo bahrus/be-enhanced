@@ -24,6 +24,12 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
         assignGingerly(this[publicPrivateStore], obj) ;
     }
 
+    #disconnectedAbortController = new AbortController();
+
+    get disconnectedSignal(){
+        return this.#disconnectedAbortController.signal;
+    }
+
     get #config(){
         return (<any>this.constructor).config as BEConfig;
     }
@@ -68,6 +74,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
 
     async detach(el: TElement){
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));
+        this.#disconnectedAbortController.abort();
     }
 
     #roundabout: RoundAbout | undefined;

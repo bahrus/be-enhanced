@@ -14,6 +14,10 @@ export class BE extends EventTarget {
     covertAssignment(obj) {
         assignGingerly(this[publicPrivateStore], obj);
     }
+    #disconnectedAbortController = new AbortController();
+    get disconnectedSignal() {
+        return this.#disconnectedAbortController.signal;
+    }
     get #config() {
         return this.constructor.config;
     }
@@ -53,6 +57,7 @@ export class BE extends EventTarget {
     }
     async detach(el) {
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));
+        this.#disconnectedAbortController.abort();
     }
     #roundabout;
     async #instantiateRoundaboutIfApplicable(container) {

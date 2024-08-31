@@ -22,6 +22,9 @@ export class BE extends EventTarget {
         return this.constructor.config;
     }
     de = dispatchEvent;
+    channelEvent(event) {
+        event.enh = this.#ei?.mountCnfg?.enhPropKey;
+    }
     #enhancedElement;
     #ei;
     get enhancedElement() {

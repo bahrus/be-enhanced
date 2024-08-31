@@ -24,6 +24,7 @@ export class BE extends EventTarget {
     de = dispatchEvent;
     channelEvent(event) {
         event.enh = this.#ei?.mountCnfg?.enhPropKey;
+        this.#enhancedElement.dispatchEvent(event);
     }
     #enhancedElement;
     #ei;

@@ -38,6 +38,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
 
     channelEvent(event: Event){
         (<any>event).enh = this.#ei?.mountCnfg?.enhPropKey;
+        this.#enhancedElement!.dispatchEvent(event);
     }
 
     #enhancedElement: TElement | undefined;

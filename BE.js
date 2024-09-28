@@ -6,8 +6,9 @@ export class BE extends EventTarget {
     awake() {
         throw new Error('Method not implemented.');
     }
-    nudge() {
-        throw new Error('Method not implemented.');
+    async nudge() {
+        const { nudge } = await import('trans-render/lib/nudge.js');
+        nudge(this.#enhancedElement);
     }
     propagator = new EventTarget();
     [publicPrivateStore] = {};

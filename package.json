@@ -17,9 +17,8 @@
   "module": "BE.js",
   "type": "module",
   "scripts": {
-    "serve": "node node_modules/may-it-serve/serve.js",
-    "test": "playwright test",
-    "safari": "npx playwright wk http://localhost:3030",
+    "serve": "python3 ./node_modules/ssi-server/ssi_server.py",
+    "safari": "npx playwright wk http://localhost:8000",
     "update": "ncu -u && npm install"
   },
   "exports": {
@@ -46,11 +45,10 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.847"
+    "trans-render": "0.0.848"
   },
   "devDependencies": {
-    "@playwright/test": "1.47.2",
-    "may-it-serve": "0.0.8"
+    "ssi-server": "0.0.1"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",

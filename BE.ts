@@ -21,8 +21,8 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     propagator = new EventTarget();
     [publicPrivateStore]: Partial<TProps> = {};
 
-    covertAssignment(obj: TProps): void {
-        assignGingerly(this[publicPrivateStore], obj) ;
+    async covertAssignment(obj: TProps): Promise<void> {
+        await assignGingerly(this[publicPrivateStore], obj) ;
     }
 
     #disconnectedAbortController = new AbortController();

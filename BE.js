@@ -12,8 +12,8 @@ export class BE extends EventTarget {
     }
     propagator = new EventTarget();
     [publicPrivateStore] = {};
-    covertAssignment(obj) {
-        assignGingerly(this[publicPrivateStore], obj);
+    async covertAssignment(obj) {
+        await assignGingerly(this[publicPrivateStore], obj);
     }
     #disconnectedAbortController = new AbortController();
     get disconnectedSignal() {

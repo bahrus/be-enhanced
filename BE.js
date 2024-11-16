@@ -35,9 +35,9 @@ export class BE extends EventTarget {
     async attach(el, enhancementInfo) {
         this.#enhancedElement = el;
         this.#ei = enhancementInfo;
-        this.covertAssignment({ enhancedElement: el });
+        await this.covertAssignment({ enhancedElement: el });
         const props = this.constructor.props;
-        this.#propUp(props, enhancementInfo);
+        await this.#propUp(props, enhancementInfo);
         await this.#instantiateRoundaboutIfApplicable(el);
     }
     /**
@@ -46,7 +46,7 @@ export class BE extends EventTarget {
      * @param defaultValues:   If property value not set, set it from the defaultValues lookup
      * @private
      */
-    #propUp(props, enhancementInfo) {
+    async #propUp(props, enhancementInfo) {
         const { initialPropValues } = enhancementInfo;
         const objToMerge = { ...initialPropValues };
         for (const key in props) {
@@ -58,7 +58,7 @@ export class BE extends EventTarget {
                 objToMerge[key] = value;
             }
         }
-        this.covertAssignment(objToMerge);
+        await this.covertAssignment(objToMerge);
     }
     async detach(el) {
         this.propagator.dispatchEvent(new Event('disconnectedCallback'));

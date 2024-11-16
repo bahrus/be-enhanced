@@ -50,9 +50,9 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     async attach(el: TElement, enhancementInfo: EnhancementInfo){
         this.#enhancedElement = el;
         this.#ei = enhancementInfo;
-        this.covertAssignment({enhancedElement: el} as TProps);
+        await this.covertAssignment({enhancedElement: el} as TProps);
         const props = (<any>this.constructor).props as PropLookup;
-        this.#propUp(props, enhancementInfo);
+        await this.#propUp(props, enhancementInfo);
         await this.#instantiateRoundaboutIfApplicable(el);
     }
 
@@ -63,7 +63,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
      * @param defaultValues:   If property value not set, set it from the defaultValues lookup
      * @private
      */
-    #propUp<T>(props: PropLookup, enhancementInfo: EnhancementInfo){
+    async #propUp<T>(props: PropLookup, enhancementInfo: EnhancementInfo){
         const {initialPropValues} = enhancementInfo;
         const objToMerge: any = {...initialPropValues};
         for(const key in props){
@@ -75,7 +75,7 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
             }
             
         }
-        this.covertAssignment(objToMerge);
+        await this.covertAssignment(objToMerge);
     }
 
     async detach(el: TElement){

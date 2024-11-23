@@ -100,12 +100,6 @@ export class BE extends EventTarget {
             });
         });
     }
-    dispatchEventFromEnhancedElement(type, init) {
-        throw 'NI';
-        // const prefixedType = 'enh-' + this.#ei!.enh + '.' + type;
-        // const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
-        // this.#enhancedElement!.dispatchEvent(evt);
-    }
     static config;
     static async bootUp() {
         const config = this.config;

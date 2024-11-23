@@ -124,12 +124,6 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
         })
     }
 
-    dispatchEventFromEnhancedElement(type: string, init?: CustomEventInit){
-        throw 'NI';
-        // const prefixedType = 'enh-' + this.#ei!.enh + '.' + type;
-        // const evt = init ? new CustomEvent(prefixedType, init) : new Event(prefixedType);
-        // this.#enhancedElement!.dispatchEvent(evt);
-    }
 
     static config: BEConfig | undefined;
 

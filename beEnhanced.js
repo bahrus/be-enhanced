@@ -81,10 +81,20 @@ export class BeEnhanced extends EventTarget {
         return await this.whenResolved(emc, true);
     }
     async whenResolved(emc, skipResolvedWait = false) {
-        const { importEnh, enhPropKey } = emc;
+        const { importEnh, enhPropKey, base } = emc;
         if (importEnh === undefined || enhPropKey === undefined)
             throw 'NI';
         const { self } = this;
+        if (base !== undefined) {
+            //TODO:  support alt attrs
+            const deferBase = `defer-${base}`;
+            if (self.hasAttribute(deferBase)) {
+                const { wfac } = await import('trans-render/lib/wfac.js');
+                await wfac(self, deferBase, (mr, el, attrs) => {
+                    return !el.hasAttribute(deferBase);
+                });
+            }
+        }
         const beEnhanced = self.beEnhanced;
         const enhancementConstructor = await importEnh();
         const initialPropValues = beEnhanced[enhPropKey] || {};

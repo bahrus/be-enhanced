@@ -27,5 +27,6 @@ export interface BEConfig<TProps = any, TActions = TProps, ETProps = TProps>{
     handlers?: Handlers<ETProps, TActions>;
     positractions?: Positractions<TProps, TActions>;
     watchedBranches?: Set<number>;
+    isSleepless?: boolean;
 }
 

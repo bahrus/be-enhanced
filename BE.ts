@@ -4,6 +4,7 @@ import { RoundAbout } from 'trans-render/froop/roundabout.js';
 import { EnhancementInfo, IEnhancement, BEAllProps} from './ts-refs/trans-render/be/types';
 import { BEConfig, PropInfo, PropLookup} from './index';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
+import { IMountObserver } from './ts-refs/mount-observer/types';
 export {BEConfig} from './index';
 const publicPrivateStore = Symbol();
 
@@ -87,8 +88,13 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
     async #instantiateRoundaboutIfApplicable(container: TElement){
         
         const config = this.#config;
-        const {actions, compacts, infractions, handlers, positractions, hitch} = config;
+        const {actions, compacts, infractions, handlers, positractions, hitch, isSleepless} = config;
         if((actions || compacts || infractions || handlers || positractions) !== undefined){
+            let mountObservers: Set<IMountObserver> | undefined;
+            if(!isSleepless){
+                const {guid} = await import('mount-observer/MountObserver.js');
+                mountObservers = (<any>this)[guid];
+            }
             const {roundabout} = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
                 vm: this,
@@ -97,7 +103,8 @@ export class BE<TProps = any, TActions=TProps, TElement extends Element = Elemen
                 compacts,
                 handlers,
                 positractions,
-                hitch
+                hitch,
+                mountObservers
             }, infractions);
             this.#roundabout = ra;
         }

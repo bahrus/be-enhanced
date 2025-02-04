@@ -67,8 +67,13 @@ export class BE extends EventTarget {
     #roundabout;
     async #instantiateRoundaboutIfApplicable(container) {
         const config = this.#config;
-        const { actions, compacts, infractions, handlers, positractions, hitch } = config;
+        const { actions, compacts, infractions, handlers, positractions, hitch, isSleepless } = config;
         if ((actions || compacts || infractions || handlers || positractions) !== undefined) {
+            let mountObservers;
+            if (!isSleepless) {
+                const { guid } = await import('mount-observer/MountObserver.js');
+                mountObservers = this[guid];
+            }
             const { roundabout } = await import('trans-render/froop/roundabout.js');
             const [vm, ra] = await roundabout({
                 vm: this,
@@ -77,7 +82,8 @@ export class BE extends EventTarget {
                 compacts,
                 handlers,
                 positractions,
-                hitch
+                hitch,
+                mountObservers
             }, infractions);
             this.#roundabout = ra;
         }

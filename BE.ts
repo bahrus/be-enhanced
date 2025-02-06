@@ -5,19 +5,15 @@ import { EnhancementInfo, IEnhancement, BEAllProps} from './ts-refs/trans-render
 import { BEConfig, PropInfo, PropLookup} from './index';
 import {dispatchEvent} from 'trans-render/positractions/dispatchEvent.js';
 import { IMountObserver } from './ts-refs/mount-observer/types';
+import {RRMixin} from 'trans-render/froop/RRMixin.js';
 export {BEConfig} from './index';
 const publicPrivateStore = Symbol();
 
 export class BE<TProps = any, TActions=TProps, TElement extends Element = Element> 
-    extends EventTarget implements RoundaboutReady, IEnhancement<TElement>{
-    sleep?: number | undefined;
-    awake(): void {
-        throw new Error('Method not implemented.');
-    }
-    async nudge() {
-        const {nudge} = await import('trans-render/lib/nudge.js');
-        nudge(this.#enhancedElement!);
-    }
+    extends RRMixin(EventTarget) implements RoundaboutReady, IEnhancement<TElement>{
+
+
+
     propagator = new EventTarget();
     [publicPrivateStore]: Partial<TProps> = {};
 

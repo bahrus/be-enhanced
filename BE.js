@@ -1,15 +1,8 @@
 import { assignGingerly } from 'trans-render/lib/assignGingerly.js';
 import { dispatchEvent } from 'trans-render/positractions/dispatchEvent.js';
+import { RRMixin } from 'trans-render/froop/RRMixin.js';
 const publicPrivateStore = Symbol();
-export class BE extends EventTarget {
-    sleep;
-    awake() {
-        throw new Error('Method not implemented.');
-    }
-    async nudge() {
-        const { nudge } = await import('trans-render/lib/nudge.js');
-        nudge(this.#enhancedElement);
-    }
+export class BE extends RRMixin(EventTarget) {
     propagator = new EventTarget();
     [publicPrivateStore] = {};
     async covertAssignment(obj) {

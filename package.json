@@ -45,7 +45,7 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.905"
+    "trans-render": "0.0.908"
   },
   "devDependencies": {
     "ssi-server": "0.0.1"

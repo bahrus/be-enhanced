@@ -60,20 +60,20 @@ export class BeEnhanced extends EventTarget {
         const emc = await Enhancers.whenDefined(key);
         return await this.whenResolved(emc, true);
     }
-    async whenDetached(localName) {
-        let def = customElements.get(localName);
-        if (def === undefined)
-            def = await customElements.whenDefined(localName);
-        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
-        const enhancement = lispToCamel(localName);
+    async whenDetached(emc) {
+        // let def = customElements.get(localName);
+        // if(def === undefined) def = await customElements.whenDefined(localName);
+        // const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
+        // const enhancement = lispToCamel(localName);
         const { self } = this;
-        const previouslySet = self['beEnhanced'][enhancement];
-        if (previouslySet instanceof def) {
-            await previouslySet.detach(this, { enhancement, enh: localName, localName });
-            delete self['beEnhanced'][enhancement];
-            self.removeAttribute(localName);
-            self.removeAttribute('enh-by-' + localName);
-            self.removeAttribute('data-enh-by-' + localName);
+        const { base, enhPropKey } = emc;
+        const previouslySet = self['beEnhanced'][enhPropKey];
+        if ('detach' in previouslySet) {
+            await previouslySet.detach(this, { enhancement: enhPropKey, enh: enhPropKey, localName: base });
+            delete self['beEnhanced'][enhPropKey];
+            if (base !== undefined) {
+                self.removeAttribute(base);
+            }
         }
         return previouslySet;
     }

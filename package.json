@@ -45,10 +45,7 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.949"
-  },
-  "devDependencies": {
-    "ssi-server": "0.0.1"
+    "trans-render": "0.0.957"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",

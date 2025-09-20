@@ -45,7 +45,7 @@
   ],
   "types": "index.d.ts",
   "dependencies": {
-    "trans-render": "0.0.957"
+    "trans-render": "0.0.958"
   },
   "author": "Bruce Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",
